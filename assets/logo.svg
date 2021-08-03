@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="395mm"
+   height="82.397049mm"
+   viewBox="0 0 395 82.397048"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/ulisses/push-notifications/assets/logo.png"
+   inkscape:export-xdpi="30.865824"
+   inkscape:export-ydpi="30.865824">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="373.37558"
+     inkscape:cy="-94.740666"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g944"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="731"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     fit-margin-top="11"
+     fit-margin-left="11"
+     fit-margin-right="11"
+     fit-margin-bottom="11" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-60.318629,-111.78091)">
+    <g
+       id="g935"
+       transform="matrix(0.73026431,0,0,0.73026431,23.09029,46.784793)">
+      <g
+         id="g944"
+         transform="matrix(0.66568697,0,0,0.66568697,37.498044,46.564949)">
+        <circle
+           style="opacity:1;fill:#00004f;fill-opacity:1;stroke:#282828;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10-3"
+           cx="102.05357"
+           cy="151.47916"
+           r="61.988098" />
+        <circle
+           style="opacity:1;fill:#000080;fill-opacity:1;stroke:#282828;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10"
+           cx="105"
+           cy="148.5"
+           r="61.988094" />
+        <path
+           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#282828;stroke-width:0.19944172;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10-6"
+           sodipodi:type="arc"
+           sodipodi:cx="105"
+           sodipodi:cy="148.5"
+           sodipodi:rx="46.652878"
+           sodipodi:ry="46.652878"
+           sodipodi:start="5.5323358"
+           sodipodi:end="5.5227283"
+           d="m 139.10836,116.6706 a 46.652878,46.652878 0 0 1 -2.19713,65.86122 46.652878,46.652878 0 0 1 -65.866301,-2.03894 46.652878,46.652878 0 0 1 1.880731,-65.87101 46.652878,46.652878 0 0 1 65.87533,1.72251 L 105,148.5 Z" />
+        <circle
+           style="opacity:1;fill:#000080;fill-opacity:1;stroke:#282828;stroke-width:0.122482;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10-6-7"
+           cx="105"
+           cy="148.5"
+           r="28.650663" />
+        <path
+           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#282828;stroke-width:0.07003538;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path10-6-7-5"
+           sodipodi:type="arc"
+           sodipodi:cx="105"
+           sodipodi:cy="148.5"
+           sodipodi:rx="16.38249"
+           sodipodi:ry="16.38249"
+           sodipodi:start="5.7402397"
+           sodipodi:end="5.5155908"
+           d="m 119.02653,140.03582 a 16.38249,16.38249 0 0 1 -4.78835,21.99348 16.38249,16.38249 0 0 1 -22.227584,-3.54625 16.38249,16.38249 0 0 1 2.29296,-22.3916 16.38249,16.38249 0 0 1 22.485004,1.03245 L 105,148.5 Z" />
+        <path
+           style="fill:#000080;fill-opacity:1;stroke:#6b88ff;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           d="m 152.38303,110.00057 -47.67952,36.56392 c -0.49384,1.01622 -0.68788,1.91338 -0.33146,2.54263 0.32974,0.58212 1.13061,0.93492 2.6011,0.94046 l 52.29635,-29.64904 z"
+           id="path72-6-5"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccsccc" />
+        <path
+           style="fill:#0000ff;fill-opacity:1;stroke:#6b88ff;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+           d="m 170.59494,64.971187 -19.18368,16.676421 -2.75266,10.065789 -45.23455,54.922423 c -0.29817,1.3043 -0.28228,2.39119 0.29704,3.02186 0.53596,0.58346 1.55415,0.77646 3.25206,0.3899 l 52.40848,-48.17885 9.24912,-2.60686 15.76521,-20.226132 -10.93219,-2.775218 z"
+           id="path72-6"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccscccccc" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:101.59658813px;line-height:1.25;font-family:'Exo 2';-inkscape-font-specification:'Exo 2, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.54426742"
+           x="184.63976"
+           y="183.63582"
+           id="text954"><tspan
+             sodipodi:role="line"
+             id="tspan952"
+             x="184.63976"
+             y="183.63582"
+             style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:101.59658813px;font-family:'Exo 2';-inkscape-font-specification:'Exo 2, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000080;stroke-width:0.54426742">Project Focus</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

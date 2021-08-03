@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Image, Text } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
 import { useCallback } from 'react';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Modalize } from 'react-native-modalize';
 
 export function HomeScreen({ navigation }) {
 	const [projects, setProjects] = useState([]);
 
-	const itemRefs = new Map();
+	const modalizeRef = useRef();
+
+	const open = () => {
+		modalizeRef.current?.open();
+	};
 
 	useEffect(() => {
 		const jsonValue = JSON.stringify([]);
@@ -29,52 +35,54 @@ export function HomeScreen({ navigation }) {
 	};
 
 	const renderItem = useCallback((props) => {
-		return (
-			<ProjectListItem
-				{...props}
-				ref={(ref) => {
-					console.log('antes', itemRefs);
-					if (ref && !itemRefs.get(item.id)) {
-						itemRefs.set(item.id, ref);
-					}
-					console.log('depois', itemRefs);
-				}}
-				onChange={({ open }) => {
-					if (open) {
-						// Close all other open items
-
-						[...itemRefs.entries()].forEach(([id, ref]) => {
-							console.log({ id, ref });
-							if (id !== item.id && ref) {
-								ref.close();
-								console.log('close');
-							}
-						});
-					}
-				}}
-			/>
-		);
+		return <ProjectListItem {...props} open={open} navigation={navigation} />;
 	}, []);
+
+	const [border, setBorder] = useState(false);
+	const handlePosition = (position) => {
+		setBorder(position === 'top');
+	};
 
 	return (
 		<>
-			<View>
-				<Text></Text>
-				<ProjectAddEntry setProjects={setProjects} />
-			</View>
-			<Button
-				title="Go to Jane's profile"
-				onPress={() => navigation.navigate('Modal')}
-			/>
-			<View style={{ flex: 1 }}>
+			<View
+				style={{ backgroundColor: '#f7f7f9', width: '100%', height: '100%' }}
+			>
+				<View>
+					<ProjectAddEntry setProjects={setProjects} />
+				</View>
 				<DraggableFlatList
 					data={projects}
 					renderItem={renderItem}
 					keyExtractor={(item, index) => `draggable-item-${item.id}`}
 					onDragEnd={({ data }) => changeProjects(data)}
+					style={{ marginTop: 4 }}
 				/>
 			</View>
-			{/* <Text>{JSON.stringify(projects)}</Text> */}
+			<Modalize
+				snapPoint={200}
+				ref={modalizeRef}
+				modalStyle={
+					border
+						? {
+								borderTopLeftRadius: 0,
+								borderTopRightRadius: 0,
+								// backgroundColor: 'red',
+						  }
+						: {}
+				}
+				handleStyle={
+					border
+						? {
+								backgroundColor: '#eee',
+						  }
+						: {}
+				}
+				onOpen={() => setBorder(false)}
+				onPositionChange={handlePosition}
+			>
+				<Text>Coisas escritas</Text>
+			</Modalize>
 		</>
 	);
 }

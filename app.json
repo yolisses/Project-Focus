@@ -1,46 +1,44 @@
 {
-  "expo": {
-    "name": "push-notifications",
-    "slug": "snack-751eea62-fbe2-438c-b9e6-cd53b25a8b8d",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "notification":{
-      "icon":"./assets/images/creppy.png",
-      "color":"#ff0000"
-    }, 
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/creppy.png",
-          "color": "#00f",
-          "mode": "production"
-        }
-      ]
-    ],
-  }
+	"expo": {
+		"name": "push-notifications",
+		"slug": "snack-751eea62-fbe2-438c-b9e6-cd53b25a8b8d",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"notification": {
+			"icon": "./assets/icon.png",
+			"color": "#ff0000"
+		},
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#FFFFFF"
+			}
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": [
+			[
+				"expo-notifications",
+				{
+					"icon": "./assets/icon.png",
+					"color": "#00f",
+					"mode": "production"
+				}
+			]
+		]
+	}
 }
