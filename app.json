@@ -1,13 +1,13 @@
 {
 	"expo": {
-		"name": "push-notifications",
+		"name": "Project Focus",
 		"slug": "snack-751eea62-fbe2-438c-b9e6-cd53b25a8b8d",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"notification": {
 			"icon": "./assets/icon.png",
-			"color": "#ff0000"
+			"color": "#000080"
 		},
 		"splash": {
 			"image": "./assets/splash.png",
@@ -25,7 +25,8 @@
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
-			}
+			},
+			"package": "com.teste"
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
@@ -35,7 +36,7 @@
 				"expo-notifications",
 				{
 					"icon": "./assets/icon.png",
-					"color": "#00f",
+					"color": "#000080",
 					"mode": "production"
 				}
 			]

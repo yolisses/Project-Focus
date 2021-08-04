@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ProfileScreen } from './pages/ProfileScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
+import PermissionsButton from './Task';
 const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
 
