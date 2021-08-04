@@ -6,14 +6,13 @@ import { Image } from 'react-native';
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { ProfileScreen } from './pages/ProfileScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import PermissionsButton from './Task';
 const Stack = createStackNavigator();
-const ModalStack = createStackNavigator();
 
-export default function App1() {
+import './Notification';
+
+export default function App() {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator mode='modal'>

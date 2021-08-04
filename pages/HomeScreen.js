@@ -23,7 +23,7 @@ export function HomeScreen() {
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
-	const [mainGoal, setMainGoal] = useState('');
+	const [mainGoal, setMainGoal] = useState('inicial');
 
 	const modalizeRef = useRef();
 
@@ -35,6 +35,11 @@ export function HomeScreen() {
 		(async () => {
 			const jsonValue = await AsyncStorage.getItem('projects');
 			AsyncStorage.setItem('projects', jsonValue);
+		})();
+
+		(async () => {
+			const valor = await AsyncStorage.getItem('main_goal');
+			setMainGoal(valor);
 		})();
 
 		async function refresh() {
@@ -51,11 +56,11 @@ export function HomeScreen() {
 				// Linking.openURL(url);
 				console.warn('acabou');
 
-				await AsyncStorage.setItem('main_goal', 'Mudou');
+				// await AsyncStorage.setItem('main_goal', 'Mudou');
 
-				const jsonValue = await AsyncStorage.getItem('main_goal');
-				setMainGoal(jsonValue);
-				console.warn('main', jsonValue);
+				// const jsonValue = await AsyncStorage.getItem('main_goal');
+				// setMainGoal(jsonValue);
+				// console.warn('main', jsonValue);
 			}
 		);
 		return () => subscription.remove();
