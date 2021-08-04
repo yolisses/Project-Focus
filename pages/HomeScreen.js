@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Button } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
 import { useCallback } from 'react';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createStackNavigator } from '@react-navigation/stack';
 import { Modalize } from 'react-native-modalize';
+import { DetailScreen } from './DetailScreen';
 
-export function HomeScreen({ navigation }) {
+export function HomeScreen() {
 	const [projects, setProjects] = useState([]);
+
+	const [selectedProject, setSelectedProject] = useState(null);
+
+	const [mainGoal, setMainGoal] = useState('');
 
 	const modalizeRef = useRef();
 
@@ -34,8 +38,20 @@ export function HomeScreen({ navigation }) {
 		await AsyncStorage.setItem('projects', jsonValue);
 	};
 
+	const changeMainGoal = async (id) => {
+		setMainGoal(id);
+		// const jsonValue = JSON.stringify(projects);
+		await AsyncStorage.setItem('main_goal', id);
+	};
+
 	const renderItem = useCallback((props) => {
-		return <ProjectListItem {...props} open={open} navigation={navigation} />;
+		return (
+			<ProjectListItem
+				{...props}
+				open={open}
+				setSelectedProject={setSelectedProject}
+			/>
+		);
 	}, []);
 
 	const [border, setBorder] = useState(false);
@@ -48,9 +64,10 @@ export function HomeScreen({ navigation }) {
 			<View
 				style={{ backgroundColor: '#f7f7f9', width: '100%', height: '100%' }}
 			>
-				<View>
-					<ProjectAddEntry setProjects={setProjects} />
-				</View>
+				<ProjectAddEntry setProjects={setProjects} />
+				<Text>{/* {mainGoal || 'HUEHUEHUE'} {Math.random()} */}</Text>
+
+				<Button title='send notification' />
 				<DraggableFlatList
 					data={projects}
 					renderItem={renderItem}
@@ -71,17 +88,17 @@ export function HomeScreen({ navigation }) {
 						  }
 						: {}
 				}
-				handleStyle={
-					border
-						? {
-								backgroundColor: '#eee',
-						  }
-						: {}
-				}
+				handleStyle={{
+					backgroundColor: '#bbb',
+				}}
 				onOpen={() => setBorder(false)}
 				onPositionChange={handlePosition}
 			>
-				<Text>Coisas escritas</Text>
+				<DetailScreen
+					item={selectedProject}
+					changeMainGoal={changeMainGoal}
+					mainGoal={mainGoal}
+				/>
 			</Modalize>
 		</>
 	);

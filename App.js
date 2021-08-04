@@ -1,6 +1,5 @@
 import React from 'react';
 import { HomeScreen } from './pages/HomeScreen';
-import Drag from './pages/Drag';
 
 import { Image } from 'react-native';
 

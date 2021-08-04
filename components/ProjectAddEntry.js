@@ -44,6 +44,8 @@ export function ProjectAddEntry(props) {
 				value={text}
 				onChangeText={(text) => setText(text)}
 				placeholder='Novo projeto'
+				onSubmitEditing={saveProject}
+				blurOnSubmit={false}
 			/>
 			<Button
 				onPress={saveProject}
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		alignItems: 'stretch',
 		padding: 10,
+		paddingHorizontal: 5,
 		shadowColor: '#0006',
 		shadowOpacity: 1,
 		elevation: 3,
