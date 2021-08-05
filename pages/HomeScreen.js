@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Button, BackHandler } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Button, BackHandler } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -12,7 +12,7 @@ import { scheduleNotification } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function HomeScreen() {
-	const { projects, setProjects, maiGoalId, mainGoal } = useProjects();
+	const { projects, setProjects, mainGoal } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -50,14 +50,9 @@ export function HomeScreen() {
 					keyExtractor={(item) => {
 						item.id;
 					}}
-					onDragEnd={({ data }) => setProjects(data)}
+					// onDragEnd={({ data }) => setProjects(data)}
 					style={{ marginTop: 4 }}
 				/>
-				{/* <Text>
-					{(mainGoal === 'initial' && 'initial' + Math.random()) ||
-						(!mainGoal && 'HUEHUEHUE' + Math.random()) ||
-						Math.random()}
-				</Text> */}
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
 					<Button
 						title='send notification'
@@ -76,7 +71,6 @@ export function HomeScreen() {
 						? {
 								borderTopLeftRadius: 0,
 								borderTopRightRadius: 0,
-								// backgroundColor: 'red',
 						  }
 						: {}
 				}

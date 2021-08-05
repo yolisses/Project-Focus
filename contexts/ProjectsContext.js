@@ -1,6 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import uuid from 'react-native-uuid';
+
+import * as SQLite from 'expo-sqlite';
+
+function openDatabase() {
+	const db = SQLite.openDatabase('db.db');
+	return db;
+}
+
+const db = openDatabase();
 
 const ProjectsContext = createContext();
 
@@ -10,11 +18,6 @@ export function ProjectsContextProvider(props) {
 
 	const [mainGoal, setMainGoal] = useState();
 
-	const addProject = (text) => {
-		console.warn(uuid.v4());
-		setProjects([{ text, id: uuid.v4() }].concat(projects));
-	};
-
 	const changeProjects = (projects) => {
 		jsonValue = JSON.stringify(projects);
 		(async () => {
@@ -23,13 +26,39 @@ export function ProjectsContextProvider(props) {
 		setProjects(projects);
 	};
 
+	const createTableIfNotExists = () => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				'create table if not exists projects (id integer primary key not null, text text);'
+			);
+		});
+	};
+
+	const refreshProjects = () => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				`select * from projects;`,
+				[],
+				(_, { rows: { _array } }) => {
+					setProjects(_array);
+				}
+			);
+		});
+	};
+
+	const addProject = (text) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('insert into projects (text) values (?)', [text]);
+			},
+			null,
+			refreshProjects
+		);
+	};
+
 	useEffect(() => {
-		(async () => {
-			const jsonValue = await AsyncStorage.getItem('projects');
-			setProjects(JSON.parse(jsonValue));
-			const mainGoalId = await AsyncStorage.getItem('projects');
-			setMainGoalId(mainGoalId);
-		})();
+		createTableIfNotExists();
+		refreshProjects();
 	}, []);
 
 	const getMainGoal = () => {
