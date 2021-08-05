@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, TextInput, View, StyleSheet, Keyboard } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import uuid from 'react-native-uuid';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function ProjectAddEntry(props) {
 	const [text, setText] = useState('');
-
 	const ref = useRef();
 
 	function loseFocus() {
@@ -20,20 +17,15 @@ export function ProjectAddEntry(props) {
 		return () => {
 			Keyboard.removeListener('keyboardDidHide', loseFocus);
 		};
-	}, []);
+	});
 
 	async function saveProject() {
 		//If is just empty space
 		if (!text.trim()) return;
-		let jsonValue = await AsyncStorage.getItem('projects');
-		let projects = jsonValue != null ? JSON.parse(jsonValue) : [];
 
-		projects = [{ text: text, id: uuid.v4() }].concat(projects);
+		const { addProject } = useProjects();
+		addProject(text);
 		setText('');
-		props.setProjects(projects);
-
-		jsonValue = JSON.stringify(projects);
-		await AsyncStorage.setItem('projects', jsonValue);
 	}
 
 	return (
@@ -69,25 +61,28 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		backgroundColor: 'white',
-		margin: 2,
+		marginHorizontal: 2,
+		marginTop: 0,
+		marginBottom: 8,
 		padding: 2,
 
 		backgroundColor: 'white',
-		borderRadius: 10,
+		borderRadius: 20,
 		// margin: 6,
 		borderTopRightRadius: 0,
 		borderTopLeftRadius: 0,
-		marginTop: 0,
+
 		borderRadius: 10,
 		alignItems: 'stretch',
 		padding: 10,
 		paddingHorizontal: 5,
 		shadowColor: '#0006',
 		shadowOpacity: 1,
-		elevation: 3,
+		// elevation: 3,
 	},
 	button: {
 		backgroundColor: 'red',
 		borderRadius: 10,
+		shadowColor: '#0000',
 	},
 });

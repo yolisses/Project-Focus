@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
 
 import { StyleSheet } from 'react-native';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function ProjectListItem(props) {
-	const { item, drag, isActive, open, setSelectedProject, mainGoal } = props;
+	const { item, drag, isActive, open, setSelectedProject } = props;
+
+	const { mainGoalId } = useProjects();
 
 	const onPress = () => {
 		open();
 		setSelectedProject(item);
 	};
 
-	const [valor, setValor] = useState();
-	useEffect(() => {
-		setValor(item.id === props.mainGoal ? 'true' : 'false');
-	}, [props]);
-
 	return (
 		<TouchableOpacity
 			key={item.id}
-			style={styles.container}
 			onLongPress={drag}
 			onPress={onPress}
+			activeOpacity={0.6}
+			style={{
+				...styles.item,
+				transform: isActive ? [{ translateX: 20 }, { translateY: -30 }] : [],
+				...(mainGoalId === item.id ? styles.emphasis : {}),
+			}}
 		>
-			<View
-				style={{
-					...styles.item,
-					transform: isActive ? [{ translateX: 20 }, { translateY: 4 }] : [],
-					...(mainGoal === item.id ? styles.emphasis : {}),
-				}}
-			>
-				<Text style={styles.text}>{item.text}</Text>
-			</View>
+			<Text style={styles.text}>{item.text}</Text>
 		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {},
 	text: {
 		fontSize: 16,
 	},
@@ -52,7 +46,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		paddingVertical: 20,
 
-		shadowColor: 'black',
+		// shadowColor: 'black',
 		shadowOpacity: 1,
 		elevation: 3,
 	},

@@ -1,18 +1,25 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, Button, Image, Pressable } from 'react-native';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
 	const { item } = props;
+
+	const { setMainGoalId, mainGoalId } = useProjects();
 	const size = 38;
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{item.text}</Text>
-			<Text>{/* {props.mainGoal || 'HUEHUEHUE'} {Math.random()} */}</Text>
-			<View>
+			{/* <Text>
+				{mainGoalId || 'HUEHUEHUE'} {Math.random()}
+			</Text> */}
+			{item.id !== mainGoalId ? (
 				<Pressable
 					style={styles.button}
-					onPress={() => props.changeMainGoal(item.id)}
+					onPress={() => {
+						setMainGoalId(item.id);
+					}}
 				>
 					<Image
 						style={{ height: size, width: size }}
@@ -20,7 +27,9 @@ export function DetailScreen(props) {
 					/>
 					<Text style={styles.text}>SET AS THE MAIN GOAL</Text>
 				</Pressable>
-			</View>
+			) : (
+				<></>
+			)}
 		</View>
 	);
 }

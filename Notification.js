@@ -13,7 +13,7 @@ Notifications.setNotificationHandler({
 
 Notifications.setNotificationCategoryAsync('identificador', [
 	{
-		identifier: 'coisa',
+		identifier: 'no',
 		buttonTitle: 'no',
 		// options: { opensAppToForeground: true },
 	},
@@ -23,21 +23,11 @@ Notifications.setNotificationCategoryAsync('identificador', [
 	// 	// options: { opensAppToForeground: false },
 	// },
 	{
-		identifier: 'coisa',
+		identifier: 'yes',
 		buttonTitle: 'yes',
 		// options: { opensAppToForeground: false },
 	},
 ]);
-
-async function getText() {
-	const jsonValue = await AsyncStorage.getItem('projects');
-	const projects = JSON.parse(jsonValue);
-
-	const valor = await AsyncStorage.getItem('main_goal');
-
-	const project = projects.find((project) => project.id === valor);
-	return project.text;
-}
 
 export async function registerForPushNotificationsAsync() {
 	if (Constants.isDevice) {
@@ -66,13 +56,12 @@ export async function registerForPushNotificationsAsync() {
 	}
 }
 
-export async function scheduleNotification() {
-	const text = await getText();
+export async function scheduleNotification(mainGoal) {
 	await Notifications.scheduleNotificationAsync({
 		content: {
-			title: 'Hello! Focus on ' + text,
+			title: 'Hello! Focus on ' + mainGoal.text,
 			body: 'Will you do it?',
-			// sticky:true,
+			sticky: true,
 			autoDismiss: false,
 			badge: false,
 			categoryIdentifier: 'identificador',
