@@ -28,7 +28,11 @@ export function DetailScreen(props) {
 					<Text style={styles.text}>SET AS THE MAIN GOAL</Text>
 				</Pressable>
 			) : (
-				<></>
+				<Pressable style={{ ...styles.button, ...styles.setButton }}>
+					<Text style={{ ...styles.text, ...styles.setButtonText }}>
+						THE CURRENT MAIN GOAL
+					</Text>
+				</Pressable>
 			)}
 		</View>
 	);
@@ -57,11 +61,24 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		margin: 0,
 	},
+	setButton: {
+		borderWidth: 3,
+		borderStyle: 'solid',
+		borderColor: '#12378a',
+		borderRadius: 10,
+		backgroundColor: '#ffffff00',
+		elevation: 0,
+		shadowOpacity: 0,
+		shadowColor: '#ffffff00',
+	},
 	text: {
 		fontSize: 16,
 		lineHeight: 21,
 		fontWeight: 'bold',
 		letterSpacing: 0.25,
 		color: 'black',
+	},
+	setButtonText: {
+		color: '#12378a',
 	},
 });
