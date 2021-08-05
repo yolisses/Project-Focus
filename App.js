@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import { ChangePage } from './pages/ChangePage';
+import { ChangeScreen } from './pages/ChangeScreen';
 import { ProjectsContextProvider } from './contexts/ProjectsContext';
 const Stack = createStackNavigator();
 
@@ -53,7 +53,7 @@ export default function App() {
 					/>
 					<Stack.Screen
 						name='Change'
-						component={ChangePage}
+						component={ChangeScreen}
 						options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
 					/>
 				</Stack.Navigator>
