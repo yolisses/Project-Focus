@@ -1,35 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as TaskManager from 'expo-task-manager';
-
-export const NOTIFICATION_TASK_NAME = 'background-location-task';
-
-TaskManager.defineTask(NOTIFICATION_TASK_NAME, ({ data, error }) => {
-	console.log('Received a notification in the background!');
-
-	// scheduleNotification();
-	(async () => {
-		await AsyncStorage.setItem('main_goal', 'AEEEE');
-		const jsonValue = await AsyncStorage.getItem('main_goal');
-		console.warn('main', jsonValue);
-	})();
-	console.warn('aeeeee');
-	if (error) {
-		// Error occurred - check `error.message` for more details.
-		console.warn('quebrou');
-		return;
-	}
-	if (data) {
-		const { locations } = data;
-		console.warn('recebeu');
-		// do something with the locations captured in the background
-	}
-});
-
-Notifications.registerTaskAsync(NOTIFICATION_TASK_NAME);
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -43,31 +15,29 @@ Notifications.setNotificationCategoryAsync('identificador', [
 	{
 		identifier: 'coisa',
 		buttonTitle: 'no',
-		options: { opensAppToForeground: true },
+		// options: { opensAppToForeground: true },
 	},
-	{
-		identifier: 'coisa',
-		buttonTitle: 'little',
-		options: { opensAppToForeground: false },
-	},
+	// {
+	// 	identifier: 'coisa',
+	// 	buttonTitle: 'little',
+	// 	// options: { opensAppToForeground: false },
+	// },
 	{
 		identifier: 'coisa',
 		buttonTitle: 'yes',
-		options: { opensAppToForeground: false },
+		// options: { opensAppToForeground: false },
 	},
 ]);
 
-const notificationContent = {
-	content: {
-		title: 'Hello! Are you motivated today?',
-		body: 'for: "program a app"',
-		// sticky:true,
-		autoDismiss: false,
-		badge: false,
-		categoryIdentifier: 'identificador',
-	},
-	trigger: { seconds: 2 },
-};
+async function getText() {
+	const jsonValue = await AsyncStorage.getItem('projects');
+	const projects = JSON.parse(jsonValue);
+
+	const valor = await AsyncStorage.getItem('main_goal');
+
+	const project = projects.find((project) => project.id === valor);
+	return project.text;
+}
 
 export async function registerForPushNotificationsAsync() {
 	if (Constants.isDevice) {
@@ -97,5 +67,16 @@ export async function registerForPushNotificationsAsync() {
 }
 
 export async function scheduleNotification() {
-	await Notifications.scheduleNotificationAsync(notificationContent);
+	const text = await getText();
+	await Notifications.scheduleNotificationAsync({
+		content: {
+			title: 'Hello! Focus on ' + text,
+			body: 'Will you do it?',
+			// sticky:true,
+			autoDismiss: false,
+			badge: false,
+			categoryIdentifier: 'identificador',
+		},
+		trigger: { seconds: 2 },
+	});
 }

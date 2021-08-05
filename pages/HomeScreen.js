@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Image, Text, Button } from 'react-native';
+import { View, Image, Text, Button, BackHandler } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -9,14 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modalize } from 'react-native-modalize';
 import { DetailScreen } from './DetailScreen';
 
-import * as Notifications from 'expo-notifications';
-
-import {
-	registerForPushNotificationsAsync,
-	scheduleNotification,
-} from '../Notification';
-
-import '../Task';
+import { scheduleNotification } from '../Notification';
 
 export function HomeScreen() {
 	const [projects, setProjects] = useState([]);
@@ -42,28 +35,10 @@ export function HomeScreen() {
 			setMainGoal(valor);
 		})();
 
-		async function refresh() {
+		(async () => {
 			const jsonValue = await AsyncStorage.getItem('projects');
 			if (jsonValue != null) setProjects(JSON.parse(jsonValue));
-		}
-		refresh();
-
-		registerForPushNotificationsAsync();
-
-		const subscription = Notifications.addNotificationResponseReceivedListener(
-			async (response) => {
-				// const url = response.notification.request.content.data.url;
-				// Linking.openURL(url);
-				console.warn('acabou');
-
-				// await AsyncStorage.setItem('main_goal', 'Mudou');
-
-				// const jsonValue = await AsyncStorage.getItem('main_goal');
-				// setMainGoal(jsonValue);
-				// console.warn('main', jsonValue);
-			}
-		);
-		return () => subscription.remove();
+		})();
 	}, []);
 
 	const changeProjects = async (projects) => {
@@ -78,15 +53,19 @@ export function HomeScreen() {
 		await AsyncStorage.setItem('main_goal', id);
 	};
 
-	const renderItem = useCallback((props) => {
-		return (
-			<ProjectListItem
-				{...props}
-				open={open}
-				setSelectedProject={setSelectedProject}
-			/>
-		);
-	}, []);
+	const renderItem = useCallback(
+		(props) => {
+			return (
+				<ProjectListItem
+					{...props}
+					open={open}
+					setSelectedProject={setSelectedProject}
+					mainGoal={mainGoal}
+				/>
+			);
+		},
+		[mainGoal]
+	);
 
 	const [border, setBorder] = useState(false);
 	const handlePosition = (position) => {
@@ -103,17 +82,20 @@ export function HomeScreen() {
 					{mainGoal || 'HUEHUEHUE'} {Math.random()}
 				</Text>
 
-				<Button title='send notification' onPress={scheduleNotification} />
-				<Button
-					title='Clean main goal'
-					onPress={async () => {
-						await AsyncStorage.removeItem('main_goal');
+				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+					<Button title='send notification' onPress={scheduleNotification} />
+					<Button
+						title='Clean main goal'
+						onPress={async () => {
+							await AsyncStorage.removeItem('main_goal');
 
-						const jsonValue = await AsyncStorage.getItem('main_goal');
-						setMainGoal(jsonValue);
-						console.warn('main', jsonValue);
-					}}
-				/>
+							const jsonValue = await AsyncStorage.getItem('main_goal');
+							setMainGoal(jsonValue);
+							console.warn('main', jsonValue);
+						}}
+					/>
+					<Button title='exit app' onPress={BackHandler.exitApp} />
+				</View>
 				<DraggableFlatList
 					data={projects}
 					renderItem={renderItem}
@@ -122,6 +104,7 @@ export function HomeScreen() {
 					style={{ marginTop: 4 }}
 				/>
 			</View>
+
 			<Modalize
 				snapPoint={200}
 				ref={modalizeRef}

@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 export function ProjectListItem(props) {
-	const { item, drag, index, isActive, open, setSelectedProject } = props;
+	const { item, drag, isActive, open, setSelectedProject, mainGoal } = props;
 
 	const onPress = () => {
 		open();
@@ -27,6 +27,7 @@ export function ProjectListItem(props) {
 				style={{
 					...styles.item,
 					transform: isActive ? [{ translateX: 20 }, { translateY: 4 }] : [],
+					...(mainGoal === item.id ? styles.emphasis : {}),
 				}}
 			>
 				<Text style={styles.text}>{item.text}</Text>
@@ -54,5 +55,12 @@ const styles = StyleSheet.create({
 		shadowColor: 'black',
 		shadowOpacity: 1,
 		elevation: 3,
+	},
+	emphasis: {
+		borderWidth: 3,
+		borderStyle: 'solid',
+		borderColor: '#2266ff',
+		marginHorizontal: 6,
+		marginBottom: 9,
 	},
 });
