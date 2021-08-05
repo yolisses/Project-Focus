@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import uuid from 'react-native-uuid';
 
 const ProjectsContext = createContext();
 
@@ -7,7 +8,10 @@ export function ProjectsContextProvider(props) {
 	const [projects, setProjects] = useState([]);
 	const [mainGoalId, setMainGoalId] = useState('');
 
+	const [mainGoal, setMainGoal] = useState();
+
 	const addProject = (text) => {
+		console.warn(uuid.v4());
 		setProjects([{ text, id: uuid.v4() }].concat(projects));
 	};
 
@@ -19,16 +23,22 @@ export function ProjectsContextProvider(props) {
 		setProjects(projects);
 	};
 
+	useEffect(() => {
+		(async () => {
+			const jsonValue = await AsyncStorage.getItem('projects');
+			setProjects(JSON.parse(jsonValue));
+			const mainGoalId = await AsyncStorage.getItem('projects');
+			setMainGoalId(mainGoalId);
+		})();
+	}, []);
+
 	const getMainGoal = () => {
 		return projects.find((project) => project.id === mainGoalId);
 	};
 
 	useEffect(() => {
-		(async () => {
-			const jsonValue = await AsyncStorage.getItem('projects');
-			setProjects(JSON.parse(jsonValue));
-		})();
-	}, []);
+		setMainGoal(getMainGoal());
+	}, [mainGoalId]);
 
 	return (
 		<ProjectsContext.Provider
@@ -36,7 +46,7 @@ export function ProjectsContextProvider(props) {
 				projects,
 				setProjects: changeProjects,
 				addProject,
-				getMainGoal,
+				mainGoal,
 				mainGoalId,
 				setMainGoalId,
 			}}

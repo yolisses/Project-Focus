@@ -1,14 +1,24 @@
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React from 'react';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function ChangePage() {
 	const [text, setText] = useState('');
+	const { mainGoal } = useProjects();
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.item}>
 				<Text style={styles.title}>
-					Please, note why you are leaving the project
+					<Text>Please, note why you will not focus on the project </Text>
+					<Text
+						style={{
+							fontWeight: 'bold',
+						}}
+					>
+						{mainGoal.text}
+					</Text>
 				</Text>
 				<TextInput
 					style={styles.entry}
@@ -56,8 +66,6 @@ const styles = StyleSheet.create({
 		borderColor: 'gray',
 		borderRadius: 10,
 		textAlignVertical: 'top',
-		// paddingHorizontal: 10,
-		// paddingVertical: 1,
 		overflow: 'scroll',
 		padding: 10,
 	},

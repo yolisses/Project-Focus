@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, TextInput, View, StyleSheet, Keyboard } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
-export function ProjectAddEntry(props) {
+export function ProjectAddEntry() {
 	const [text, setText] = useState('');
+	const { addProject } = useProjects();
+
 	const ref = useRef();
 
 	function loseFocus() {
@@ -23,7 +25,6 @@ export function ProjectAddEntry(props) {
 		//If is just empty space
 		if (!text.trim()) return;
 
-		const { addProject } = useProjects();
 		addProject(text);
 		setText('');
 	}

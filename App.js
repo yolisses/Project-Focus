@@ -45,7 +45,7 @@ export default function App() {
 	return (
 		<ProjectsContextProvider>
 			<NavigationContainer ref={navigationRef}>
-				<Stack.Navigator mode='modal'>
+				<Stack.Navigator screenOptions={{ presentation: 'modal' }}>
 					<Stack.Screen
 						name='Home'
 						component={HomeScreen}

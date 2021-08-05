@@ -12,7 +12,7 @@ import { scheduleNotification } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function HomeScreen() {
-	const { projects, setProjects, mainGoalId, getMainGoal } = useProjects();
+	const { projects, setProjects, maiGoalId, mainGoal } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -22,18 +22,15 @@ export function HomeScreen() {
 		modalizeRef.current?.open();
 	};
 
-	const renderItem = useCallback(
-		(props) => {
-			return (
-				<ProjectListItem
-					{...props}
-					open={open}
-					setSelectedProject={setSelectedProject}
-				/>
-			);
-		},
-		[mainGoalId]
-	);
+	const renderItem = useCallback((props) => {
+		return (
+			<ProjectListItem
+				{...props}
+				open={open}
+				setSelectedProject={setSelectedProject}
+			/>
+		);
+	}, []);
 
 	const [border, setBorder] = useState(false);
 	const handlePosition = (position) => {
@@ -50,7 +47,9 @@ export function HomeScreen() {
 				<DraggableFlatList
 					data={projects}
 					renderItem={renderItem}
-					keyExtractor={(item, index) => `draggable-item-${item.id}`}
+					keyExtractor={(item) => {
+						item.id;
+					}}
 					onDragEnd={({ data }) => setProjects(data)}
 					style={{ marginTop: 4 }}
 				/>
@@ -62,7 +61,7 @@ export function HomeScreen() {
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
 					<Button
 						title='send notification'
-						onPress={() => scheduleNotification(getMainGoal())}
+						onPress={() => scheduleNotification(mainGoal)}
 					/>
 					<Button title='Clean main goal' onPress={async () => {}} />
 					<Button title='exit app' onPress={BackHandler.exitApp} />
