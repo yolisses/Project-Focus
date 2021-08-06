@@ -33,8 +33,6 @@ export default function App() {
 				} else {
 					navigate('Change');
 				}
-				// console.warn('recebe resposta');
-				// console.warn(response);
 
 				// await AsyncStorage.setItem('main_goal', 'Mudou');
 			}

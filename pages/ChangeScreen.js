@@ -7,6 +7,16 @@ export function ChangeScreen() {
 	const [text, setText] = useState('');
 	const { mainGoal } = useProjects();
 
+	const { addReason } = useProjects();
+
+	async function saveReason() {
+		//If is just empty space
+		if (!text.trim()) return;
+
+		addReason(mainGoal.id, text);
+		setText('');
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.item}>
@@ -28,7 +38,11 @@ export function ChangeScreen() {
 					placeholder='Write here'
 				/>
 				<View style={styles.buttonWrapper}>
-					<Button title='Save changing' style={styles.button} />
+					<Button
+						title='Save changing'
+						style={styles.button}
+						onPress={saveReason}
+					/>
 				</View>
 			</View>
 		</View>

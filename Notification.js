@@ -61,7 +61,7 @@ export async function scheduleNotification(mainGoal) {
 		content: {
 			title: 'Hello! Focus on ' + mainGoal.text,
 			body: 'Will you do it?',
-			sticky: true,
+			// sticky: true,
 			autoDismiss: false,
 			badge: false,
 			categoryIdentifier: 'identificador',

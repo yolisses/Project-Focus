@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { View, Text, StyleSheet, Button, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
+	const [reasons, setReasons] = useState([]);
 	const { item } = props;
+	const { setMainGoalId, mainGoalId, getProjectReasons } = useProjects();
 
-	const { setMainGoalId, mainGoalId } = useProjects();
+	useEffect(() => {
+		getProjectReasons(item.id, setReasons);
+	}, []);
+
 	const size = 38;
 	return (
 		<View style={styles.container}>
@@ -34,6 +39,11 @@ export function DetailScreen(props) {
 					</Text>
 				</Pressable>
 			)}
+			<View>
+				{reasons.map((reason) => (
+					<Text>{JSON.stringify(reason)}</Text>
+				))}
+			</View>
 		</View>
 	);
 }
@@ -43,7 +53,7 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 		// textAlign: 'center',
 		justifyContent: 'center',
-		margin: 0,
+		marginBottom: 20,
 	},
 	container: {
 		paddingHorizontal: 10,
