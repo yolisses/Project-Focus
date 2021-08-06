@@ -45,8 +45,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingHorizontal: 10,
 		paddingVertical: 20,
-
-		// shadowColor: 'black',
 		shadowOpacity: 1,
 		elevation: 3,
 	},

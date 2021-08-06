@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
 
 		backgroundColor: 'white',
 		borderRadius: 20,
-		// margin: 6,
 		borderTopRightRadius: 0,
 		borderTopLeftRadius: 0,
 
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		shadowColor: '#0006',
 		shadowOpacity: 1,
-		// elevation: 3,
 	},
 	button: {
 		backgroundColor: 'red',

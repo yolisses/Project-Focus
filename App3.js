@@ -77,7 +77,7 @@ export default function App() {
 			(tx) => {
 				tx.executeSql('insert into items (done, value) values (0, ?)', [text]);
 				tx.executeSql('select * from items', [], (_, { rows }) =>
-					console.log(JSON.stringify(rows))
+					cosole.log(JSON.stringify(rows))
 				);
 			},
 			null,

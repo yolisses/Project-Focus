@@ -15,17 +15,10 @@ Notifications.setNotificationCategoryAsync('identificador', [
 	{
 		identifier: 'no',
 		buttonTitle: 'no',
-		// options: { opensAppToForeground: true },
 	},
-	// {
-	// 	identifier: 'coisa',
-	// 	buttonTitle: 'little',
-	// 	// options: { opensAppToForeground: false },
-	// },
 	{
 		identifier: 'yes',
 		buttonTitle: 'yes',
-		// options: { opensAppToForeground: false },
 	},
 ]);
 

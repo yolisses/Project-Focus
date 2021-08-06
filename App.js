@@ -33,8 +33,6 @@ export default function App() {
 				} else {
 					navigate('Change');
 				}
-
-				// await AsyncStorage.setItem('main_goal', 'Mudou');
 			}
 		);
 		// return () => subscription.remove();

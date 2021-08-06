@@ -51,7 +51,6 @@ export function DetailScreen(props) {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 22,
-		// textAlign: 'center',
 		justifyContent: 'center',
 		marginBottom: 20,
 	},

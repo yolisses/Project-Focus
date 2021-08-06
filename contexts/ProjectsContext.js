@@ -27,36 +27,24 @@ export function ProjectsContextProvider(props) {
 	};
 
 	const createTablesIfNotExists = () => {
-		db.transaction(
-			(tx) => {
-				tx.executeSql(
-					`create table if not exists projects (
+		db.transaction((tx) => {
+			tx.executeSql(
+				`create table if not exists projects (
 					id integer primary key not null,
 					text text,
 					created_at timestamp default current_timestamp);`
-				);
-			},
-			(err) => console.warn('falhou ', err)
-		);
-		db.transaction(
-			// `create table reasons (
-			// 	id integer primary key not null,
-			// 	projectId integer not null,
-			// 	 foreign key(projectId) references projects(id),
-			// 	text text,
-			// 	created_at timestamp default current_timestamp);`
-			(tx) => {
-				tx.executeSql(
-					`create table reasons (
+			);
+		});
+		db.transaction((tx) => {
+			tx.executeSql(
+				`create table if not exists reasons (
 					id integer primary key not null,
 					projectId integer not null, 
 					text text,
 					created_at timestamp default current_timestamp,
  					foreign key(projectId) references projects(id));`
-				);
-			},
-			(err) => console.warn('falhou ', err)
-		);
+			);
+		});
 	};
 
 	const dropTablesIfExists = () => {
@@ -95,7 +83,6 @@ export function ProjectsContextProvider(props) {
 				`select * from reasons where projectId = ?;`,
 				[projectId],
 				(_, { rows: { _array } }) => {
-					// console.warn(_array);
 					setReasons(_array);
 				}
 			);
@@ -113,22 +100,18 @@ export function ProjectsContextProvider(props) {
 	};
 
 	const addReason = (projectId, text) => {
-		db.transaction(
-			(tx) => {
-				tx.executeSql('insert into reasons (projectId, text) values (?, ?)', [
-					projectId,
-					text,
-				]);
-			},
-			(err) => console.warn('falhou ', err)
-		);
+		db.transaction((tx) => {
+			tx.executeSql('insert into reasons (projectId, text) values (?, ?)', [
+				projectId,
+				text,
+			]);
+		});
 	};
 
 	useEffect(() => {
 		dropTablesIfExists();
 		createTablesIfNotExists();
 		mockProjects();
-		getProjectReasons(2, (a) => console.warn(a));
 		refreshProjects();
 	}, []);
 
