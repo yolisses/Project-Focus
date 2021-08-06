@@ -19,9 +19,9 @@ const Stack = createStackNavigator();
 export default function App() {
 	const navigationRef = createNavigationContainerRef();
 
-	function navigate(name, params) {
+	const navigate = (name, params) => {
 		if (navigationRef.isReady()) navigationRef.navigate(name, params);
-	}
+	};
 
 	useEffect(() => {
 		const subscription = Notifications.addNotificationResponseReceivedListener(

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { ReasonListItem } from '../components/ReasonListItem';
+import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
 	const [reasons, setReasons] = useState(null);
 	const { item } = props;
-	const { setMainGoalId, mainGoalId, getProjectReasons } = useProjects();
+	const { mainGoalId, getProjectReasons } = useProjects();
 
 	useEffect(() => {
 		getProjectReasons(item.id, setReasons);
 	}, []);
 
-	const size = 38;
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{item.text}</Text>
@@ -21,24 +22,9 @@ export function DetailScreen(props) {
 				{mainGoalId || 'HUEHUEHUE'} {Math.random()}
 			</Text> */}
 			{item.id !== mainGoalId ? (
-				<Pressable
-					style={styles.button}
-					onPress={() => {
-						setMainGoalId(item.id);
-					}}
-				>
-					<Image
-						style={{ height: size, width: size }}
-						source={require('../assets/dark.png')}
-					/>
-					<Text style={styles.text}>SET AS THE MAIN GOAL</Text>
-				</Pressable>
+				<SetAsMainGoalButton item={item} />
 			) : (
-				<Pressable style={{ ...styles.button, ...styles.setButton }}>
-					<Text style={{ ...styles.text, ...styles.setButtonText }}>
-						THE CURRENT MAIN GOAL
-					</Text>
-				</Pressable>
+				<CurrentMainGoalWarning />
 			)}
 			{reasons === null && (
 				<View>

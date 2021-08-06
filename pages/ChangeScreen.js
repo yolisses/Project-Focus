@@ -3,9 +3,12 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React from 'react';
 import { useProjects } from '../contexts/ProjectsContext';
 
-export function ChangeScreen() {
+import { useNavigation } from '@react-navigation/native';
+
+export function ChangeScreen(props) {
+	const navigation = useNavigation();
 	const [text, setText] = useState('');
-	const { mainGoal } = useProjects();
+	const { mainGoal, setMainGoalId } = useProjects();
 
 	const { addReason } = useProjects();
 
@@ -14,7 +17,11 @@ export function ChangeScreen() {
 		if (!text.trim()) return;
 
 		addReason(mainGoal.id, text);
+
+		setMainGoalId(props?.route?.params?.nextMainGoal?.id);
+
 		setText('');
+		navigation.navigate('Home');
 	}
 
 	return (
@@ -27,7 +34,7 @@ export function ChangeScreen() {
 							fontWeight: 'bold',
 						}}
 					>
-						{mainGoal.text}
+						{mainGoal?.text}
 					</Text>
 				</Text>
 				<TextInput
