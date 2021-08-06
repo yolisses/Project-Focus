@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { ReasonListItem } from '../components/ReasonListItem';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
-	const [reasons, setReasons] = useState([]);
+	const [reasons, setReasons] = useState(null);
 	const { item } = props;
 	const { setMainGoalId, mainGoalId, getProjectReasons } = useProjects();
 
@@ -39,11 +40,23 @@ export function DetailScreen(props) {
 					</Text>
 				</Pressable>
 			)}
-			<View>
-				{reasons.map((reason) => (
-					<Text key={Math.random()}>{JSON.stringify(reason)}</Text>
-				))}
-			</View>
+			{reasons === null && (
+				<View>
+					<View style={styles.loading} />
+					<View style={styles.loading} />
+					<View style={styles.loading} />
+				</View>
+			)}
+			{reasons && reasons.length ? (
+				<View>
+					<Text style={styles.warning}>
+						You must take into account these reasons of previous leaving:
+					</Text>
+					{reasons.map((reason) => (
+						<ReasonListItem reason={reason} />
+					))}
+				</View>
+			) : null}
 		</View>
 	);
 }
@@ -51,8 +64,10 @@ export function DetailScreen(props) {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 22,
-		justifyContent: 'center',
-		marginBottom: 20,
+	},
+	warning: {
+		fontSize: 20,
+		marginBottom: 10,
 	},
 	container: {
 		paddingHorizontal: 10,
@@ -68,7 +83,8 @@ const styles = StyleSheet.create({
 		backgroundColor: '#eee',
 		alignSelf: 'center',
 		flexDirection: 'row',
-		margin: 0,
+		marginTop: 20,
+		marginBottom: 30,
 	},
 	setButton: {
 		borderWidth: 3,
@@ -89,5 +105,11 @@ const styles = StyleSheet.create({
 	},
 	setButtonText: {
 		color: '#12378a',
+	},
+	loading: {
+		backgroundColor: '#f5f5f5',
+		borderRadius: 10,
+		height: 40,
+		marginBottom: 10,
 	},
 });

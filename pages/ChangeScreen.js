@@ -21,7 +21,7 @@ export function ChangeScreen() {
 		<View style={styles.container}>
 			<View style={styles.item}>
 				<Text style={styles.title}>
-					<Text>Please, note why you will not focus on the project </Text>
+					<Text>Please, note why you will not continue on the project </Text>
 					<Text
 						style={{
 							fontWeight: 'bold',
@@ -37,6 +37,9 @@ export function ChangeScreen() {
 					onChangeText={setText}
 					placeholder='Write here'
 				/>
+				<Text style={styles.tip}>
+					This can help you on taking better decisions
+				</Text>
 				<View style={styles.buttonWrapper}>
 					<Button
 						title='Save changing'
@@ -88,5 +91,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		margin: 20,
 		marginBottom: 0,
+	},
+	tip: {
+		paddingTop: 10,
+		paddingLeft: 20,
+		color: 'gray',
 	},
 });

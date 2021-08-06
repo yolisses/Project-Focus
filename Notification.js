@@ -53,7 +53,7 @@ export async function scheduleNotification(mainGoal) {
 	await Notifications.scheduleNotificationAsync({
 		content: {
 			title: 'Hello! Focus on ' + mainGoal.text,
-			body: 'Will you do it?',
+			body: 'Will you continue on it?',
 			// sticky: true,
 			autoDismiss: false,
 			badge: false,

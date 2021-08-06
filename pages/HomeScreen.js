@@ -14,8 +14,8 @@ import { useProjects } from '../contexts/ProjectsContext';
 export function HomeScreen() {
 	const { projects, mainGoal, reorderProjects } = useProjects();
 
+	// To assure fast response when change order
 	const [localProjects, setLocalProjects] = useState(projects);
-
 	useEffect(() => setLocalProjects(projects), [projects]);
 
 	const [selectedProject, setSelectedProject] = useState(null);
@@ -70,7 +70,7 @@ export function HomeScreen() {
 			</View>
 
 			<Modalize
-				snapPoint={200}
+				snapPoint={290}
 				ref={modalizeRef}
 				modalStyle={
 					border
