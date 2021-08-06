@@ -1,7 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import * as SQLite from 'expo-sqlite';
+
+import * as Notifications from 'expo-notifications';
 
 function openDatabase() {
 	const db = SQLite.openDatabase('db.db');
@@ -18,12 +19,9 @@ export function ProjectsContextProvider(props) {
 
 	const [mainGoal, setMainGoal] = useState();
 
-	const changeProjects = (projects) => {
-		jsonValue = JSON.stringify(projects);
-		(async () => {
-			await AsyncStorage.setItem('projects', jsonValue);
-		})();
-		setProjects(projects);
+	const changeMainGoalId = (mainGoalId) => {
+		Notifications.dismissAllNotificationsAsync();
+		setMainGoalId(mainGoalId);
 	};
 
 	const createTablesIfNotExists = () => {
@@ -153,10 +151,9 @@ export function ProjectsContextProvider(props) {
 				addReason,
 				addProject,
 				mainGoalId,
-				setMainGoalId,
 				reorderProjects,
 				getProjectReasons,
-				setProjects: changeProjects,
+				setMainGoalId: changeMainGoalId,
 			}}
 		>
 			{props.children}
