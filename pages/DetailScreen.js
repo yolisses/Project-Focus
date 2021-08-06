@@ -41,7 +41,7 @@ export function DetailScreen(props) {
 			)}
 			<View>
 				{reasons.map((reason) => (
-					<Text>{JSON.stringify(reason)}</Text>
+					<Text key={Math.random()}>{JSON.stringify(reason)}</Text>
 				))}
 			</View>
 		</View>

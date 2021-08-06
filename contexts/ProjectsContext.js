@@ -29,20 +29,25 @@ export function ProjectsContextProvider(props) {
 	const createTablesIfNotExists = () => {
 		db.transaction((tx) => {
 			tx.executeSql(
-				`create table if not exists projects (
-					id integer primary key not null,
-					text text,
-					created_at timestamp default current_timestamp);`
+				`
+					create table if not exists projects (
+						id integer primary key not null,
+						text text not null,
+						position integer,
+						created_at timestamp default current_timestamp);
+					`
 			);
 		});
 		db.transaction((tx) => {
 			tx.executeSql(
-				`create table if not exists reasons (
+				`
+				create table if not exists reasons (
 					id integer primary key not null,
 					projectId integer not null, 
 					text text,
 					created_at timestamp default current_timestamp,
- 					foreign key(projectId) references projects(id));`
+ 					foreign key(projectId) references projects(id));
+				`
 			);
 		});
 	};
@@ -63,12 +68,14 @@ export function ProjectsContextProvider(props) {
 		addReason(1, 'porque os personagens estão muito genéricos');
 		addReason(1, 'porque literatura não se compara a não ficção');
 		addReason(2, 'mesmo que o universo infinito se dobre contra mim');
+
+		refreshProjects();
 	};
 
 	const refreshProjects = () => {
 		db.transaction((tx) => {
 			tx.executeSql(
-				`select * from projects;`,
+				`select * from projects order by position;`,
 				[],
 				(_, { rows: { _array } }) => {
 					setProjects(_array);
@@ -99,6 +106,22 @@ export function ProjectsContextProvider(props) {
 		);
 	};
 
+	const reorderProjects = (projects) => {
+		const idsSortedList = projects.map((project) => project.id);
+		idsSortedList.forEach((id, index) => {
+			db.transaction(
+				(tx) => {
+					tx.executeSql('update projects set position = ? where id = ?', [
+						index,
+						id,
+					]);
+				},
+				null,
+				refreshProjects
+			);
+		});
+	};
+
 	const addReason = (projectId, text) => {
 		db.transaction((tx) => {
 			tx.executeSql('insert into reasons (projectId, text) values (?, ?)', [
@@ -112,7 +135,6 @@ export function ProjectsContextProvider(props) {
 		dropTablesIfExists();
 		createTablesIfNotExists();
 		mockProjects();
-		refreshProjects();
 	}, []);
 
 	const getMainGoal = () => {
@@ -127,13 +149,14 @@ export function ProjectsContextProvider(props) {
 		<ProjectsContext.Provider
 			value={{
 				projects,
-				getProjectReasons,
-				setProjects: changeProjects,
-				addProject,
-				addReason,
 				mainGoal,
+				addReason,
+				addProject,
 				mainGoalId,
 				setMainGoalId,
+				reorderProjects,
+				getProjectReasons,
+				setProjects: changeProjects,
 			}}
 		>
 			{props.children}

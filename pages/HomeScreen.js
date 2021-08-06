@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Button, BackHandler } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
@@ -12,7 +12,11 @@ import { scheduleNotification } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function HomeScreen() {
-	const { projects, setProjects, mainGoal } = useProjects();
+	const { projects, mainGoal, reorderProjects } = useProjects();
+
+	const [localProjects, setLocalProjects] = useState(projects);
+
+	useEffect(() => setLocalProjects(projects), [projects]);
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -32,6 +36,8 @@ export function HomeScreen() {
 		);
 	}, []);
 
+	const keyExtractor = useCallback((item) => item.id.toString(), []);
+
 	const [border, setBorder] = useState(false);
 	const handlePosition = (position) => {
 		setBorder(position === 'top');
@@ -42,15 +48,15 @@ export function HomeScreen() {
 			<View
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
-				<ProjectAddEntry setProjects={setProjects} />
-
+				<ProjectAddEntry />
 				<DraggableFlatList
-					data={projects}
+					data={localProjects}
 					renderItem={renderItem}
-					keyExtractor={(item) => {
-						item.id;
+					keyExtractor={keyExtractor}
+					onDragEnd={({ data }) => {
+						setLocalProjects(data);
+						reorderProjects(data);
 					}}
-					// onDragEnd={({ data }) => setProjects(data)}
 					style={{ marginTop: 4 }}
 				/>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
