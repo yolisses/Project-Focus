@@ -17,7 +17,7 @@ export function ReasonListItem({ reason }) {
 
 const styles = StyleSheet.create({
 	text: {
-		fontSize: 16,
+		fontSize: 17,
 	},
 	date: {
 		color: 'gray',
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: '#eee',
 		borderRadius: 10,
-		padding: 10,
-		margin: 5,
+		padding: 8,
+		margin: 2,
+		marginBottom: 6,
 	},
 });

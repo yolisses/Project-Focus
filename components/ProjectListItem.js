@@ -22,7 +22,12 @@ export function ProjectListItem(props) {
 			activeOpacity={0.6}
 			style={{
 				...styles.item,
-				transform: isActive ? [{ translateX: 20 }, { translateY: -30 }] : [],
+				transform: isActive
+					? [
+							{ translateX: 20 },
+							// { translateY: -30 }
+					  ]
+					: [],
 				...(mainGoalId === item.id ? styles.emphasis : {}),
 			}}
 		>

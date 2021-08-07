@@ -24,16 +24,20 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: 20,
-		marginBottom: 30,
 		paddingVertical: 3,
+
+		borderStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#ccc',
+		borderRadius: 10,
+		padding: 8,
 	},
 	text: {
-		fontSize: 20,
+		fontSize: 17,
 		flexDirection: 'column',
 	},
 	link: {
-		fontSize: 20,
+		fontSize: 17,
 		color: '#2266ff',
 	},
 });

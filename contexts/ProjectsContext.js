@@ -66,6 +66,15 @@ export function ProjectsContextProvider(props) {
 		addReason(1, 'porque os personagens estão muito genéricos');
 		addReason(1, 'porque literatura não se compara a não ficção');
 		addReason(2, 'mesmo que o universo infinito se dobre contra mim');
+		addReason(1, 'porque os personagens estão muito genéricos');
+		addReason(1, 'porque literatura não se compara a não ficção');
+		addReason(2, 'mesmo que o universo infinito se dobre contra mim');
+		addReason(1, 'porque os personagens estão muito genéricos');
+		addReason(1, 'porque literatura não se compara a não ficção');
+		addReason(2, 'mesmo que o universo infinito se dobre contra mim');
+		addReason(1, 'porque os personagens estão muito genéricos');
+		addReason(1, 'porque literatura não se compara a não ficção');
+		addReason(2, 'mesmo que o universo infinito se dobre contra mim');
 
 		refreshProjects();
 	};

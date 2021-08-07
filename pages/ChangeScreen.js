@@ -63,26 +63,27 @@ const styles = StyleSheet.create({
 	container: {
 		height: '100%',
 		justifyContent: 'center',
-		padding: 20,
-		overflow: 'scroll',
 		alignItems: 'center',
+		padding: 0,
+		overflow: 'scroll',
 	},
 	item: {
 		backgroundColor: 'white',
 		borderRadius: 10,
-		margin: 8,
+		margin: 0,
 		marginTop: 0,
 		borderRadius: 10,
-		padding: 20,
+		padding: 15,
 
 		shadowColor: 'black',
 		shadowOpacity: 1,
 		elevation: 3,
-		transform: [{ translateY: -25 }],
+		marginBottom: 40,
+		// transform: [{ translateY: -25 }],
 	},
 	title: {
 		fontSize: 20,
-		marginBottom: 30,
+		marginBottom: 15,
 	},
 	entry: {
 		fontSize: 18,
@@ -91,12 +92,12 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		textAlignVertical: 'top',
 		overflow: 'scroll',
+		maxHeight: '60%',
 		padding: 10,
 	},
 	buttonWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		margin: 20,
 		marginBottom: 0,
 	},
 	tip: {

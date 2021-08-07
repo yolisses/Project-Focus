@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1,
 	},
 	button: {
-		backgroundColor: 'red',
 		borderRadius: 10,
 		shadowColor: '#0000',
 	},

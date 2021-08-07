@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, BackHandler } from 'react-native';
+import { View, Button, BackHandler, Text, StyleSheet } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -10,6 +10,10 @@ import { DetailScreen } from './DetailScreen';
 
 import { scheduleNotification } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
+
+import { RoundButton } from '../components/RoundButton';
+
+import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 
 export function HomeScreen() {
 	const { projects, mainGoal, reorderProjects } = useProjects();
@@ -70,21 +74,44 @@ export function HomeScreen() {
 			</View>
 
 			<Modalize
-				snapPoint={290}
+				snapPoint={223}
 				ref={modalizeRef}
-				modalStyle={
-					border
+				modalStyle={{
+					...(border
 						? {
 								borderTopLeftRadius: 0,
 								borderTopRightRadius: 0,
 						  }
-						: {}
-				}
+						: {}),
+				}}
+				scrollViewProps={{
+					contentContainerStyle: {
+						// height: '100%',
+						// overflow: 'scroll',
+						// flex: 1,
+					},
+					onPress: () => {
+						console.error('oi');
+					},
+				}}
 				handleStyle={{
 					backgroundColor: '#bbb',
 				}}
 				onOpen={() => setBorder(false)}
 				onPositionChange={handlePosition}
+				FooterComponent={
+					<View
+						style={{
+							flexDirection: 'row',
+							position: 'absolute',
+							bottom: 0,
+							marginBottom: 11,
+						}}
+					>
+						<RoundButton icon={faTrash} color='#922' />
+						<RoundButton icon={faPen} color='#22d' />
+					</View>
+				}
 			>
 				<DetailScreen item={selectedProject} />
 			</Modalize>

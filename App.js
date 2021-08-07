@@ -26,9 +26,9 @@ export default function App() {
 	useEffect(() => {
 		const subscription = Notifications.addNotificationResponseReceivedListener(
 			async (response) => {
-				// BackHandler.exitApp();
 				if (response.actionIdentifier === 'yes') {
 					Notifications.dismissAllNotificationsAsync();
+					BackHandler.exitApp();
 					// save the data
 				} else {
 					navigate('Change');
@@ -59,7 +59,7 @@ export default function App() {
 }
 
 function LogoTitle() {
-	const height = 35;
+	const height = 33;
 	return (
 		<Image
 			style={{ height, width: 4.8 * height }}
