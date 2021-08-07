@@ -45,7 +45,7 @@ export default function App() {
 					<Stack.Screen
 						name='Home'
 						component={HomeScreen}
-						options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+						options={{ headerTitle: () => <LogoTitle /> }}
 					/>
 					<Stack.Screen
 						name='Change'
@@ -59,7 +59,7 @@ export default function App() {
 }
 
 function LogoTitle() {
-	const height = 33;
+	const height = 34;
 	return (
 		<Image
 			style={{ height, width: 4.8 * height }}

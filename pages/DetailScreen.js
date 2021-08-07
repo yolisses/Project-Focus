@@ -77,7 +77,7 @@ export function DetailScreen(props) {
 					{reasons && reasons.length ? (
 						<View>
 							<Text style={styles.warning}>
-								Please consider these previous reasons of leaving:
+								Please consider the previous leavings:
 							</Text>
 							{reasons.map((reason) => (
 								<ReasonListItem reason={reason} key={reason.id} />

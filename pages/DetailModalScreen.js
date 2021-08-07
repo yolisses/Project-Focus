@@ -27,15 +27,15 @@ export function DetailModalScreen(props) {
 			});
 	}, [selectedProject]);
 
-	const [border, setBorder] = useState(false);
+	const [top, setTop] = useState(false);
 	const handlePosition = (position) => {
-		setBorder(position === 'top');
+		setTop(position === 'top');
 	};
 
 	const [expanded, setExpanded] = useState(false);
 
 	useEffect(() => {
-		if (expanded) {
+		if (expanded && !top) {
 			modalizeRef.current?.open();
 			setExpanded(false);
 		}
@@ -50,7 +50,7 @@ export function DetailModalScreen(props) {
 			snapPoint={expanded ? expanded : 140}
 			ref={modalizeRef}
 			modalStyle={{
-				...(border
+				...(top
 					? {
 							borderTopLeftRadius: 0,
 							borderTopRightRadius: 0,
@@ -70,7 +70,7 @@ export function DetailModalScreen(props) {
 			handleStyle={{
 				backgroundColor: '#bbb',
 			}}
-			onOpen={() => setBorder(false)}
+			onOpen={() => setTop(false)}
 			onPositionChange={handlePosition}
 			FooterComponent={
 				<View
@@ -78,7 +78,10 @@ export function DetailModalScreen(props) {
 						flexDirection: 'row',
 						position: 'absolute',
 						bottom: 0,
-						marginBottom: 11,
+						paddingVertical: 5,
+						borderTopRightRadius: 25,
+						width: '100%',
+						backgroundColor: 'white',
 					}}
 				>
 					<RoundButton icon={faTrash} color='#922' />
