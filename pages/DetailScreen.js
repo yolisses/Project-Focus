@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 	},
 	warning: {
-		fontSize: 18,
+		fontSize: 16,
 		color: 'gray',
 		marginBottom: 10,
 	},

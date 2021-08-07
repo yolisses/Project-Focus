@@ -28,7 +28,7 @@ export function ChangeScreen(props) {
 		<View style={styles.container}>
 			<View style={styles.item}>
 				<Text style={styles.title}>
-					<Text>Please, note why you will not continue on the project </Text>
+					<Text>Please, note why you are leaving the project </Text>
 					<Text
 						style={{
 							fontWeight: 'bold',
