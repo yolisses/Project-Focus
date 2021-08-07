@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, BackHandler } from 'react-native';
+import { View, Button, BackHandler, Text } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -12,10 +12,6 @@ import { DetailModalScreen } from './DetailModalScreen';
 
 export function HomeScreen() {
 	const { projects, mainGoal, reorderProjects } = useProjects();
-
-	// To assure fast response when change order
-	const [localProjects, setLocalProjects] = useState(projects);
-	useEffect(() => setLocalProjects(projects), [projects]);
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -43,16 +39,17 @@ export function HomeScreen() {
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
 				<ProjectAddEntry />
+
 				<DraggableFlatList
-					data={localProjects}
+					data={projects}
 					renderItem={renderItem}
 					keyExtractor={keyExtractor}
 					onDragEnd={({ data }) => {
-						setLocalProjects(data);
 						reorderProjects(data);
 					}}
 					style={{ marginTop: 4 }}
 				/>
+
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
 					<Button
 						title='send notification'

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 
 import { StyleSheet } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';

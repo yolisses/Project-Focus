@@ -118,19 +118,20 @@ export function ProjectsContextProvider(props) {
 	};
 
 	const reorderProjects = (projects) => {
+		setProjects(projects);
 		const idsSortedList = projects.map((project) => project.id);
-		idsSortedList.forEach((id, index) => {
-			db.transaction(
-				(tx) => {
+		db.transaction(
+			(tx) => {
+				idsSortedList.forEach((id, index) => {
 					tx.executeSql('update projects set position = ? where id = ?', [
 						index,
 						id,
 					]);
-				},
-				null,
-				refreshProjects
-			);
-		});
+				});
+			},
+			null,
+			refreshProjects
+		);
 	};
 
 	const addReason = (projectId, text) => {
