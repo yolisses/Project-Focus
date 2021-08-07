@@ -11,7 +11,7 @@ import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
-	const { item, reasons } = props;
+	const { item, reasons, expand } = props;
 	const { mainGoalId, setMainGoalId } = useProjects();
 
 	const [tryingToChange, setTryingToChange] = useState(false);
@@ -27,6 +27,7 @@ export function DetailScreen(props) {
 			setMainGoalId(item.id);
 		} else {
 			setTryingToChange(true);
+			expand();
 		}
 	};
 
@@ -76,10 +77,10 @@ export function DetailScreen(props) {
 					{reasons && reasons.length ? (
 						<View>
 							<Text style={styles.warning}>
-								Please consider these reasons of leaving:
+								Please consider these previous reasons of leaving:
 							</Text>
 							{reasons.map((reason) => (
-								<ReasonListItem reason={reason} />
+								<ReasonListItem reason={reason} key={reason.id} />
 							))}
 						</View>
 					) : null}

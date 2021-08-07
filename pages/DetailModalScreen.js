@@ -10,6 +10,8 @@ export function DetailModalScreen(props) {
 	const { modalizeRef, selectedProject } = props;
 	const [reasons, setReasons] = useState(null);
 
+	const [tryingToChange, setTryingToChange] = useState(false);
+
 	const { mainGoalId } = useProjects();
 
 	const [lastSelectedId, setLastSelectedRequest] = useState(null);
@@ -17,7 +19,6 @@ export function DetailModalScreen(props) {
 	const { getProjectReasons } = useProjects();
 
 	useEffect(() => {
-		// modalizeRef.current?.open();
 		if (selectedProject)
 			getProjectReasons(selectedProject.id, (reasons) => {
 				setReasons(reasons);
@@ -31,16 +32,22 @@ export function DetailModalScreen(props) {
 		setBorder(position === 'top');
 	};
 
+	const [expanded, setExpanded] = useState(false);
+
+	useEffect(() => {
+		if (expanded) {
+			modalizeRef.current?.open();
+			setExpanded(false);
+		}
+	}, [expanded]);
+
+	const expand = () => {
+		setExpanded(reasons && reasons.length ? 270 : 160);
+	};
+
 	return (
 		<Modalize
-			snapPoint={
-				reasons &&
-				reasons.length &&
-				lastSelectedId !== selectedProject.id &&
-				selectedProject.id !== mainGoalId
-					? 223
-					: 140
-			}
+			snapPoint={expanded ? expanded : 140}
 			ref={modalizeRef}
 			modalStyle={{
 				...(border
@@ -79,7 +86,13 @@ export function DetailModalScreen(props) {
 				</View>
 			}
 		>
-			<DetailScreen item={selectedProject} reasons={reasons} />
+			<DetailScreen
+				expand={expand}
+				item={selectedProject}
+				reasons={reasons}
+				tryingToChange={tryingToChange}
+				setTryingToChange={setTryingToChange}
+			/>
 		</Modalize>
 	);
 }
