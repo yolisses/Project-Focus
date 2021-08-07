@@ -21,8 +21,8 @@ export function RoundButton(props) {
 const styles = StyleSheet.create({
 	button: {
 		backgroundColor: 'white',
-		width: 50,
-		height: 50,
+		width: 55,
+		height: 55,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 100,

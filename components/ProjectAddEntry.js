@@ -8,6 +8,10 @@ export function ProjectAddEntry() {
 
 	const ref = useRef();
 
+	function focus() {
+		ref.current.focus();
+	}
+
 	function loseFocus() {
 		ref.current.blur();
 	}
@@ -23,7 +27,10 @@ export function ProjectAddEntry() {
 
 	async function saveProject() {
 		//If is just empty space
-		if (!text.trim()) return;
+		if (!text.trim()) {
+			focus();
+			return;
+		}
 
 		addProject(text);
 		setText('');

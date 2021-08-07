@@ -1,15 +1,8 @@
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 
-import {
-	View,
-	Text,
-	StyleSheet,
-	Button,
-	Pressable,
-	TextInput,
-} from 'react-native';
-import { color } from 'react-native-reanimated';
+import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { LeaveMainGoalLink } from '../components/LeaveMainGoalLink';
 import { ReasonListItem } from '../components/ReasonListItem';
@@ -18,18 +11,13 @@ import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
-	const [reasons, setReasons] = useState(null);
-	const { item } = props;
-	const { mainGoalId, setMainGoalId, getProjectReasons } = useProjects();
+	const { item, reasons } = props;
+	const { mainGoalId, setMainGoalId } = useProjects();
 
 	const [tryingToChange, setTryingToChange] = useState(false);
 	useEffect(() => {
 		setTryingToChange(false);
 	}, [mainGoalId]);
-
-	useEffect(() => {
-		getProjectReasons(item.id, setReasons);
-	}, []);
 
 	const [text, setText] = useState(item.text);
 	const [editing, setEditing] = useState(false);
@@ -96,9 +84,8 @@ export function DetailScreen(props) {
 						</View>
 					) : null}
 				</View>
-			) : (
-				<Text>Nothing to show about it...</Text>
-			)}
+			) : // <Text>Nothing to show about it...</Text>
+			null}
 		</Pressable>
 	);
 }
@@ -106,15 +93,18 @@ export function DetailScreen(props) {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 22,
+		paddingHorizontal: 10,
+		paddingVertical: 4,
 	},
 	warning: {
 		fontSize: 16,
 		color: 'gray',
-		marginBottom: 10,
+		marginBottom: 5,
+		paddingHorizontal: 5,
 	},
 	container: {
-		paddingHorizontal: 10,
-		paddingVertical: 10,
+		paddingHorizontal: 5,
+		paddingVertical: 5,
 		height: '100%',
 		marginBottom: 60,
 	},

@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modalize } from 'react-native-modalize';
 import { DetailScreen } from './DetailScreen';
 import { RoundButton } from '../components/RoundButton';
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 import { View } from 'react-native';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailModalScreen(props) {
 	const { modalizeRef, selectedProject } = props;
+	const [reasons, setReasons] = useState(null);
+
+	const { mainGoalId } = useProjects();
+
+	const [lastSelectedId, setLastSelectedRequest] = useState(null);
+
+	const { getProjectReasons } = useProjects();
+
+	useEffect(() => {
+		// modalizeRef.current?.open();
+		if (selectedProject)
+			getProjectReasons(selectedProject.id, (reasons) => {
+				setReasons(reasons);
+				modalizeRef.current?.open();
+				setLastSelectedRequest(selectedProject.id);
+			});
+	}, [selectedProject]);
 
 	const [border, setBorder] = useState(false);
 	const handlePosition = (position) => {
@@ -15,7 +33,14 @@ export function DetailModalScreen(props) {
 
 	return (
 		<Modalize
-			snapPoint={223}
+			snapPoint={
+				reasons &&
+				reasons.length &&
+				lastSelectedId !== selectedProject.id &&
+				selectedProject.id !== mainGoalId
+					? 223
+					: 140
+			}
 			ref={modalizeRef}
 			modalStyle={{
 				...(border
@@ -54,7 +79,7 @@ export function DetailModalScreen(props) {
 				</View>
 			}
 		>
-			<DetailScreen item={selectedProject} />
+			<DetailScreen item={selectedProject} reasons={reasons} />
 		</Modalize>
 	);
 }
