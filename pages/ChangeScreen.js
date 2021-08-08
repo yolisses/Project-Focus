@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1,
 		elevation: 3,
 		marginBottom: 40,
-		// transform: [{ translateY: -25 }],
 	},
 	title: {
 		fontSize: 20,

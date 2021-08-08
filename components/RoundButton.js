@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export function RoundButton(props) {
 	return (
-		<View style={styles.button}>
+		<Pressable style={styles.button} onPress={props.onPress}>
 			{/* <Text>coisa</Text> */}
 			{/* <FontAwesomeIcon icon={props.icon} /> */}
 
@@ -14,7 +14,7 @@ export function RoundButton(props) {
 				size={20}
 				color={props.color || 'black'}
 			/>
-		</View>
+		</Pressable>
 	);
 }
 

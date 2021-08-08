@@ -28,12 +28,12 @@ export function ProjectsContextProvider(props) {
 		db.transaction((tx) => {
 			tx.executeSql(
 				`
-					create table if not exists projects (
-						id integer primary key not null,
-						text text not null,
-						position integer,
-						created_at timestamp default current_timestamp);
-					`
+				create table if not exists projects (
+					id integer primary key not null,
+					text text not null,
+					position integer,
+					created_at timestamp default current_timestamp);
+				`
 			);
 		});
 		db.transaction((tx) => {
@@ -117,6 +117,16 @@ export function ProjectsContextProvider(props) {
 		);
 	};
 
+	const renameProject = (id, text) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('update projects set text = ? where id = ?', [text, id]);
+			},
+			null,
+			refreshProjects
+		);
+	};
+
 	const reorderProjects = (projects) => {
 		setProjects(projects);
 		const idsSortedList = projects.map((project) => project.id);
@@ -165,6 +175,7 @@ export function ProjectsContextProvider(props) {
 				addReason,
 				addProject,
 				mainGoalId,
+				renameProject,
 				reorderProjects,
 				getProjectReasons,
 				setMainGoalId: changeMainGoalId,

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, BackHandler, Text } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Button, BackHandler } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 

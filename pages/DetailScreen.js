@@ -1,18 +1,22 @@
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Pressable,
+	TextInput,
+	Keyboard,
+} from 'react-native';
 import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { LeaveMainGoalLink } from '../components/LeaveMainGoalLink';
 import { ReasonListItem } from '../components/ReasonListItem';
-import { RoundButton } from '../components/RoundButton';
 import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
-	const { item, reasons, expand } = props;
-	const { mainGoalId, setMainGoalId } = useProjects();
+	const { item, reasons, expand, changingTitle, top, setChangingTitle } = props;
+	const { mainGoalId, setMainGoalId, renameProject } = useProjects();
 
 	const [tryingToChange, setTryingToChange] = useState(false);
 	useEffect(() => {
@@ -20,7 +24,8 @@ export function DetailScreen(props) {
 	}, [mainGoalId]);
 
 	const [text, setText] = useState(item.text);
-	const [editing, setEditing] = useState(false);
+
+	const editingRef = useRef();
 
 	const onMainButtonPress = () => {
 		if (!mainGoalId) {
@@ -33,22 +38,45 @@ export function DetailScreen(props) {
 
 	const onPressModal = () => {
 		setTryingToChange(false);
+		setChangingTitle(false);
 	};
 
-	const onEditButtonPress = () => {
-		setEditing(true);
-	};
+	function saveTitle() {
+		if (!text.trim()) {
+			setText(item.text);
+			return;
+		}
+		renameProject(item.id, text);
+	}
+
+	useEffect(() => {
+		Keyboard.addListener('keyboardDidHide', () => {
+			setChangingTitle(false);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (changingTitle) editingRef.current?.focus();
+		else {
+			saveTitle();
+		}
+	}, [changingTitle]);
 
 	return (
 		<Pressable style={styles.container} onPress={onPressModal}>
-			{!editing ? (
-				<Text style={styles.title}>{text}</Text>
+			{changingTitle && top ? (
+				<View style={styles.underline}>
+					<TextInput
+						style={styles.title}
+						value={text}
+						ref={editingRef}
+						onChangeText={(text) => {
+							setText(text);
+						}}
+					/>
+				</View>
 			) : (
-				<TextInput
-					style={styles.title}
-					value={text}
-					onChange={(text) => setText(text)}
-				/>
+				<Text style={styles.title}>{text}</Text>
 			)}
 
 			<View style={styles.wrapper}>
@@ -125,5 +153,10 @@ const styles = StyleSheet.create({
 	wrapper: {
 		marginTop: 15,
 		marginBottom: 35,
+	},
+	underline: {
+		borderStyle: 'solid',
+		borderBottomWidth: 3,
+		borderColor: '#22d',
 	},
 });
