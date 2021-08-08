@@ -59,6 +59,9 @@ export async function scheduleNotification(mainGoal) {
 			badge: false,
 			categoryIdentifier: 'identificador',
 		},
-		trigger: { seconds: 2 },
+		trigger: {
+			seconds: 2,
+			// repeats: true,
+		},
 	});
 }

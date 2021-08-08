@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HomeScreen } from './pages/HomeScreen';
 
-import { Image, BackHandler } from 'react-native';
+import { BackHandler } from 'react-native';
 
 import 'react-native-gesture-handler';
 
@@ -14,6 +14,11 @@ import * as Notifications from 'expo-notifications';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ChangeScreen } from './pages/ChangeScreen';
 import { ProjectsContextProvider } from './contexts/ProjectsContext';
+
+import { OptionsScreen } from './pages/OptionsScreen';
+import { OptionsButton } from './components/OptionsButton';
+import { Logo } from './components/Logo';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -41,29 +46,27 @@ export default function App() {
 	return (
 		<ProjectsContextProvider>
 			<NavigationContainer ref={navigationRef}>
-				<Stack.Navigator screenOptions={{ presentation: 'modal' }}>
+				<Stack.Navigator>
 					<Stack.Screen
 						name='Home'
 						component={HomeScreen}
-						options={{ headerTitle: () => <LogoTitle /> }}
+						options={{
+							headerTitle: () => <Logo />,
+							headerRight: () => <OptionsButton navigate={navigate} />,
+						}}
 					/>
 					<Stack.Screen
 						name='Change'
 						component={ChangeScreen}
-						options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+						options={{ headerTitle: (props) => <Logo {...props} /> }}
+					/>
+					<Stack.Screen
+						name='Options'
+						component={OptionsScreen}
+						options={{ headerTitle: (props) => <Logo {...props} /> }}
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</ProjectsContextProvider>
-	);
-}
-
-function LogoTitle() {
-	const height = 34;
-	return (
-		<Image
-			style={{ height, width: 4.8 * height }}
-			source={require('./assets/logo.png')}
-		/>
 	);
 }

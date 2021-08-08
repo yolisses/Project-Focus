@@ -6,9 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 export function RoundButton(props) {
 	return (
 		<Pressable style={styles.button} onPress={props.onPress}>
-			{/* <Text>coisa</Text> */}
-			{/* <FontAwesomeIcon icon={props.icon} /> */}
-
 			<FontAwesomeIcon
 				icon={props.icon}
 				size={20}
