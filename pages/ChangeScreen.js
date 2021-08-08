@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React from 'react';
 import { useProjects } from '../contexts/ProjectsContext';
+
+import * as Notifications from 'expo-notifications';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,6 +27,13 @@ export function ChangeScreen(props) {
 		navigation.navigate('Home');
 	}
 
+	useEffect(() => {
+		if (!mainGoal) {
+			navigation.navigate('Home');
+			Notifications.dismissAllNotificationsAsync();
+		}
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.item}>
@@ -45,9 +54,7 @@ export function ChangeScreen(props) {
 					onChangeText={setText}
 					placeholder='Write here'
 				/>
-				<Text style={styles.tip}>
-					This can help you on taking better decisions
-				</Text>
+				<Text style={styles.tip}>This help you on taking better decisions</Text>
 				<View style={styles.buttonWrapper}>
 					<Button
 						title='Save changing'

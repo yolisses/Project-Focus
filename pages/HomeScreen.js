@@ -55,7 +55,6 @@ export function HomeScreen() {
 						title='send notification'
 						onPress={() => scheduleNotification(mainGoal)}
 					/>
-					<Button title='Clean main goal' onPress={async () => {}} />
 				</View>
 			</View>
 			<DetailModalScreen

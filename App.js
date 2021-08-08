@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeScreen } from './pages/HomeScreen';
 
 import { Image, BackHandler } from 'react-native';
@@ -23,20 +23,20 @@ export default function App() {
 		if (navigationRef.isReady()) navigationRef.navigate(name, params);
 	};
 
+	const lastNotificationResponse = Notifications.useLastNotificationResponse();
+	const appPreviouslyOpen = useState(!!lastNotificationResponse);
+
 	useEffect(() => {
-		const subscription = Notifications.addNotificationResponseReceivedListener(
-			async (response) => {
-				if (response.actionIdentifier === 'yes') {
-					Notifications.dismissAllNotificationsAsync();
-					BackHandler.exitApp();
-					// save the data
-				} else {
-					navigate('Change');
-				}
+		if (lastNotificationResponse) {
+			if (lastNotificationResponse.actionIdentifier === 'yes') {
+				Notifications.dismissAllNotificationsAsync();
+				if (!appPreviouslyOpen) BackHandler.exitApp();
 			}
-		);
-		// return () => subscription.remove();
-	});
+			if (lastNotificationResponse.actionIdentifier === 'no') {
+				navigate('Change');
+			}
+		}
+	}, [lastNotificationResponse]);
 
 	return (
 		<ProjectsContextProvider>
