@@ -98,7 +98,7 @@ export function ProjectsContextProvider(props) {
 	const getProjectReasons = (projectId, setReasons) => {
 		db.transaction((tx) => {
 			tx.executeSql(
-				`select * from reasons where projectId = ?;`,
+				`select * from reasons where projectId = ? order by created_at desc;`,
 				[projectId],
 				(_, { rows: { _array } }) => {
 					setReasons(_array);
