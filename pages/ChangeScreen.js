@@ -18,7 +18,8 @@ export function ChangeScreen(props) {
 
 		addReason(mainGoal.id, text);
 
-		setMainGoalId(props?.route?.params?.nextMainGoal?.id);
+		const id = props?.route?.params?.nextMainGoal?.id;
+		setMainGoalId(id);
 
 		setText('');
 		navigation.navigate('Home');

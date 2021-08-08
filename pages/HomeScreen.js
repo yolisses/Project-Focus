@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Button, BackHandler } from 'react-native';
+import { View, Button } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -56,7 +56,6 @@ export function HomeScreen() {
 						onPress={() => scheduleNotification(mainGoal)}
 					/>
 					<Button title='Clean main goal' onPress={async () => {}} />
-					<Button title='exit app' onPress={BackHandler.exitApp} />
 				</View>
 			</View>
 			<DetailModalScreen

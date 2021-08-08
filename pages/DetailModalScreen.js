@@ -12,7 +12,7 @@ export function DetailModalScreen(props) {
 
 	const [tryingToChange, setTryingToChange] = useState(false);
 
-	const { getProjectReasons } = useProjects();
+	const { getProjectReasons, mainGoalId } = useProjects();
 
 	const [changingTitle, setChangingTitle] = useState(false);
 
@@ -22,7 +22,7 @@ export function DetailModalScreen(props) {
 				setReasons(reasons);
 				modalizeRef.current?.open();
 			});
-	}, [selectedProject]);
+	}, [selectedProject, mainGoalId]);
 
 	const [top, setTop] = useState(false);
 	const handlePosition = (position) => {

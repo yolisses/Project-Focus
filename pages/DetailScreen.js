@@ -88,7 +88,9 @@ export function DetailScreen(props) {
 					)
 				) : (
 					<View style={styles.confirmation}>
-						<LeaveMainGoalLink nextMainGoal={item} />
+						<LeaveMainGoalLink
+							nextMainGoal={item.id !== mainGoalId ? item : ''}
+						/>
 					</View>
 				)}
 			</View>
