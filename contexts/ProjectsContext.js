@@ -35,8 +35,6 @@ export function ProjectsContextProvider(props) {
 					created_at timestamp default current_timestamp);
 				`
 			);
-		});
-		db.transaction((tx) => {
 			tx.executeSql(
 				`
 				create table if not exists reasons (
