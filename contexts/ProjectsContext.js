@@ -145,6 +145,16 @@ export function ProjectsContextProvider(props) {
 		);
 	};
 
+	const removeProject = (id) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('delete from projects where id = (?)', [id]);
+			},
+			(err) => console.error(err),
+			refreshProjects
+		);
+	};
+
 	const renameProject = (id, text) => {
 		db.transaction(
 			(tx) => {
@@ -205,6 +215,7 @@ export function ProjectsContextProvider(props) {
 				addProject,
 				mainGoalId,
 				renameProject,
+				removeProject,
 				reorderProjects,
 				getProjectReasons,
 				setMainGoalId: changeMainGoalId,

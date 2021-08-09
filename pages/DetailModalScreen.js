@@ -12,7 +12,7 @@ export function DetailModalScreen(props) {
 
 	const [tryingToChange, setTryingToChange] = useState(false);
 
-	const { getProjectReasons, mainGoalId } = useProjects();
+	const { getProjectReasons, mainGoalId, removeProject } = useProjects();
 
 	const [changingTitle, setChangingTitle] = useState(false);
 
@@ -49,7 +49,14 @@ export function DetailModalScreen(props) {
 			'Delete project permanently?',
 			"It can't be undone",
 			[
-				{ text: 'Delete', onPress: () => console.log('OK Pressed') },
+				{
+					text: 'Delete',
+					onPress: () => {
+						removeProject(selectedProject.id);
+						modalizeRef.current?.close();
+					},
+					style: 'destructive',
+				},
 				{
 					text: 'Cancel',
 					style: 'cancel',
