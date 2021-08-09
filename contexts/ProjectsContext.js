@@ -81,7 +81,7 @@ export function ProjectsContextProvider(props) {
 		db.transaction((tx) => {
 			tx.executeSql(`drop table if exists projects;`);
 			tx.executeSql(`drop table if exists reasons;`);
-			tx.executeSql(`drop table if exists intVariables;`);
+			// tx.executeSql(`drop table if exists intVariables;`);
 		});
 	};
 

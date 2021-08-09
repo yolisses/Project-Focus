@@ -8,6 +8,7 @@ import {
 	TextInput,
 	Keyboard,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { LeaveMainGoalLink } from '../components/LeaveMainGoalLink';
 import { ReasonListItem } from '../components/ReasonListItem';
@@ -38,7 +39,6 @@ export function DetailScreen(props) {
 
 	const onPressModal = () => {
 		setTryingToChange(false);
-		setChangingTitle(false);
 	};
 
 	function saveTitle() {
@@ -63,61 +63,63 @@ export function DetailScreen(props) {
 	}, [changingTitle]);
 
 	return (
-		<Pressable style={styles.container} onPress={onPressModal}>
-			{changingTitle && top ? (
-				<View style={styles.underline}>
-					<TextInput
-						style={styles.title}
-						value={text}
-						ref={editingRef}
-						onChangeText={(text) => {
-							setText(text);
-						}}
-					/>
-				</View>
-			) : (
-				<Text style={styles.title}>{text}</Text>
-			)}
-
-			<View style={styles.wrapper}>
-				{!tryingToChange ? (
-					item.id !== mainGoalId ? (
-						<SetAsMainGoalButton onPress={onMainButtonPress} />
-					) : (
-						<CurrentMainGoalWarning onLongPress={onMainButtonPress} />
-					)
-				) : (
-					<View style={styles.confirmation}>
-						<LeaveMainGoalLink
-							nextMainGoal={item.id !== mainGoalId ? item : ''}
+		<ScrollView>
+			<Pressable style={styles.container} onPress={onPressModal}>
+				{changingTitle && top ? (
+					<View style={styles.underline}>
+						<TextInput
+							style={styles.title}
+							value={text}
+							ref={editingRef}
+							onChangeText={(text) => {
+								setText(text);
+							}}
 						/>
 					</View>
+				) : (
+					<Text style={styles.title}>{text}</Text>
 				)}
-			</View>
 
-			{reasons === null && (
-				<View>
-					<View style={styles.loading} />
-					<View style={styles.loading} />
-					<View style={styles.loading} />
-				</View>
-			)}
-			{reasons && reasons.length ? (
-				<View>
-					{reasons && reasons.length ? (
-						<View>
-							<Text style={styles.warning}>
-								Please consider the previous leavings:
-							</Text>
-							{reasons.map((reason) => (
-								<ReasonListItem reason={reason} key={reason.id} />
-							))}
+				<View style={styles.wrapper}>
+					{!tryingToChange ? (
+						item.id !== mainGoalId ? (
+							<SetAsMainGoalButton onPress={onMainButtonPress} />
+						) : (
+							<CurrentMainGoalWarning onLongPress={onMainButtonPress} />
+						)
+					) : (
+						<View style={styles.confirmation}>
+							<LeaveMainGoalLink
+								nextMainGoal={item.id !== mainGoalId ? item : ''}
+							/>
 						</View>
-					) : null}
+					)}
 				</View>
-			) : // <Text>Nothing to show about it...</Text>
-			null}
-		</Pressable>
+
+				{reasons === null && (
+					<View>
+						<View style={styles.loading} />
+						<View style={styles.loading} />
+						<View style={styles.loading} />
+					</View>
+				)}
+				{reasons && reasons.length ? (
+					<View>
+						{reasons && reasons.length ? (
+							<View>
+								<Text style={styles.warning}>
+									Please consider the previous leavings:
+								</Text>
+								{reasons.map((reason) => (
+									<ReasonListItem reason={reason} key={reason.id} />
+								))}
+							</View>
+						) : null}
+					</View>
+				) : // <Text>Nothing to show about it...</Text>
+				null}
+			</Pressable>
+		</ScrollView>
 	);
 }
 
