@@ -21,7 +21,29 @@ export function ProjectsContextProvider(props) {
 
 	const changeMainGoalId = (mainGoalId) => {
 		Notifications.dismissAllNotificationsAsync();
-		setMainGoalId(mainGoalId);
+		setIntVariable('mainGoalId', mainGoalId);
+		getIntVariable('mainGoalId', setMainGoalId);
+	};
+
+	const setIntVariable = (name, value) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				'insert or replace into intVariables (name, value) values (?, ?);',
+				[name, value]
+			);
+		});
+	};
+
+	const getIntVariable = (name, foundCallback) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				`select * from intVariables where name = ?;`,
+				[name],
+				(_, { rows: { _array } }) => {
+					foundCallback(_array[0]?.value);
+				}
+			);
+		});
 	};
 
 	const createTablesIfNotExists = () => {
@@ -45,6 +67,13 @@ export function ProjectsContextProvider(props) {
  					foreign key(projectId) references projects(id));
 				`
 			);
+			tx.executeSql(
+				`
+				create table if not exists intVariables (
+					name text primary key not null,
+					value int);
+				`
+			);
 		});
 	};
 
@@ -52,6 +81,7 @@ export function ProjectsContextProvider(props) {
 		db.transaction((tx) => {
 			tx.executeSql(`drop table if exists projects;`);
 			tx.executeSql(`drop table if exists reasons;`);
+			tx.executeSql(`drop table if exists intVariables;`);
 		});
 	};
 
@@ -155,6 +185,7 @@ export function ProjectsContextProvider(props) {
 		dropTablesIfExists();
 		createTablesIfNotExists();
 		mockProjects();
+		getIntVariable('mainGoalId', setMainGoalId);
 	}, []);
 
 	const getMainGoal = () => {
