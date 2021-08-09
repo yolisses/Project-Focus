@@ -3,7 +3,7 @@ import { Modalize } from 'react-native-modalize';
 import { DetailScreen } from './DetailScreen';
 import { RoundButton } from '../components/RoundButton';
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailModalScreen(props) {
@@ -44,6 +44,23 @@ export function DetailModalScreen(props) {
 		);
 	};
 
+	const alertDelete = () => {
+		Alert.alert(
+			'Delete project permanently?',
+			"It can't be undone",
+			[
+				{ text: 'Delete', onPress: () => console.log('OK Pressed') },
+				{
+					text: 'Cancel',
+					style: 'cancel',
+				},
+			],
+			{
+				cancelable: true,
+			}
+		);
+	};
+
 	return (
 		<Modalize
 			snapPoint={expanded ? expanded : 140}
@@ -77,7 +94,7 @@ export function DetailModalScreen(props) {
 						backgroundColor: 'white',
 					}}
 				>
-					<RoundButton icon={faTrash} color='#922' />
+					<RoundButton icon={faTrash} color='#922' onPress={alertDelete} />
 					<RoundButton
 						icon={faPen}
 						color='#22d'

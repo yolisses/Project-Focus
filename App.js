@@ -18,6 +18,7 @@ import { ProjectsContextProvider } from './contexts/ProjectsContext';
 import { OptionsScreen } from './pages/OptionsScreen';
 import { OptionsButton } from './components/OptionsButton';
 import { Logo } from './components/Logo';
+import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +64,11 @@ export default function App() {
 					<Stack.Screen
 						name='Options'
 						component={OptionsScreen}
+						options={{ headerTitle: (props) => <Logo {...props} /> }}
+					/>
+					<Stack.Screen
+						name='NotificationConfig'
+						component={NotificationConfigScreen}
 						options={{ headerTitle: (props) => <Logo {...props} /> }}
 					/>
 				</Stack.Navigator>
