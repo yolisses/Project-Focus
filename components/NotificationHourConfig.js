@@ -16,12 +16,20 @@ export function NotificationHourConfig() {
 	const [minute, setMinute] = useState(notificationMinute);
 
 	useEffect(() => {
-		setHour(notificationHour);
+		setHour(notificationHour < 12 ? notificationHour : notificationHour - 12);
+		setIsAm(notificationHour < 12);
 	}, [notificationHour]);
 
 	useEffect(() => {
 		setMinute(notificationMinute);
 	}, [notificationMinute]);
+
+	useEffect(() => {
+		if (isAm && notificationHour >= 12)
+			setNotificationHour(notificationHour - 12);
+		else if (!isAm && notificationHour < 12)
+			setNotificationHour(notificationHour + 12);
+	}, [isAm]);
 
 	return (
 		<View style={styles.container}>
@@ -33,8 +41,11 @@ export function NotificationHourConfig() {
 				onChangeText={(text) => setHour(text)}
 				onEndEditing={(e) => {
 					const value = parseInt(e.nativeEvent.text);
-					if (value < 12) setNotificationHour(value);
-					else setHour(notificationHour);
+					if (value < 12) setNotificationHour(value + (isAm ? 0 : 12));
+					else
+						setHour(
+							notificationHour < 12 ? notificationHour : notificationHour - 12
+						);
 				}}
 			/>
 			<Text style={styles.divisor}>:</Text>
