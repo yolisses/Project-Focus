@@ -18,11 +18,23 @@ export function ProjectsContextProvider(props) {
 	const [mainGoalId, setMainGoalId] = useState('');
 
 	const [mainGoal, setMainGoal] = useState();
+	const [notificationHour, setNotificationHour] = useState();
+	const [notificationMinute, setNotificationMinute] = useState();
 
 	const changeMainGoalId = (mainGoalId) => {
 		Notifications.dismissAllNotificationsAsync();
 		setIntVariable('mainGoalId', mainGoalId);
 		getIntVariable('mainGoalId', setMainGoalId);
+	};
+
+	const changeNotificationHour = (notificationHour) => {
+		setIntVariable('notificationHour', notificationHour);
+		getIntVariable('notificationHour', setNotificationHour);
+	};
+
+	const changeNotificationMinute = (notificationMinute) => {
+		setIntVariable('notificationMinute', notificationMinute);
+		getIntVariable('notificationMinute', setNotificationMinute);
 	};
 
 	const setIntVariable = (name, value) => {
@@ -209,16 +221,20 @@ export function ProjectsContextProvider(props) {
 	return (
 		<ProjectsContext.Provider
 			value={{
-				projects,
-				mainGoal,
-				addReason,
-				addProject,
-				mainGoalId,
-				renameProject,
-				removeProject,
-				reorderProjects,
-				getProjectReasons,
+				projects, //				/\
+				mainGoal, //			   //\\
+				addReason, //			  ///\\\
+				addProject, //			 ////\\\\
+				mainGoalId, //			  ///\\\
+				renameProject, //		 ////\\\\
+				removeProject, //		/////\\\\\
+				reorderProjects, //	   //////\\\\\\
+				notificationHour, //   		||
+				getProjectReasons, //		||	 Let's see how big it gets
+				notificationMinute, // 		||
 				setMainGoalId: changeMainGoalId,
+				setNotificationHour: changeNotificationHour,
+				setNotificationMinute: changeNotificationMinute,
 			}}
 		>
 			{props.children}
