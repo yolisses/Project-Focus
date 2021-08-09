@@ -18,30 +18,20 @@ export function ProjectsContextProvider(props) {
 	const [mainGoalId, setMainGoalId] = useState('');
 
 	const [mainGoal, setMainGoal] = useState();
-	const [notificationHour, setNotificationHour] = useState();
-	const [notificationMinute, setNotificationMinute] = useState();
 
 	const changeMainGoalId = (mainGoalId) => {
 		Notifications.dismissAllNotificationsAsync();
-		setIntVariable('mainGoalId', mainGoalId);
-		getIntVariable('mainGoalId', setMainGoalId);
+		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
 	};
 
-	const changeNotificationHour = (notificationHour) => {
-		setIntVariable('notificationHour', notificationHour);
-		getIntVariable('notificationHour', setNotificationHour);
-	};
-
-	const changeNotificationMinute = (notificationMinute) => {
-		setIntVariable('notificationMinute', notificationMinute);
-		getIntVariable('notificationMinute', setNotificationMinute);
-	};
-
-	const setIntVariable = (name, value) => {
+	const setIntVariable = (name, value, callbackSet) => {
 		db.transaction((tx) => {
 			tx.executeSql(
 				'insert or replace into intVariables (name, value) values (?, ?);',
-				[name, value]
+				[name, value],
+				() => {
+					getIntVariable(name, callbackSet);
+				}
 			);
 		});
 	};
@@ -221,20 +211,16 @@ export function ProjectsContextProvider(props) {
 	return (
 		<ProjectsContext.Provider
 			value={{
-				projects, //				/\
-				mainGoal, //			   //\\
-				addReason, //			  ///\\\
-				addProject, //			 ////\\\\
-				mainGoalId, //			  ///\\\
-				renameProject, //		 ////\\\\
-				removeProject, //		/////\\\\\
-				reorderProjects, //	   //////\\\\\\
-				notificationHour, //   		||
-				getProjectReasons, //		||	 Let's see how big it gets
-				notificationMinute, // 		||
+				projects,
+				mainGoal,
+				addReason,
+				addProject,
+				mainGoalId,
+				renameProject,
+				removeProject,
+				reorderProjects,
+				getProjectReasons,
 				setMainGoalId: changeMainGoalId,
-				setNotificationHour: changeNotificationHour,
-				setNotificationMinute: changeNotificationMinute,
 			}}
 		>
 			{props.children}
