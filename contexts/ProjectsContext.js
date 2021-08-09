@@ -19,12 +19,19 @@ export function ProjectsContextProvider(props) {
 
 	const [mainGoal, setMainGoal] = useState();
 
+	const [notificationHour, setNotificationHour] = useState();
+
 	const changeMainGoalId = (mainGoalId) => {
 		Notifications.dismissAllNotificationsAsync();
 		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
 	};
 
+	const changeNotificationHour = (notificationHour) => {
+		setIntVariable('notificationHour', notificationHour, setNotificationHour);
+	};
+
 	const setIntVariable = (name, value, callbackSet) => {
+		callbackSet(value);
 		db.transaction((tx) => {
 			tx.executeSql(
 				'insert or replace into intVariables (name, value) values (?, ?);',
@@ -152,7 +159,7 @@ export function ProjectsContextProvider(props) {
 			(tx) => {
 				tx.executeSql('delete from projects where id = (?)', [id]);
 			},
-			(err) => console.error(err),
+			null,
 			refreshProjects
 		);
 	};
@@ -198,6 +205,7 @@ export function ProjectsContextProvider(props) {
 		createTablesIfNotExists();
 		mockProjects();
 		getIntVariable('mainGoalId', setMainGoalId);
+		getIntVariable('notificationHour', setNotificationHour);
 	}, []);
 
 	const getMainGoal = () => {
@@ -219,8 +227,10 @@ export function ProjectsContextProvider(props) {
 				renameProject,
 				removeProject,
 				reorderProjects,
+				notificationHour,
 				getProjectReasons,
 				setMainGoalId: changeMainGoalId,
+				setNotificationHour: changeNotificationHour,
 			}}
 		>
 			{props.children}
