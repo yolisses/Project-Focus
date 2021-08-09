@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, TextInput, View, StyleSheet, Keyboard } from 'react-native';
+import {
+	TextInput,
+	View,
+	StyleSheet,
+	Keyboard,
+	Pressable,
+	Text,
+} from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function ProjectAddEntry() {
@@ -47,25 +54,26 @@ export function ProjectAddEntry() {
 				onSubmitEditing={saveProject}
 				blurOnSubmit={false}
 			/>
-			<Button
-				onPress={saveProject}
-				title='Add new project'
-				style={styles.button}
-			/>
+			<Pressable onPress={saveProject} style={styles.button}>
+				<Text style={styles.buttonText}>ADD NEW PROJECT</Text>
+			</Pressable>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	entry: {
-		borderWidth: 1,
+		borderWidth: 2,
 		borderColor: '#ccc',
 		borderStyle: 'solid',
-		borderRadius: 4,
+		borderRadius: 6,
 		paddingHorizontal: 10,
-		paddingVertical: 10,
+		paddingVertical: 8,
 		fontSize: 16,
-		marginBottom: 4,
+		borderBottomWidth: 0,
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0,
+		// marginBottom: 4,
 	},
 	container: {
 		backgroundColor: 'white',
@@ -83,11 +91,20 @@ const styles = StyleSheet.create({
 		alignItems: 'stretch',
 		padding: 10,
 		paddingHorizontal: 5,
-		shadowColor: '#0006',
-		shadowOpacity: 1,
+		// elevation: 3,
 	},
 	button: {
-		borderRadius: 10,
-		shadowColor: '#0000',
+		// backgroundColor: '#005dc7',
+		backgroundColor: '#2196F3',
+		borderColor: '#0054b5',
+		borderWidth: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 8,
+		borderBottomLeftRadius: 6,
+		borderBottomRightRadius: 6,
+	},
+	buttonText: {
+		color: 'white',
 	},
 });

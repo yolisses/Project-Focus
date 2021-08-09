@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		flexDirection: 'row',
 		borderRadius: 4,
-		elevation: 3,
+		elevation: 2,
 		backgroundColor: '#eee',
 	},
 	text: {
