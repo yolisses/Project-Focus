@@ -1,39 +1,55 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function NotificationHourConfig() {
 	const [isAm, setIsAm] = useState(false);
 
-	const { notificationHour, setNotificationHour } = useProjects();
+	const {
+		notificationHour,
+		notificationMinute,
+		setNotificationHour,
+		setNotificationMinute,
+	} = useProjects();
 
 	const [hour, setHour] = useState(notificationHour);
+	const [minute, setMinute] = useState(notificationMinute);
 
 	useEffect(() => {
 		setHour(notificationHour);
 	}, [notificationHour]);
 
+	useEffect(() => {
+		setMinute(notificationMinute);
+	}, [notificationMinute]);
+
 	return (
 		<View style={styles.container}>
 			<TextInput
-				style={styles.input}
 				maxLength={2}
-				keyboardType='number-pad'
 				value={'' + hour}
+				style={styles.input}
+				keyboardType='number-pad'
 				onChangeText={(text) => setHour(text)}
 				onEndEditing={(e) => {
 					const value = parseInt(e.nativeEvent.text);
-					if (value < 12) {
-						setNotificationHour(value);
-					} else {
-						setHour(notificationHour);
-					}
+					if (value < 12) setNotificationHour(value);
+					else setHour(notificationHour);
 				}}
 			/>
 			<Text style={styles.divisor}>:</Text>
-			<TextInput style={styles.input} maxLength={2} keyboardType='number-pad'>
-				{54},
-			</TextInput>
+			<TextInput
+				maxLength={2}
+				value={'' + minute}
+				style={styles.input}
+				keyboardType='number-pad'
+				onChangeText={(text) => setMinute(text)}
+				onEndEditing={(e) => {
+					const value = parseInt(e.nativeEvent.text);
+					if (value < 60) setNotificationMinute(value);
+					else setMinute(notificationMinute);
+				}}
+			/>
 			<View style={styles.ampmContainer}>
 				<Pressable onPress={() => setIsAm(true)}>
 					<Text style={{ ...styles.ampm, ...(isAm && styles.selected) }}>

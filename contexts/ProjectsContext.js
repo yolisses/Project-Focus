@@ -20,6 +20,7 @@ export function ProjectsContextProvider(props) {
 	const [mainGoal, setMainGoal] = useState();
 
 	const [notificationHour, setNotificationHour] = useState();
+	const [notificationMinute, setNotificationMinute] = useState();
 
 	const changeMainGoalId = (mainGoalId) => {
 		Notifications.dismissAllNotificationsAsync();
@@ -28,6 +29,14 @@ export function ProjectsContextProvider(props) {
 
 	const changeNotificationHour = (notificationHour) => {
 		setIntVariable('notificationHour', notificationHour, setNotificationHour);
+	};
+
+	const changeNotificationMinute = (notificationMinute) => {
+		setIntVariable(
+			'notificationMinute',
+			notificationMinute,
+			setNotificationMinute
+		);
 	};
 
 	const setIntVariable = (name, value, callbackSet) => {
@@ -206,6 +215,7 @@ export function ProjectsContextProvider(props) {
 		mockProjects();
 		getIntVariable('mainGoalId', setMainGoalId);
 		getIntVariable('notificationHour', setNotificationHour);
+		getIntVariable('notificationMinute', setNotificationMinute);
 	}, []);
 
 	const getMainGoal = () => {
@@ -229,8 +239,10 @@ export function ProjectsContextProvider(props) {
 				reorderProjects,
 				notificationHour,
 				getProjectReasons,
+				notificationMinute,
 				setMainGoalId: changeMainGoalId,
 				setNotificationHour: changeNotificationHour,
+				setNotificationMinute: changeNotificationMinute,
 			}}
 		>
 			{props.children}
