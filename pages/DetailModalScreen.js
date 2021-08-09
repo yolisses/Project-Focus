@@ -3,7 +3,7 @@ import { Modalize } from 'react-native-modalize';
 import { DetailScreen } from './DetailScreen';
 import { RoundButton } from '../components/RoundButton';
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
-import { Keyboard, View } from 'react-native';
+import { View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailModalScreen(props) {
@@ -39,7 +39,9 @@ export function DetailModalScreen(props) {
 	}, [expanded]);
 
 	const expand = () => {
-		setExpanded(reasons && reasons.length ? 270 : 160);
+		setExpanded(
+			reasons && reasons.length && selectedProject.id !== mainGoalId ? 270 : 160
+		);
 	};
 
 	return (
