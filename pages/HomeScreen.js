@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Text, Image } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -52,7 +52,17 @@ export function HomeScreen() {
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
 				<ProjectAddEntry />
-
+				{(!projects || !projects.length) && (
+					<View style={{ flexDirection: 'row' }}>
+						<Image
+							style={{ height: 25, width: 30, marginLeft: 50 }}
+							source={require('../assets/arrow.png')}
+						/>
+						<Text style={{ marginTop: 11, color: 'gray', fontSize: 18 }}>
+							You can add projects here
+						</Text>
+					</View>
+				)}
 				<DraggableFlatList
 					data={projects}
 					renderItem={renderItem}

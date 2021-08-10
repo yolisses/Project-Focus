@@ -212,7 +212,7 @@ export function ProjectsContextProvider(props) {
 	useEffect(() => {
 		dropTablesIfExists();
 		createTablesIfNotExists();
-		mockProjects();
+		// mockProjects();
 		getIntVariable('mainGoalId', setMainGoalId);
 		getIntVariable('notificationHour', setNotificationHour);
 		getIntVariable('notificationMinute', setNotificationMinute);
