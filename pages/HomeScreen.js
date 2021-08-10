@@ -37,7 +37,6 @@ export function HomeScreen() {
 	const keyExtractor = useCallback((item) => item.id.toString(), []);
 
 	useEffect(() => {
-		scheduleNotification(mainGoal);
 		(async () => {
 			// console.error('petricur', await thereIsSomeActiveNotification());
 			if (!thereIsSomeActiveNotification()) {

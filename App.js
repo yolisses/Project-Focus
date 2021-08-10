@@ -13,16 +13,14 @@ import * as Notifications from 'expo-notifications';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { ChangeScreen } from './pages/ChangeScreen';
-import {
-	ProjectsContextProvider,
-	useProjects,
-} from './contexts/ProjectsContext';
+import { ProjectsContextProvider } from './contexts/ProjectsContext';
 
 import { OptionsScreen } from './pages/OptionsScreen';
 import { OptionsButton } from './components/OptionsButton';
 import { Logo } from './components/Logo';
 import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 import { closeNotificationsAndScheduleNext } from './Notification';
+import { AboutScreen } from './pages/AboutScreen';
 
 const Stack = createStackNavigator();
 
@@ -63,17 +61,25 @@ export default function App() {
 					<Stack.Screen
 						name='Change'
 						component={ChangeScreen}
-						options={{ headerTitle: (props) => <Logo {...props} /> }}
+						options={{ headerTitle: Logo }}
 					/>
 					<Stack.Screen
 						name='Options'
 						component={OptionsScreen}
-						options={{ headerTitle: (props) => <Logo {...props} /> }}
+						options={{ headerTitle: Logo }}
 					/>
 					<Stack.Screen
 						name='NotificationConfig'
 						component={NotificationConfigScreen}
-						options={{ headerTitle: (props) => <Logo {...props} /> }}
+						options={{ headerTitle: Logo }}
+					/>
+					<Stack.Screen
+						name='About'
+						component={AboutScreen}
+						options={{
+							headerShown: false,
+						}}
+						// options={{ headerTitle: 'About' }}
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
