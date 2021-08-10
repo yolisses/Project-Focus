@@ -12,6 +12,7 @@ import {
 } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 import { DetailModalScreen } from './DetailModalScreen';
+import { sendEmail } from '../utils/sendEmail';
 
 export function HomeScreen() {
 	const { projects, mainGoal, reorderProjects } = useProjects();
@@ -66,6 +67,10 @@ export function HomeScreen() {
 					<Button
 						title='send notification'
 						onPress={() => scheduleNotification(mainGoal)}
+					/>
+					<Button
+						title='send email'
+						onPress={() => sendEmail('projectfocusapp@gmail.com')}
 					/>
 				</View>
 			</View>

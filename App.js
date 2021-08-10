@@ -21,6 +21,7 @@ import { Logo } from './components/Logo';
 import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 import { closeNotificationsAndScheduleNext } from './Notification';
 import { AboutScreen } from './pages/AboutScreen';
+import { FeedbackScreen } from './pages/FeedbackScreen';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,11 @@ export default function App() {
 					<Stack.Screen
 						name='NotificationConfig'
 						component={NotificationConfigScreen}
+						options={{ headerTitle: Logo }}
+					/>
+					<Stack.Screen
+						name='Feedback'
+						component={FeedbackScreen}
 						options={{ headerTitle: Logo }}
 					/>
 					<Stack.Screen

@@ -17,7 +17,7 @@ export function OptionsScreen() {
 			<OptionsListItem navigateTo={'About'} icon={faStickyNote}>
 				About
 			</OptionsListItem>
-			<OptionsListItem navigateTo={'About'} icon={faCommentAlt}>
+			<OptionsListItem navigateTo={'Feedback'} icon={faCommentAlt}>
 				Feedback
 			</OptionsListItem>
 		</ScrollView>
