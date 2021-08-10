@@ -17,7 +17,7 @@ export function AboutPage0(props) {
 
 const styles = StyleSheet.create({
 	text: {
-		fontSize: 25,
+		fontSize: 22,
 		marginBottom: 20,
 		color: '#333',
 	},

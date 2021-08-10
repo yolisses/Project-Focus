@@ -1,16 +1,23 @@
-import React, { useReducer, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View } from 'react-native';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { Dimensions } from 'react-native';
 import { AboutPage0 } from './about/AboutPage0';
-import { AboutPage1 } from './about/AboutPage1';
-import { AboutPage2 } from './about/AboutPage2';
-import { AboutPage3 } from './about/AboutPage3';
-import { AboutPage4 } from './about/AboutPage4';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+import { AboutGenericPage } from './about/AboutGenericPage';
+
+import About1 from '../assets/about1.svg';
+import About2 from '../assets/about2.svg';
+import About3 from '../assets/about3.svg';
+import About4 from '../assets/about4.svg';
+import { Button } from '../components/Button';
+import { SkipButton } from '../components/SkipButton';
+
+import { useNavigation } from '@react-navigation/core';
 
 export function AboutScreen() {
 	const _renderItem = ({ item, index }) => {
@@ -25,6 +32,7 @@ export function AboutScreen() {
 					justifyContent: 'center',
 					shadowColor: 'red',
 					backgroundColor: 'white',
+					alignContent: 'center',
 				}}
 			>
 				{item}
@@ -32,7 +40,7 @@ export function AboutScreen() {
 		);
 	};
 
-	const [activeSlide, setActiveSlide] = useState();
+	const [activeSlide, setActiveSlide] = useState(0);
 
 	const carouselRef = useRef();
 
@@ -41,12 +49,29 @@ export function AboutScreen() {
 		setActiveSlide(1);
 	};
 
+	const navigation = useNavigation();
+
+	const skip = () => {
+		navigation.navigate('Home');
+	};
+
 	const data = [
 		<AboutPage0 howItWorksPress={howItWorksPress} />,
-		<AboutPage1 />,
-		<AboutPage2 />,
-		<AboutPage3 />,
-		<AboutPage4 />,
+		<AboutGenericPage svg={About1}>
+			List your projects and chose one to focus on
+		</AboutGenericPage>,
+		<AboutGenericPage svg={About2}>
+			The app will remind you and ask if you will focus on it
+		</AboutGenericPage>,
+		<AboutGenericPage svg={About3}>
+			If not, it asks why and track the reasons
+		</AboutGenericPage>,
+		<AboutGenericPage
+			svg={About4}
+			button={<Button onPress={skip}>Got it</Button>}
+		>
+			In this way, you can discover the reasons of leaving and resolve them
+		</AboutGenericPage>,
 	];
 
 	return (
@@ -68,6 +93,18 @@ export function AboutScreen() {
 					alignItems: 'center',
 				}}
 			>
+				<View
+					style={{
+						alignSelf: 'flex-end',
+						marginBottom: 20,
+						marginLeft: 20,
+						marginRight: 20,
+					}}
+				>
+					<SkipButton style={{ alignSelf: 'center' }} onPress={skip}>
+						Skip
+					</SkipButton>
+				</View>
 				<Pagination
 					dotsLength={data.length}
 					animatedDuration={0}
@@ -85,7 +122,7 @@ export function AboutScreen() {
 						width: 12,
 						height: 12,
 						borderRadius: 100,
-						marginHorizontal: 8,
+						marginHorizontal: 0,
 						backgroundColor: '#bbb',
 					}}
 				/>

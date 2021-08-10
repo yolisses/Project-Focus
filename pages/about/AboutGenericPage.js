@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from '../../components/Button';
-import { Logo } from '../../components/Logo';
 
-export function AboutPage3(props) {
+export function AboutGenericPage(props) {
+	const Svg = props.svg;
 	return (
-		<View>
-			<Text style={styles.text}>If not, it asks why and track the reasons</Text>
+		<View style={{ alignItems: 'center' }}>
+			<Svg height={140} />
+			<Text style={styles.text}>{props.children}</Text>
+			{props.button}
 		</View>
 	);
 }
