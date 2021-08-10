@@ -3,9 +3,8 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React from 'react';
 import { useProjects } from '../contexts/ProjectsContext';
 
-import * as Notifications from 'expo-notifications';
-
 import { useNavigation } from '@react-navigation/native';
+import { closeNotificationsAndScheduleNext } from '../Notification';
 
 export function ChangeScreen(props) {
 	const navigation = useNavigation();
@@ -30,7 +29,7 @@ export function ChangeScreen(props) {
 	useEffect(() => {
 		if (!mainGoal) {
 			navigation.navigate('Home');
-			Notifications.dismissAllNotificationsAsync();
+			closeNotificationsAndScheduleNext();
 		}
 	}, []);
 

@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
@@ -52,7 +51,7 @@ export async function registerForPushNotificationsAsync() {
 export async function scheduleNotification(mainGoal) {
 	await Notifications.scheduleNotificationAsync({
 		content: {
-			title: 'Hello! Focus on ' + mainGoal.text,
+			title: 'Hello! Focus on ' + mainGoal?.text,
 			body: 'Will you continue on it?',
 			// sticky: true,
 			autoDismiss: false,
@@ -64,4 +63,21 @@ export async function scheduleNotification(mainGoal) {
 			// repeats: true,
 		},
 	});
+}
+
+export async function thereIsSomeActiveNotification() {
+	const notifications = await Notifications.getPresentedNotificationsAsync();
+	return !!notifications && notifications.length > 0;
+}
+
+export async function thereIsSomeNotificationScheduled() {
+	const notifications = await Notifications.getAllScheduledNotificationsAsync();
+	return !!notifications && notifications.length > 0;
+}
+
+export async function closeNotificationsAndScheduleNext(mainGoal) {
+	Notifications.dismissAllNotificationsAsync();
+	if (!(await thereIsSomeNotificationScheduled())) {
+		scheduleNotification(mainGoal);
+	}
 }

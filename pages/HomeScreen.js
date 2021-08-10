@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Button } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
@@ -6,7 +6,10 @@ import { ProjectListItem } from '../components/ProjectListItem';
 import { useCallback } from 'react';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-import { scheduleNotification } from '../Notification';
+import {
+	scheduleNotification,
+	thereIsSomeActiveNotification,
+} from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 import { DetailModalScreen } from './DetailModalScreen';
 
@@ -32,6 +35,16 @@ export function HomeScreen() {
 	}, []);
 
 	const keyExtractor = useCallback((item) => item.id.toString(), []);
+
+	useEffect(() => {
+		scheduleNotification(mainGoal);
+		(async () => {
+			// console.error('petricur', await thereIsSomeActiveNotification());
+			if (!thereIsSomeActiveNotification()) {
+				scheduleNotification(mainGoal);
+			}
+		})();
+	}, []);
 
 	return (
 		<>

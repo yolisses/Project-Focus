@@ -13,12 +13,16 @@ import * as Notifications from 'expo-notifications';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { ChangeScreen } from './pages/ChangeScreen';
-import { ProjectsContextProvider } from './contexts/ProjectsContext';
+import {
+	ProjectsContextProvider,
+	useProjects,
+} from './contexts/ProjectsContext';
 
 import { OptionsScreen } from './pages/OptionsScreen';
 import { OptionsButton } from './components/OptionsButton';
 import { Logo } from './components/Logo';
 import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
+import { closeNotificationsAndScheduleNext } from './Notification';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +39,7 @@ export default function App() {
 	useEffect(() => {
 		if (lastNotificationResponse) {
 			if (lastNotificationResponse.actionIdentifier === 'yes') {
-				Notifications.dismissAllNotificationsAsync();
+				closeNotificationsAndScheduleNext();
 				if (!appPreviouslyOpen) BackHandler.exitApp();
 			}
 			if (lastNotificationResponse.actionIdentifier === 'no') {

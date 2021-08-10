@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import * as SQLite from 'expo-sqlite';
 
-import * as Notifications from 'expo-notifications';
+import { closeNotificationsAndScheduleNext } from '../Notification';
 
 function openDatabase() {
 	const db = SQLite.openDatabase('db.db');
@@ -23,7 +23,7 @@ export function ProjectsContextProvider(props) {
 	const [notificationMinute, setNotificationMinute] = useState();
 
 	const changeMainGoalId = (mainGoalId) => {
-		Notifications.dismissAllNotificationsAsync();
+		closeNotificationsAndScheduleNext();
 		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
 	};
 

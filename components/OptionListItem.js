@@ -13,7 +13,7 @@ export function OptionsListItem({ children, icon, navigateTo }) {
 			onPress={() => navigation.navigate(navigateTo)}
 			activeOpacity={0.6}
 		>
-			<FontAwesomeIcon icon={icon} size={18} style={styles.icon} />
+			<FontAwesomeIcon icon={icon} size={20} style={styles.icon} />
 			<Text style={styles.text}>{children}</Text>
 			<FontAwesomeIcon
 				icon={faAngleRight}
