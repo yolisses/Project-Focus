@@ -35,6 +35,7 @@ export function ProjectAddEntry() {
 	async function saveProject() {
 		//If is just empty space
 		if (!text.trim()) {
+			setText('');
 			focus();
 			return;
 		}

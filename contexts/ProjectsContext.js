@@ -166,7 +166,11 @@ export function ProjectsContextProvider(props) {
 	const removeProject = (id) => {
 		db.transaction(
 			(tx) => {
-				tx.executeSql('delete from projects where id = (?)', [id]);
+				tx.executeSql('delete from projects where id = (?)', [id], () => {
+					if (!getMainGoal()) {
+						changeMainGoalId(null);
+					}
+				});
 			},
 			null,
 			refreshProjects
