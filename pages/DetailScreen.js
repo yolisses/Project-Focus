@@ -116,8 +116,11 @@ export function DetailScreen(props) {
 							</View>
 						) : null}
 					</View>
-				) : // <Text>Nothing to show about it...</Text>
-				null}
+				) : (
+					<Text style={styles.warning}>
+						There are no reasons of leaving yet
+					</Text>
+				)}
 			</Pressable>
 		</ScrollView>
 	);
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
 		color: 'gray',
 		marginBottom: 5,
 		paddingHorizontal: 5,
+		alignSelf: 'center',
 	},
 	container: {
 		paddingHorizontal: 5,

@@ -68,10 +68,6 @@ export function HomeScreen() {
 						title='send notification'
 						onPress={() => scheduleNotification(mainGoal)}
 					/>
-					<Button
-						title='send email'
-						onPress={() => sendEmail('projectfocusapp@gmail.com')}
-					/>
 				</View>
 			</View>
 			<DetailModalScreen

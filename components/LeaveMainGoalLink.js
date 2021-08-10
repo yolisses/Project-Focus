@@ -14,7 +14,10 @@ export function LeaveMainGoalLink({ text, nextMainGoal }) {
 		<Pressable onPress={() => navigation.navigate('Change', { nextMainGoal })}>
 			<View style={styles.container}>
 				<Text style={styles.text}>{text || 'Are you sure?'}</Text>
-				<Text style={styles.link}>Leave the project {mainGoal.text}</Text>
+				<Text style={styles.link}>
+					Leave the project{' '}
+					<Text style={{ fontWeight: 'bold' }}>{mainGoal.text}</Text>
+				</Text>
 			</View>
 		</Pressable>
 	);
