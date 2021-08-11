@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useProjects } from '../contexts/ProjectsContext';
+import { getIntVariable, setIntVariable } from '../contexts/ProjectsContext';
 
 export function NotificationHourConfig() {
 	const [isAm, setIsAm] = useState(null);
 
 	const [hour, setHour] = useState(null);
 	const [minute, setMinute] = useState(null);
-
-	const { refreshHour, getHour } = useProjects();
-	const { refreshMinute, getMinute } = useProjects();
 
 	const setHourModulized = (hour) => {
 		setHour(hour % 12);
@@ -22,20 +19,22 @@ export function NotificationHourConfig() {
 
 	const validateAndChangeHour = (hour) => {
 		if (0 <= hour && hour < 12)
-			refreshHour(hour + (isAm ? 0 : 12), setHourModulized);
-		else getHour(setHourModulized);
+			setIntVariable('hour', hour + (isAm ? 0 : 12), setHourModulized);
+		else getIntVariable('hour', setHourModulized);
 	};
 
 	const endEditingMinute = (e) => {
 		const minute = parseInt(e.nativeEvent.text);
-		if (0 <= minute && minute < 60) refreshMinute(minute, setMinute);
-		else getMinute(setMinute);
+		if (0 <= minute && minute < 60) setIntVariable('minute', minute, setMinute);
+		else getIntVariable('minute', setMinute);
 	};
 
 	useEffect(() => {
-		getHour(setHourModulized);
-		getHour((hour) => setIsAm(hour < 12));
-		getMinute(setMinute);
+		getIntVariable('hour', (hour) => {
+			setHourModulized(hour);
+			setIsAm(hour < 12);
+		});
+		getIntVariable('minute', setMinute);
 	}, []);
 
 	useEffect(() => {

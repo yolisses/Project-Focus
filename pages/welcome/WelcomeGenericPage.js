@@ -9,10 +9,7 @@ export function WelcomeGenericPage(props) {
 	const Svg = props.svg;
 	return (
 		<View style={{ alignItems: 'center' }}>
-			<Svg
-				height={width / 3}
-				// height={140}
-			/>
+			<Svg height={width / 3} />
 			<Text style={styles.text}>{props.children}</Text>
 			{props.button}
 		</View>

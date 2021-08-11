@@ -40,47 +40,28 @@ export function getMainGoal(foundCallback) {
 	});
 }
 
+export const setIntVariable = (name, value, callbackSet) => {
+	callbackSet(value);
+	db.transaction((tx) => {
+		tx.executeSql(
+			'insert or replace into intVariables (name, value) values (?, ?);',
+			[name, value],
+			() => {
+				getIntVariable(name, callbackSet);
+			}
+		);
+	});
+};
+
 export function ProjectsContextProvider(props) {
 	const [projects, setProjects] = useState([]);
 	const [mainGoalId, setMainGoalId] = useState('');
 
 	const [mainGoal, setMainGoal] = useState();
 
-	const [notificationHour, setNotificationHour] = useState();
-	const [notificationMinute, setNotificationMinute] = useState();
-
 	const changeMainGoalId = (mainGoalId) => {
 		closeNotificationsAndScheduleNext();
 		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
-	};
-
-	const getMinute = (callbackSet) => {
-		getIntVariable('minute', callbackSet);
-	};
-
-	const refreshMinute = (minute, callbackSet) => {
-		setIntVariable('minute', minute, callbackSet);
-	};
-
-	const getHour = (callbackSet) => {
-		getIntVariable('hour', callbackSet);
-	};
-
-	const refreshHour = (hour, callbackSet) => {
-		setIntVariable('hour', hour, callbackSet);
-	};
-
-	const setIntVariable = (name, value, callbackSet) => {
-		callbackSet(value);
-		db.transaction((tx) => {
-			tx.executeSql(
-				'insert or replace into intVariables (name, value) values (?, ?);',
-				[name, value],
-				() => {
-					getIntVariable(name, callbackSet);
-				}
-			);
-		});
 	};
 
 	const removeIntVariable = (name, callbackSet) => {
@@ -285,8 +266,6 @@ export function ProjectsContextProvider(props) {
 		// mockProjects();
 		refreshProjects();
 		getIntVariable('mainGoalId', setMainGoalId);
-		getIntVariable('notificationHour', setNotificationHour);
-		getIntVariable('notificationMinute', setNotificationMinute);
 
 		initializeDefaultValue('minute', 20);
 		initializeDefaultValue('hour', 6);
@@ -303,24 +282,18 @@ export function ProjectsContextProvider(props) {
 	return (
 		<ProjectsContext.Provider
 			value={{
-				getHour,
 				projects,
 				mainGoal,
 				addReason,
-				getMinute,
 				addProject,
 				mainGoalId,
 				getMainGoal,
-				refreshHour,
 				renameProject,
-				refreshMinute,
 				removeProject,
 				setIntVariable,
 				getIntVariable,
 				reorderProjects,
-				notificationHour,
 				getProjectReasons,
-				notificationMinute,
 				setMainGoalId: changeMainGoalId,
 			}}
 		>
