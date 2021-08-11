@@ -3,63 +3,31 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function NotificationHourConfig() {
-	const [isAm, setIsAm] = useState(false);
+	const isAm = true;
 
-	const {
-		notificationHour,
-		notificationMinute,
-		setNotificationHour,
-		setNotificationMinute,
-	} = useProjects();
+	const [minute, setMinute] = useState(0);
 
-	const [hour, setHour] = useState(notificationHour);
-	const [minute, setMinute] = useState(notificationMinute);
+	const { refreshMinute, getMinute } = useProjects();
 
-	useEffect(() => {
-		setHour(notificationHour < 12 ? notificationHour : notificationHour - 12);
-		setIsAm(notificationHour < 12);
-	}, [notificationHour]);
+	const endEditingMinutes = (e) => {
+		const minute = parseInt(e.nativeEvent.text);
+		if (0 <= minute && minute < 60) refreshMinute(minute, setMinute);
+		else getMinute(setMinute);
+	};
 
-	useEffect(() => {
-		setMinute(notificationMinute);
-	}, [notificationMinute]);
-
-	useEffect(() => {
-		if (isAm && notificationHour >= 12)
-			setNotificationHour(notificationHour - 12);
-		else if (!isAm && notificationHour < 12)
-			setNotificationHour(notificationHour + 12);
-	}, [isAm]);
+	useEffect(() => getMinute(setMinute), []);
 
 	return (
 		<View style={styles.container}>
-			<TextInput
-				maxLength={2}
-				value={'' + hour}
-				style={styles.input}
-				keyboardType='number-pad'
-				onChangeText={(text) => setHour(text)}
-				onEndEditing={(e) => {
-					const value = parseInt(e.nativeEvent.text);
-					if (value < 12) setNotificationHour(value + (isAm ? 0 : 12));
-					else
-						setHour(
-							notificationHour < 12 ? notificationHour : notificationHour - 12
-						);
-				}}
-			/>
+			<TextInput maxLength={2} style={styles.input} keyboardType='number-pad' />
 			<Text style={styles.divisor}>:</Text>
 			<TextInput
 				maxLength={2}
-				value={'' + minute}
 				style={styles.input}
 				keyboardType='number-pad'
-				onChangeText={(text) => setMinute(text)}
-				onEndEditing={(e) => {
-					const value = parseInt(e.nativeEvent.text);
-					if (value < 60) setNotificationMinute(value);
-					else setMinute(notificationMinute);
-				}}
+				value={'' + minute}
+				onChangeText={setMinute}
+				onEndEditing={endEditingMinutes}
 			/>
 			<View style={styles.ampmContainer}>
 				<Pressable onPress={() => setIsAm(true)}>

@@ -11,9 +11,9 @@ import {
 export function OptionsScreen() {
 	return (
 		<ScrollView>
-			{/* <OptionsListItem navigateTo={'NotificationConfig'} icon={faBell}>
+			<OptionsListItem navigateTo={'NotificationConfig'} icon={faBell}>
 				Cofigure notifications
-			</OptionsListItem> */}
+			</OptionsListItem>
 			<OptionsListItem navigateTo={'About'} icon={faStickyNote}>
 				About
 			</OptionsListItem>

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		borderBottomWidth: 2,
 		borderBottomColor: '#ccc',
-		paddingVertical: 25,
+		paddingVertical: 26,
 		paddingHorizontal: 10,
 		flexDirection: 'row',
 		alignItems: 'center',
