@@ -22,9 +22,8 @@ export function OptionsButton() {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: 'white',
-		width: 60,
-		height: 60,
+		height: '100%',
+		width: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
