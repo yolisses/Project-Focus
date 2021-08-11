@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, Text, Image } from 'react-native';
+import { View, Button, Text, Image, BackHandler } from 'react-native';
 import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
@@ -12,7 +12,10 @@ import {
 } from '../Notification';
 import { useProjects } from '../contexts/ProjectsContext';
 import { DetailModalScreen } from './DetailModalScreen';
-import { sendEmail } from '../utils/sendEmail';
+import { closeNotificationsAndScheduleNext } from '../Notification';
+
+import * as Notifications from 'expo-notifications';
+import { useNavigation } from '@react-navigation/native';
 
 export function HomeScreen() {
 	const { projects, mainGoal, reorderProjects } = useProjects();
@@ -45,6 +48,23 @@ export function HomeScreen() {
 			}
 		})();
 	}, []);
+
+	const lastNotificationResponse = Notifications.useLastNotificationResponse();
+	const appPreviouslyOpen = useState(!!lastNotificationResponse);
+
+	const navigation = useNavigation();
+
+	useEffect(() => {
+		if (lastNotificationResponse) {
+			if (lastNotificationResponse.actionIdentifier === 'yes') {
+				closeNotificationsAndScheduleNext();
+				if (!appPreviouslyOpen) BackHandler.exitApp();
+			}
+			if (lastNotificationResponse.actionIdentifier === 'no') {
+				navigation.navigate('Change');
+			}
+		}
+	}, [lastNotificationResponse]);
 
 	return (
 		<>

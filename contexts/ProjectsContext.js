@@ -52,6 +52,15 @@ export function ProjectsContextProvider(props) {
 		});
 	};
 
+	// const deleteIntVariable = (name, callbackSet) => {
+	// 	// callbackSet();
+	// 	db.transaction((tx) => {
+	// 		tx.executeSql('remove from intVariables where name = ?;', [name], () => {
+	// 			getIntVariable(name, callbackSet);
+	// 		});
+	// 	});
+	// };
+
 	const getIntVariable = (name, foundCallback) => {
 		db.transaction((tx) => {
 			tx.executeSql(
@@ -164,6 +173,7 @@ export function ProjectsContextProvider(props) {
 	};
 
 	const removeProject = (id) => {
+		// if (id === mainGoalId) deleteIntVariable('mainGoalId', setMainGoalId);
 		db.transaction(
 			(tx) => {
 				tx.executeSql('delete from projects where id = (?)', [id], () => {
