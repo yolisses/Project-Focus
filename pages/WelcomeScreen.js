@@ -18,6 +18,7 @@ import { Button } from '../components/Button';
 import { SkipButton } from '../components/SkipButton';
 
 import { useNavigation } from '@react-navigation/core';
+import { useProjects } from '../contexts/ProjectsContext';
 
 export function WelcomeScreen() {
 	const _renderItem = ({ item, index }) => {
@@ -51,8 +52,11 @@ export function WelcomeScreen() {
 
 	const navigation = useNavigation();
 
+	const { setIntVariable } = useProjects();
+
 	const skip = () => {
 		navigation.navigate('Home');
+		setIntVariable('welcome', 0, () => {});
 	};
 
 	const data = [

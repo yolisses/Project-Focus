@@ -18,9 +18,11 @@ import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
 
 export function HomeScreen() {
-	const { projects, mainGoal, reorderProjects } = useProjects();
+	const { projects, mainGoal, reorderProjects, getIntVariable } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
+
+	const navigation = useNavigation();
 
 	const modalizeRef = useRef();
 
@@ -41,6 +43,12 @@ export function HomeScreen() {
 	const keyExtractor = useCallback((item) => item.id.toString(), []);
 
 	useEffect(() => {
+		getIntVariable('welcome', (missing) => {
+			if (missing === 1) {
+				navigation.navigate('Welcome');
+			}
+		});
+
 		(async () => {
 			if (!thereIsSomeActiveNotification()) {
 				scheduleNotification(mainGoal);
@@ -50,8 +58,6 @@ export function HomeScreen() {
 
 	const lastNotificationResponse = Notifications.useLastNotificationResponse();
 	const appPreviouslyOpen = useState(!!lastNotificationResponse);
-
-	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (lastNotificationResponse) {

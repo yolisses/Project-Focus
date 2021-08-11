@@ -276,6 +276,8 @@ export function ProjectsContextProvider(props) {
 		initializeDefaultValue('minute', 20);
 		initializeDefaultValue('hour', 6);
 
+		initializeDefaultValue('welcome', 1);
+
 		removeMainGoalIdIfTheProjectNotExists();
 	}, []);
 
