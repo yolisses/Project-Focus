@@ -240,6 +240,31 @@ export function ProjectsContextProvider(props) {
 		});
 	};
 
+	const initializeDefaultValue = (name, value, callbackSet) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				`select * from intVariables where name = ?;`,
+				[name],
+				(_, { rows: { _array } }) => {
+					const res = _array[0]?.value;
+					if (res === undefined) {
+						db.transaction((tx) => {
+							tx.executeSql(
+								'insert into intVariables (name, value) values (?, ?);',
+								[name, value],
+								() => {
+									if (callbackSet) callbackSet(value);
+								}
+							);
+						});
+					} else {
+						if (callbackSet) callbackSet(res);
+					}
+				}
+			);
+		});
+	};
+
 	useEffect(() => {
 		dropTablesIfExists();
 		createTablesIfNotExists();
@@ -247,6 +272,9 @@ export function ProjectsContextProvider(props) {
 		getIntVariable('mainGoalId', setMainGoalId);
 		getIntVariable('notificationHour', setNotificationHour);
 		getIntVariable('notificationMinute', setNotificationMinute);
+
+		initializeDefaultValue('minute', 20);
+		initializeDefaultValue('hour', 6);
 
 		removeMainGoalIdIfTheProjectNotExists();
 	}, []);
