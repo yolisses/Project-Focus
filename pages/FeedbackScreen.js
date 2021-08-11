@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		backgroundColor: '#2196F3',
 		justifyContent: 'center',
-		elevation: 10,
+		elevation: 5,
 	},
 	buttonText: {
 		fontSize: 18,

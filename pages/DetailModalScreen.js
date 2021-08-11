@@ -53,6 +53,7 @@ export function DetailModalScreen(props) {
 					text: 'Delete',
 					onPress: () => {
 						removeProject(selectedProject.id);
+						setExpanded(false);
 						modalizeRef.current?.close();
 					},
 					style: 'destructive',
