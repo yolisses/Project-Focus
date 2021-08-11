@@ -42,7 +42,6 @@ export function HomeScreen() {
 
 	useEffect(() => {
 		(async () => {
-			// console.error('petricur', await thereIsSomeActiveNotification());
 			if (!thereIsSomeActiveNotification()) {
 				scheduleNotification(mainGoal);
 			}

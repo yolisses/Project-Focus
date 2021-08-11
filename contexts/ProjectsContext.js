@@ -85,7 +85,6 @@ export function ProjectsContextProvider(props) {
 					if (!_array.length) {
 						removeIntVariable('mainGoalId', setMainGoalId);
 					}
-					console.error(_array);
 				}
 			);
 		});

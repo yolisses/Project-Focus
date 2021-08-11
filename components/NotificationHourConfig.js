@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function NotificationHourConfig() {
-	const isAm = true;
+	const [isAm, setIsAm] = useState(true);
 
 	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
@@ -11,10 +11,19 @@ export function NotificationHourConfig() {
 	const { refreshHour, getHour } = useProjects();
 	const { refreshMinute, getMinute } = useProjects();
 
+	const setHourModulized = (hour) => {
+		setHour(hour % 12);
+	};
+
 	const endEditingHour = (e) => {
 		const hour = parseInt(e.nativeEvent.text);
-		if (0 <= hour && hour < 12) refreshHour(hour, setHour);
-		else getHour(setHour);
+		validateAndChangeHour(hour);
+	};
+
+	const validateAndChangeHour = (hour) => {
+		if (0 <= hour && hour < 12)
+			refreshHour(hour + (isAm ? 0 : 12), setHourModulized);
+		else getHour(setHourModulized);
 	};
 
 	const endEditingMinute = (e) => {
@@ -24,9 +33,14 @@ export function NotificationHourConfig() {
 	};
 
 	useEffect(() => {
-		getHour(setHour);
+		getHour(setHourModulized);
+		getHour((hour) => setIsAm(hour < 12));
 		getMinute(setMinute);
 	}, []);
+
+	useEffect(() => {
+		validateAndChangeHour(hour);
+	}, [isAm]);
 
 	return (
 		<View style={styles.container}>
