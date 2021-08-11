@@ -29,12 +29,11 @@ export const setIntVariable = (name, value, callbackSet) => {
 };
 
 export const useVariable = (name, initialValue) => {
-	const [variable, setVariable] = useState(name, initialValue || null);
+	const [variable, setVariable] = useState(initialValue || null);
+
+	useState(() => {
+		getIntVariable(name, setVariable);
+	}, []);
 
 	return [variable, (value) => setIntVariable(name, value, setVariable)];
-
-	// return [
-	// 	(value, callback) => getIntVariable(name, value, callback),
-	// 	( callback) => setIntVariable(name, value, callback),
-	// ];
 };

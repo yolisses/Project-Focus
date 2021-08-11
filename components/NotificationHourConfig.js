@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { getIntVariable, setIntVariable } from '../contexts/ProjectsContext';
+import { useVariable } from '../database/useVariable';
 
 export function NotificationHourConfig() {
 	const [isAm, setIsAm] = useState(null);
 
 	const [hour, setHour] = useState(null);
-	const [minute, setMinute] = useState(null);
+
+	const [minute, setMinute] = useVariable('minute');
+	const [editMinute, setEditMinute] = useState(minute);
 
 	const setHourModulized = (hour) => {
 		setHour(hour % 12);
@@ -24,9 +27,9 @@ export function NotificationHourConfig() {
 	};
 
 	const endEditingMinute = (e) => {
-		const minute = parseInt(e.nativeEvent.text);
-		if (0 <= minute && minute < 60) setIntVariable('minute', minute, setMinute);
-		else getIntVariable('minute', setMinute);
+		const newValue = parseInt(e.nativeEvent.text);
+		if (0 <= newValue && newValue < 60) setMinute(newValue);
+		else setEditMinute(minute);
 	};
 
 	useEffect(() => {
@@ -34,15 +37,20 @@ export function NotificationHourConfig() {
 			setHourModulized(hour);
 			setIsAm(hour < 12);
 		});
-		getIntVariable('minute', setMinute);
 	}, []);
 
 	useEffect(() => {
 		validateAndChangeHour(hour);
 	}, [isAm]);
 
+	useEffect(() => {
+		if (editMinute !== minute) setEditMinute(minute);
+	}, [minute]);
+
 	return (
 		<View style={styles.container}>
+			<Text>{minute}</Text>
+			<Text>{editMinute}</Text>
 			<TextInput
 				maxLength={2}
 				style={styles.input}
@@ -56,8 +64,8 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={minute !== null ? '' + minute : minute}
-				onChangeText={setMinute}
+				value={editMinute !== null ? '' + editMinute : ''}
+				onChangeText={setEditMinute}
 				onEndEditing={endEditingMinute}
 			/>
 			<View style={styles.ampmContainer}>
