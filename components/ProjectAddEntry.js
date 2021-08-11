@@ -51,7 +51,7 @@ export function ProjectAddEntry() {
 				style={styles.entry}
 				value={text}
 				onChangeText={(text) => setText(text)}
-				placeholder='Novo projeto'
+				placeholder='New project'
 				onSubmitEditing={saveProject}
 				blurOnSubmit={false}
 			/>
