@@ -18,14 +18,13 @@ import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
 
 export function HomeScreen() {
-	const { projects, mainGoal, reorderProjects, getIntVariable } = useProjects();
+	const { projects, reorderProjects, getIntVariable } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
 	const navigation = useNavigation();
 
 	const modalizeRef = useRef();
-
 	const open = () => {
 		modalizeRef.current?.open();
 	};
@@ -50,8 +49,16 @@ export function HomeScreen() {
 		});
 
 		(async () => {
+			if (!(await thereIsSomeActiveNotification())) {
+				scheduleNotification();
+			}
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
 			if (!thereIsSomeActiveNotification()) {
-				scheduleNotification(mainGoal);
+				scheduleNotification();
 			}
 		})();
 	}, []);
@@ -101,7 +108,7 @@ export function HomeScreen() {
 				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
 					<Button
 						title='send notification'
-						onPress={() => scheduleNotification(mainGoal)}
+						onPress={() => scheduleNotification()}
 					/>
 				</View>
 			</View>

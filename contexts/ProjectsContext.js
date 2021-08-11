@@ -13,6 +13,33 @@ const db = openDatabase();
 
 const ProjectsContext = createContext();
 
+export function getIntVariable(name, foundCallback) {
+	db.transaction((tx) => {
+		tx.executeSql(
+			`select * from intVariables where name = ?;`,
+			[name],
+			(_, { rows: { _array } }) => {
+				foundCallback(_array[0]?.value);
+			}
+		);
+	});
+}
+
+export function getMainGoal(foundCallback) {
+	getIntVariable('mainGoalId', (mainGoalId) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				`select * from projects where id = ?;`,
+				[mainGoalId],
+				(_, { rows: { _array } }) => {
+					console.error('encontrou: ', _array[0]);
+					foundCallback(_array[0]);
+				}
+			);
+		});
+	});
+}
+
 export function ProjectsContextProvider(props) {
 	const [projects, setProjects] = useState([]);
 	const [mainGoalId, setMainGoalId] = useState('');
@@ -64,29 +91,20 @@ export function ProjectsContextProvider(props) {
 		});
 	};
 
-	const getIntVariable = (name, foundCallback) => {
-		db.transaction((tx) => {
-			tx.executeSql(
-				`select * from intVariables where name = ?;`,
-				[name],
-				(_, { rows: { _array } }) => {
-					foundCallback(_array[0]?.value);
-				}
-			);
-		});
-	};
-
 	const removeMainGoalIdIfTheProjectNotExists = () => {
-		db.transaction((tx) => {
-			tx.executeSql(
-				`select * from projects where id = ?;`,
-				[mainGoalId],
-				(_, { rows: { _array } }) => {
-					if (!_array.length) {
-						removeIntVariable('mainGoalId', setMainGoalId);
+		getIntVariable('mainGoalId', (mainGoalId) => {
+			db.transaction((tx) => {
+				tx.executeSql(
+					`select * from projects where id = ?;`,
+					[mainGoalId],
+					(_, { rows: { _array } }) => {
+						if (!_array.length) {
+							console.error('removing mainGoalId');
+							removeIntVariable('mainGoalId', setMainGoalId);
+						}
 					}
-				}
-			);
+				);
+			});
 		});
 	};
 
@@ -123,8 +141,8 @@ export function ProjectsContextProvider(props) {
 
 	const dropTablesIfExists = () => {
 		db.transaction((tx) => {
-			tx.executeSql(`drop table if exists projects;`);
-			tx.executeSql(`drop table if exists reasons;`);
+			// tx.executeSql(`drop table if exists projects;`);
+			// tx.executeSql(`drop table if exists reasons;`);
 			// tx.executeSql(`drop table if exists intVariables;`);
 		});
 	};
@@ -192,11 +210,7 @@ export function ProjectsContextProvider(props) {
 	const removeProject = (id) => {
 		db.transaction(
 			(tx) => {
-				tx.executeSql('delete from projects where id = (?)', [id], () => {
-					if (!getMainGoal()) {
-						changeMainGoalId(null);
-					}
-				});
+				tx.executeSql('delete from projects where id = (?)', [id]);
 			},
 			null,
 			refreshProjects
@@ -269,6 +283,7 @@ export function ProjectsContextProvider(props) {
 		dropTablesIfExists();
 		createTablesIfNotExists();
 		// mockProjects();
+		refreshProjects();
 		getIntVariable('mainGoalId', setMainGoalId);
 		getIntVariable('notificationHour', setNotificationHour);
 		getIntVariable('notificationMinute', setNotificationMinute);
@@ -281,12 +296,8 @@ export function ProjectsContextProvider(props) {
 		removeMainGoalIdIfTheProjectNotExists();
 	}, []);
 
-	const getMainGoal = () => {
-		return projects.find((project) => project.id === mainGoalId);
-	};
-
 	useEffect(() => {
-		setMainGoal(getMainGoal());
+		getMainGoal(setMainGoal);
 	}, [mainGoalId]);
 
 	return (
@@ -299,6 +310,7 @@ export function ProjectsContextProvider(props) {
 				getMinute,
 				addProject,
 				mainGoalId,
+				getMainGoal,
 				refreshHour,
 				renameProject,
 				refreshMinute,

@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import { getMainGoal } from './contexts/ProjectsContext';
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -48,20 +49,24 @@ export async function registerForPushNotificationsAsync() {
 	}
 }
 
-export async function scheduleNotification(mainGoal) {
-	await Notifications.scheduleNotificationAsync({
-		content: {
-			title: 'Hello! Focus on ' + mainGoal?.text,
-			body: 'Will you continue on it?',
-			// sticky: true,
-			autoDismiss: false,
-			badge: false,
-			categoryIdentifier: 'identificador',
-		},
-		trigger: {
-			seconds: 2,
-			// repeats: true,
-		},
+export function scheduleNotification() {
+	getMainGoal((mainGoal) => {
+		console.error('notificação schedulada, main goal ' + mainGoal);
+		(async () =>
+			await Notifications.scheduleNotificationAsync({
+				content: {
+					title: 'Hello! Focus on ' + mainGoal?.text,
+					body: 'Will you continue on it?',
+					// sticky: true,
+					autoDismiss: false,
+					badge: false,
+					categoryIdentifier: 'identificador',
+				},
+				trigger: {
+					seconds: 2,
+					// repeats: true,
+				},
+			}))();
 	});
 }
 
@@ -78,6 +83,6 @@ export async function thereIsSomeNotificationScheduled() {
 export async function closeNotificationsAndScheduleNext(mainGoal) {
 	Notifications.dismissAllNotificationsAsync();
 	if (!(await thereIsSomeNotificationScheduled())) {
-		scheduleNotification(mainGoal);
+		scheduleNotification();
 	}
 }

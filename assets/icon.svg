@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="icon.svg">
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/ulisses/push-notifications/assets/icon.png"
+   inkscape:export-xdpi="29.593294"
+   inkscape:export-ydpi="29.593294">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="66.804403"
-     inkscape:cy="136.78065"
+     inkscape:cx="232.46942"
+     inkscape:cy="132.74004"
      inkscape:document-units="mm"
      inkscape:current-layer="g330"
      showgrid="false"
