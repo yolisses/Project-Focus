@@ -35,6 +35,14 @@ export function ProjectsContextProvider(props) {
 		setIntVariable('minute', minute, callbackSet);
 	};
 
+	const getHour = (callbackSet) => {
+		getIntVariable('hour', callbackSet);
+	};
+
+	const refreshHour = (hour, callbackSet) => {
+		setIntVariable('hour', hour, callbackSet);
+	};
+
 	const setIntVariable = (name, value, callbackSet) => {
 		callbackSet(value);
 		db.transaction((tx) => {
@@ -255,12 +263,14 @@ export function ProjectsContextProvider(props) {
 	return (
 		<ProjectsContext.Provider
 			value={{
+				getHour,
 				projects,
 				mainGoal,
 				addReason,
 				getMinute,
 				addProject,
 				mainGoalId,
+				refreshHour,
 				renameProject,
 				refreshMinute,
 				removeProject,

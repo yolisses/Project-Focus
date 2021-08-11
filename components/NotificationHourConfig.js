@@ -5,21 +5,39 @@ import { useProjects } from '../contexts/ProjectsContext';
 export function NotificationHourConfig() {
 	const isAm = true;
 
+	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
 
+	const { refreshHour, getHour } = useProjects();
 	const { refreshMinute, getMinute } = useProjects();
 
-	const endEditingMinutes = (e) => {
+	const endEditingHour = (e) => {
+		const hour = parseInt(e.nativeEvent.text);
+		if (0 <= hour && hour < 12) refreshHour(hour, setHour);
+		else getHour(setHour);
+	};
+
+	const endEditingMinute = (e) => {
 		const minute = parseInt(e.nativeEvent.text);
 		if (0 <= minute && minute < 60) refreshMinute(minute, setMinute);
 		else getMinute(setMinute);
 	};
 
-	useEffect(() => getMinute(setMinute), []);
+	useEffect(() => {
+		getHour(setHour);
+		getMinute(setMinute);
+	}, []);
 
 	return (
 		<View style={styles.container}>
-			<TextInput maxLength={2} style={styles.input} keyboardType='number-pad' />
+			<TextInput
+				maxLength={2}
+				style={styles.input}
+				keyboardType='number-pad'
+				value={'' + hour}
+				onChangeText={setHour}
+				onEndEditing={endEditingHour}
+			/>
 			<Text style={styles.divisor}>:</Text>
 			<TextInput
 				maxLength={2}
@@ -27,7 +45,7 @@ export function NotificationHourConfig() {
 				keyboardType='number-pad'
 				value={'' + minute}
 				onChangeText={setMinute}
-				onEndEditing={endEditingMinutes}
+				onEndEditing={endEditingMinute}
 			/>
 			<View style={styles.ampmContainer}>
 				<Pressable onPress={() => setIsAm(true)}>
