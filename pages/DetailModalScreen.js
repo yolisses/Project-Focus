@@ -40,7 +40,7 @@ export function DetailModalScreen(props) {
 
 	const expand = () => {
 		setExpanded(
-			reasons && reasons.length && selectedProject.id !== mainGoalId ? 270 : 160
+			reasons && reasons.length && selectedProject.id !== mainGoalId ? 270 : 150
 		);
 	};
 

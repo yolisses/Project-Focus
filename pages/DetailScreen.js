@@ -85,7 +85,7 @@ export function DetailScreen(props) {
 						item.id !== mainGoalId ? (
 							<SetAsMainGoalButton onPress={onMainButtonPress} />
 						) : (
-							<CurrentMainGoalWarning onLongPress={onMainButtonPress} />
+							<CurrentMainGoalWarning onPress={onMainButtonPress} />
 						)
 					) : (
 						<View style={styles.confirmation}>

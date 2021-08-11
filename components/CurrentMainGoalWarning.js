@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Text, StyleSheet, Pressable } from 'react-native';
 
-export function CurrentMainGoalWarning(props) {
+export function CurrentMainGoalWarning({ onPress }) {
 	return (
-		<Pressable style={{ ...styles.button }} onLongPress={props.onLongPress}>
+		<Pressable style={{ ...styles.button }} onPress={onPress}>
 			<Text style={{ ...styles.text }}>THE CURRENT MAIN GOAL</Text>
 		</Pressable>
 	);
