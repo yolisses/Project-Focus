@@ -3,10 +3,10 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function NotificationHourConfig() {
-	const [isAm, setIsAm] = useState(true);
+	const [isAm, setIsAm] = useState(null);
 
-	const [hour, setHour] = useState(0);
-	const [minute, setMinute] = useState(0);
+	const [hour, setHour] = useState(null);
+	const [minute, setMinute] = useState(null);
 
 	const { refreshHour, getHour } = useProjects();
 	const { refreshMinute, getMinute } = useProjects();
@@ -48,7 +48,7 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={'' + hour}
+				value={minute !== null ? '' + hour : ''}
 				onChangeText={setHour}
 				onEndEditing={endEditingHour}
 			/>
@@ -57,18 +57,28 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={'' + minute}
+				value={minute !== null ? '' + minute : minute}
 				onChangeText={setMinute}
 				onEndEditing={endEditingMinute}
 			/>
 			<View style={styles.ampmContainer}>
 				<Pressable onPress={() => setIsAm(true)}>
-					<Text style={{ ...styles.ampm, ...(isAm && styles.selected) }}>
+					<Text
+						style={{
+							...styles.ampm,
+							...(isAm !== null && isAm && styles.selected),
+						}}
+					>
 						AM
 					</Text>
 				</Pressable>
 				<Pressable onPress={() => setIsAm(false)}>
-					<Text style={{ ...styles.ampm, ...(!isAm && styles.selected) }}>
+					<Text
+						style={{
+							...styles.ampm,
+							...(isAm !== null && !isAm && styles.selected),
+						}}
+					>
 						PM
 					</Text>
 				</Pressable>
