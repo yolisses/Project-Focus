@@ -273,6 +273,8 @@ export function ProjectsContextProvider(props) {
 				renameProject,
 				refreshMinute,
 				removeProject,
+				setIntVariable,
+				getIntVariable,
 				reorderProjects,
 				notificationHour,
 				getProjectReasons,
