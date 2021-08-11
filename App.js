@@ -3,7 +3,6 @@ import 'react-native-gesture-handler';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNavigationContainerRef } from '@react-navigation/native';
 import { ProjectsContextProvider } from './contexts/ProjectsContext';
 
 import { Logo } from './components/Logo';
@@ -19,22 +18,16 @@ import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
-	const navigationRef = createNavigationContainerRef();
-
-	const navigate = (name, params) => {
-		if (navigationRef.isReady()) navigationRef.navigate(name, params);
-	};
-
 	return (
 		<ProjectsContextProvider>
-			<NavigationContainer ref={navigationRef}>
+			<NavigationContainer>
 				<Stack.Navigator>
 					<Stack.Screen
 						name='Home'
 						component={HomeScreen}
 						options={{
 							headerTitle: () => <Logo />,
-							headerRight: () => <OptionsButton navigate={navigate} />,
+							headerRight: () => <OptionsButton />,
 						}}
 					/>
 					<Stack.Screen
