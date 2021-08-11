@@ -27,18 +27,6 @@ export function ProjectsContextProvider(props) {
 		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
 	};
 
-	const changeNotificationHour = (notificationHour) => {
-		setIntVariable('notificationHour', notificationHour, setNotificationHour);
-	};
-
-	const changeNotificationMinute = (notificationMinute) => {
-		setIntVariable(
-			'notificationMinute',
-			notificationMinute,
-			setNotificationMinute
-		);
-	};
-
 	const setIntVariable = (name, value, callbackSet) => {
 		callbackSet(value);
 		db.transaction((tx) => {
@@ -52,14 +40,13 @@ export function ProjectsContextProvider(props) {
 		});
 	};
 
-	// const deleteIntVariable = (name, callbackSet) => {
-	// 	// callbackSet();
-	// 	db.transaction((tx) => {
-	// 		tx.executeSql('remove from intVariables where name = ?;', [name], () => {
-	// 			getIntVariable(name, callbackSet);
-	// 		});
-	// 	});
-	// };
+	const removeIntVariable = (name, callbackSet) => {
+		db.transaction((tx) => {
+			tx.executeSql('delete from intVariables where name = ?;', [name], () => {
+				getIntVariable(name, callbackSet);
+			});
+		});
+	};
 
 	const getIntVariable = (name, foundCallback) => {
 		db.transaction((tx) => {
@@ -68,6 +55,21 @@ export function ProjectsContextProvider(props) {
 				[name],
 				(_, { rows: { _array } }) => {
 					foundCallback(_array[0]?.value);
+				}
+			);
+		});
+	};
+
+	const removeMainGoalIdIfTheProjectNotExists = () => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				`select * from projects where id = ?;`,
+				[mainGoalId],
+				(_, { rows: { _array } }) => {
+					if (!_array.length) {
+						removeIntVariable('mainGoalId', setMainGoalId);
+					}
+					console.error(_array);
 				}
 			);
 		});
@@ -173,7 +175,6 @@ export function ProjectsContextProvider(props) {
 	};
 
 	const removeProject = (id) => {
-		// if (id === mainGoalId) deleteIntVariable('mainGoalId', setMainGoalId);
 		db.transaction(
 			(tx) => {
 				tx.executeSql('delete from projects where id = (?)', [id], () => {
@@ -185,6 +186,7 @@ export function ProjectsContextProvider(props) {
 			null,
 			refreshProjects
 		);
+		removeMainGoalIdIfTheProjectNotExists();
 	};
 
 	const renameProject = (id, text) => {
@@ -230,6 +232,8 @@ export function ProjectsContextProvider(props) {
 		getIntVariable('mainGoalId', setMainGoalId);
 		getIntVariable('notificationHour', setNotificationHour);
 		getIntVariable('notificationMinute', setNotificationMinute);
+
+		removeMainGoalIdIfTheProjectNotExists();
 	}, []);
 
 	const getMainGoal = () => {
@@ -255,8 +259,6 @@ export function ProjectsContextProvider(props) {
 				getProjectReasons,
 				notificationMinute,
 				setMainGoalId: changeMainGoalId,
-				setNotificationHour: changeNotificationHour,
-				setNotificationMinute: changeNotificationMinute,
 			}}
 		>
 			{props.children}

@@ -1,22 +1,20 @@
 import React from 'react';
-import { HomeScreen } from './pages/HomeScreen';
-
 import 'react-native-gesture-handler';
 
-import { createNavigationContainerRef } from '@react-navigation/native';
-
-import { NavigationContainer } from '@react-navigation/native';
-
 import { createStackNavigator } from '@react-navigation/stack';
-import { ChangeScreen } from './pages/ChangeScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNavigationContainerRef } from '@react-navigation/native';
 import { ProjectsContextProvider } from './contexts/ProjectsContext';
 
-import { OptionsScreen } from './pages/OptionsScreen';
-import { OptionsButton } from './components/OptionsButton';
 import { Logo } from './components/Logo';
-import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
+import { OptionsButton } from './components/OptionsButton';
+
+import { HomeScreen } from './pages/HomeScreen';
 import { AboutScreen } from './pages/AboutScreen';
+import { ChangeScreen } from './pages/ChangeScreen';
+import { OptionsScreen } from './pages/OptionsScreen';
 import { FeedbackScreen } from './pages/FeedbackScreen';
+import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 
 const Stack = createStackNavigator();
 
