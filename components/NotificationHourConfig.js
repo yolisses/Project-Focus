@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { getIntVariable, setIntVariable } from '../contexts/ProjectsContext';
 import { useVariable } from '../database/useVariable';
 
 export function NotificationHourConfig() {
 	const [isAm, setIsAm] = useState(null);
 
-	const [hour, setHour] = useState(null);
+	const [hour, setHour] = useVariable('hour');
+	const [editHour, setEditHour] = useState(hour);
 
 	const [minute, setMinute] = useVariable('minute');
 	const [editMinute, setEditMinute] = useState(minute);
 
-	const setHourModulized = (hour) => {
-		setHour(hour % 12);
-	};
-
 	const endEditingHour = (e) => {
-		const hour = parseInt(e.nativeEvent.text);
-		validateAndChangeHour(hour);
-	};
-
-	const validateAndChangeHour = (hour) => {
-		if (0 <= hour && hour < 12)
-			setIntVariable('hour', hour + (isAm ? 0 : 12), setHourModulized);
-		else getIntVariable('hour', setHourModulized);
+		const newValue = parseInt(e.nativeEvent.text);
+		if (0 <= newValue && newValue < 12) setHour(newValue + (isAm ? 0 : 12));
+		else setEditHour(hour % 12);
 	};
 
 	const endEditingMinute = (e) => {
@@ -33,30 +24,30 @@ export function NotificationHourConfig() {
 	};
 
 	useEffect(() => {
-		getIntVariable('hour', (hour) => {
-			setHourModulized(hour);
-			setIsAm(hour < 12);
-		});
-	}, []);
-
-	useEffect(() => {
-		validateAndChangeHour(hour);
+		if (isAm !== null && isAm && hour >= 12) {
+			setHour(hour - 12);
+		} else if (isAm !== null && !isAm && hour < 12) {
+			setHour(hour + 12);
+		}
 	}, [isAm]);
 
 	useEffect(() => {
-		if (editMinute !== minute) setEditMinute(minute);
+		setEditMinute(minute);
 	}, [minute]);
+
+	useEffect(() => {
+		setIsAm(hour < 12);
+		setEditHour(hour % 12);
+	}, [hour]);
 
 	return (
 		<View style={styles.container}>
-			<Text>{minute}</Text>
-			<Text>{editMinute}</Text>
 			<TextInput
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={minute !== null ? '' + hour : ''}
-				onChangeText={setHour}
+				value={editMinute !== null ? '' + editHour : ''}
+				onChangeText={setEditHour}
 				onEndEditing={endEditingHour}
 			/>
 			<Text style={styles.divisor}>:</Text>
