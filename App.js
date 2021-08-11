@@ -10,9 +10,9 @@ import { Logo } from './components/Logo';
 import { OptionsButton } from './components/OptionsButton';
 
 import { HomeScreen } from './pages/HomeScreen';
-import { AboutScreen } from './pages/AboutScreen';
 import { ChangeScreen } from './pages/ChangeScreen';
 import { OptionsScreen } from './pages/OptionsScreen';
+import { WelcomeScreen } from './pages/WelcomeScreen';
 import { FeedbackScreen } from './pages/FeedbackScreen';
 import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 
@@ -58,12 +58,11 @@ export default function App() {
 						options={{ headerTitle: Logo }}
 					/>
 					<Stack.Screen
-						name='About'
-						component={AboutScreen}
+						name='Welcome'
+						component={WelcomeScreen}
 						options={{
 							headerShown: false,
 						}}
-						// options={{ headerTitle: 'About' }}
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>

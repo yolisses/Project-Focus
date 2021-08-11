@@ -4,8 +4,8 @@ import { OptionsListItem } from '../components/OptionListItem';
 
 import {
 	faBell,
-	faStickyNote,
 	faCommentAlt,
+	faHandSpock,
 } from '@fortawesome/free-regular-svg-icons';
 
 export function OptionsScreen() {
@@ -14,8 +14,8 @@ export function OptionsScreen() {
 			<OptionsListItem navigateTo={'NotificationConfig'} icon={faBell}>
 				Cofigure notifications
 			</OptionsListItem>
-			<OptionsListItem navigateTo={'About'} icon={faStickyNote}>
-				About
+			<OptionsListItem navigateTo={'Welcome'} icon={faHandSpock}>
+				Welcome page
 			</OptionsListItem>
 			<OptionsListItem navigateTo={'Feedback'} icon={faCommentAlt}>
 				Feedback

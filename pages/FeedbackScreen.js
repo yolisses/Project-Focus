@@ -18,7 +18,7 @@ export function FeedbackScreen() {
 			</TouchableOpacity>
 			<Text style={styles.description}>
 				You can tell us about anything. The experience, features, bugs,
-				suggestions, what you think about pizza, anything.
+				suggestions, pizza, anything.
 			</Text>
 		</View>
 	);
