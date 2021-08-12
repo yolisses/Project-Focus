@@ -83,11 +83,12 @@ export function scheduleNotification() {
 	getMainGoal((mainGoal) => {
 		getIntVariable('hour', (hour) => {
 			getIntVariable('minute', (minute) => {
-				const miliSecondsOnADay = 24 * 60 * 60 * 1000;
+				const miliSecondsOnADay = 1 * 60 * 60 * 1000;
 				const trigger = new Date(Date.now() + miliSecondsOnADay);
 				trigger.setHours(hour);
 				trigger.setMinutes(minute);
 				trigger.setSeconds(0);
+				console.error(JSON.stringify(trigger));
 				(async () =>
 					await Notifications.scheduleNotificationAsync({
 						content: {
@@ -98,7 +99,7 @@ export function scheduleNotification() {
 							badge: false,
 							categoryIdentifier: 'identificador',
 						},
-						trigger: { seconds: 2 },
+						trigger,
 					}))();
 			});
 		});
