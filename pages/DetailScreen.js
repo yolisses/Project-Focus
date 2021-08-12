@@ -66,7 +66,6 @@ export function DetailScreen(props) {
 
 	return (
 		<ScrollView>
-			<Text>{mainGoalId}</Text>
 			<Pressable style={styles.container} onPress={onPressModal}>
 				{changingTitle && top ? (
 					<View style={styles.underline}>

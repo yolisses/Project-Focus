@@ -84,7 +84,6 @@ export function HomeScreen() {
 
 	return (
 		<>
-			<Text>{Math.random()}</Text>
 			<View
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
