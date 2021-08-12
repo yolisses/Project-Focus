@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { closeNotificationsAndScheduleNext } from '../Notification';
-
 import { db, getIntVariable } from '../database/database';
 import { useProjects } from './ProjectsContext';
 import { useVariable } from '../database/useVariable';
@@ -16,11 +14,6 @@ export function MainGoalContextProvider(props) {
 	const [mainGoal, setMainGoal] = useState();
 
 	const { projects } = useProjects();
-
-	const changeMainGoalId = (newValue) => {
-		closeNotificationsAndScheduleNext();
-		setMainGoalId(newValue);
-	};
 
 	const removeMainGoalIdIfTheProjectNotExists = () => {
 		getIntVariable('mainGoalId', (mainGoalId) => {
@@ -60,7 +53,7 @@ export function MainGoalContextProvider(props) {
 				getMainGoal,
 				setMainGoal,
 				setMainGoalId,
-				changeMainGoalId,
+				deleteMainGoalId,
 				removeMainGoalIdIfTheProjectNotExists,
 			}}
 		>

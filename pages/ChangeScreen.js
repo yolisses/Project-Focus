@@ -10,7 +10,7 @@ import { useMainGoal } from '../contexts/MainGoalContext';
 export function ChangeScreen(props) {
 	const navigation = useNavigation();
 	const [text, setText] = useState('');
-	const { mainGoal, setMainGoalId } = useMainGoal();
+	const { mainGoal, setMainGoalId, deleteMainGoalId } = useMainGoal();
 	const { addReason } = useProjects();
 
 	async function saveReason() {
@@ -20,16 +20,18 @@ export function ChangeScreen(props) {
 		addReason(mainGoal.id, text);
 
 		const id = props?.route?.params?.nextMainGoal?.id;
-		setMainGoalId(id);
+		if (id === undefined) deleteMainGoalId();
+		else setMainGoalId(id);
 
 		setText('');
 		navigation.navigate('Home');
+		closeAndPrepareNotifications();
 	}
 
 	useEffect(() => {
 		if (!mainGoal) {
 			navigation.navigate('Home');
-			closeAndPrepareNotifications();
+			// closeAndPrepareNotifications();
 		}
 	}, []);
 

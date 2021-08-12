@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { View, Text, Image, BackHandler } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { getIntVariable } from '../database/database';
@@ -72,10 +72,6 @@ export function HomeScreen() {
 					}}
 					style={{ marginTop: 4 }}
 				/>
-
-				<View
-					style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
-				></View>
 			</View>
 			<DetailModalScreen
 				modalizeRef={modalizeRef}
