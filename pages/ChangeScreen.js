@@ -5,12 +5,12 @@ import { useProjects } from '../contexts/ProjectsContext';
 
 import { useNavigation } from '@react-navigation/native';
 import { closeNotificationsAndScheduleNext } from '../Notification';
+import { useMainGoal } from '../contexts/MainGoalContext';
 
 export function ChangeScreen(props) {
 	const navigation = useNavigation();
 	const [text, setText] = useState('');
-	const { mainGoal, setMainGoalId } = useProjects();
-
+	const { mainGoal, setMainGoalId } = useMainGoal();
 	const { addReason } = useProjects();
 
 	async function saveReason() {

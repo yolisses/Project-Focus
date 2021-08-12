@@ -1,93 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
-import * as SQLite from 'expo-sqlite';
-
-import { closeNotificationsAndScheduleNext } from '../Notification';
-
-function openDatabase() {
-	const db = SQLite.openDatabase('db.db');
-	return db;
-}
-
-const db = openDatabase();
-
+import { db } from '../database/database';
 const ProjectsContext = createContext();
-
-export function getIntVariable(name, foundCallback) {
-	db.transaction((tx) => {
-		tx.executeSql(
-			`select * from intVariables where name = ?;`,
-			[name],
-			(_, { rows: { _array } }) => {
-				foundCallback(_array[0]?.value);
-			}
-		);
-	});
-}
-
-export function getMainGoal(foundCallback) {
-	getIntVariable('mainGoalId', (mainGoalId) => {
-		db.transaction((tx) => {
-			tx.executeSql(
-				`select * from projects where id = ?;`,
-				[mainGoalId],
-				(_, { rows: { _array } }) => {
-					console.error('encontrou: ', _array[0]);
-					foundCallback(_array[0]);
-				}
-			);
-		});
-	});
-}
-
-export const setIntVariable = (name, value, callbackSet) => {
-	callbackSet(value);
-	db.transaction((tx) => {
-		tx.executeSql(
-			'insert or replace into intVariables (name, value) values (?, ?);',
-			[name, value],
-			() => {
-				getIntVariable(name, callbackSet);
-			}
-		);
-	});
-};
 
 export function ProjectsContextProvider(props) {
 	const [projects, setProjects] = useState([]);
-	const [mainGoalId, setMainGoalId] = useState('');
-
-	const [mainGoal, setMainGoal] = useState();
-
-	const changeMainGoalId = (mainGoalId) => {
-		closeNotificationsAndScheduleNext();
-		setIntVariable('mainGoalId', mainGoalId, setMainGoalId);
-	};
-
-	const removeIntVariable = (name, callbackSet) => {
-		db.transaction((tx) => {
-			tx.executeSql('delete from intVariables where name = ?;', [name], () => {
-				getIntVariable(name, callbackSet);
-			});
-		});
-	};
-
-	const removeMainGoalIdIfTheProjectNotExists = () => {
-		getIntVariable('mainGoalId', (mainGoalId) => {
-			db.transaction((tx) => {
-				tx.executeSql(
-					`select * from projects where id = ?;`,
-					[mainGoalId],
-					(_, { rows: { _array } }) => {
-						if (!_array.length) {
-							console.error('removing mainGoalId');
-							removeIntVariable('mainGoalId', setMainGoalId);
-						}
-					}
-				);
-			});
-		});
-	};
 
 	const createTablesIfNotExists = () => {
 		db.transaction((tx) => {
@@ -196,7 +112,6 @@ export function ProjectsContextProvider(props) {
 			null,
 			refreshProjects
 		);
-		removeMainGoalIdIfTheProjectNotExists();
 	};
 
 	const renameProject = (id, text) => {
@@ -265,36 +180,23 @@ export function ProjectsContextProvider(props) {
 		createTablesIfNotExists();
 		// mockProjects();
 		refreshProjects();
-		getIntVariable('mainGoalId', setMainGoalId);
 
 		initializeDefaultValue('minute', 20);
 		initializeDefaultValue('hour', 6);
 
 		initializeDefaultValue('welcome', 1);
-
-		removeMainGoalIdIfTheProjectNotExists();
 	}, []);
-
-	useEffect(() => {
-		getMainGoal(setMainGoal);
-	}, [mainGoalId]);
 
 	return (
 		<ProjectsContext.Provider
 			value={{
 				projects,
-				mainGoal,
 				addReason,
 				addProject,
-				mainGoalId,
-				getMainGoal,
 				renameProject,
 				removeProject,
-				setIntVariable,
-				getIntVariable,
 				reorderProjects,
 				getProjectReasons,
-				setMainGoalId: changeMainGoalId,
 			}}
 		>
 			{props.children}

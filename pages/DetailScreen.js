@@ -13,11 +13,13 @@ import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { LeaveMainGoalLink } from '../components/LeaveMainGoalLink';
 import { ReasonListItem } from '../components/ReasonListItem';
 import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
+import { useMainGoal } from '../contexts/MainGoalContext';
 import { useProjects } from '../contexts/ProjectsContext';
 
 export function DetailScreen(props) {
 	const { item, reasons, expand, changingTitle, top, setChangingTitle } = props;
-	const { mainGoalId, setMainGoalId, renameProject } = useProjects();
+	const { renameProject } = useProjects();
+	const { mainGoalId, setMainGoalId } = useMainGoal();
 
 	const [tryingToChange, setTryingToChange] = useState(false);
 	useEffect(() => {
@@ -64,6 +66,7 @@ export function DetailScreen(props) {
 
 	return (
 		<ScrollView>
+			<Text>{mainGoalId}</Text>
 			<Pressable style={styles.container} onPress={onPressModal}>
 				{changingTitle && top ? (
 					<View style={styles.underline}>

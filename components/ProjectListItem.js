@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 import { StyleSheet } from 'react-native';
-import { useProjects } from '../contexts/ProjectsContext';
+import { useMainGoal } from '../contexts/MainGoalContext';
 
 export function ProjectListItem(props) {
 	const { item, drag, isActive, open, setSelectedProject } = props;
 
-	const { mainGoalId } = useProjects();
+	const { mainGoalId } = useMainGoal();
 
 	const onPress = () => {
 		open();

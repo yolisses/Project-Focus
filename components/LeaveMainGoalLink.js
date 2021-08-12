@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useProjects } from '../contexts/ProjectsContext';
 
 import { useNavigation } from '@react-navigation/native';
+import { useMainGoal } from '../contexts/MainGoalContext';
 
 export function LeaveMainGoalLink({ text, nextMainGoal }) {
-	const { mainGoal } = useProjects();
+	const { mainGoal } = useMainGoal();
 
 	const navigation = useNavigation();
 

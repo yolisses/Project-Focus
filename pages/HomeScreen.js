@@ -17,8 +17,10 @@ import { closeNotificationsAndScheduleNext } from '../Notification';
 import * as Notifications from 'expo-notifications';
 import { useNavigation } from '@react-navigation/native';
 
+import { getIntVariable } from '../database/database';
+
 export function HomeScreen() {
-	const { projects, reorderProjects, getIntVariable } = useProjects();
+	const { projects, reorderProjects } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
@@ -30,6 +32,8 @@ export function HomeScreen() {
 	};
 
 	const renderItem = useCallback((props) => {
+		closeNotificationsAndScheduleNext();
+
 		return (
 			<ProjectListItem
 				{...props}
@@ -57,7 +61,7 @@ export function HomeScreen() {
 
 	useEffect(() => {
 		(async () => {
-			if (!thereIsSomeActiveNotification()) {
+			if (!(await thereIsSomeActiveNotification())) {
 				scheduleNotification();
 			}
 		})();
@@ -80,6 +84,7 @@ export function HomeScreen() {
 
 	return (
 		<>
+			<Text>{Math.random()}</Text>
 			<View
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
