@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WeekdayButton } from './WeekdayButton';
 
-export function NotificationWeekdayConfig() {
-	const days = ['MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT', 'SUN'];
+import { weekdays } from '../misc/weekdays';
 
+export function NotificationWeekdayConfig() {
 	return (
 		<View style={styles.weekContainer}>
-			{days.map((day) => (
+			{weekdays.map((day) => (
 				<WeekdayButton day={day} key={day} />
 			))}
 		</View>

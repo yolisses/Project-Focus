@@ -5,8 +5,9 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
-import { getIntVariable } from './database/database';
+import { getIntVariableSync } from './database/database';
 import { getMainGoal } from './database/getMainGoal';
+import { weekdays } from './misc/weekdays';
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -79,30 +80,57 @@ export async function closeAndPrepareNotifications() {
 	})();
 }
 
-export function scheduleNotification() {
+function getNextNotificationDate(hour, minute, weekdays) {
+	const now = new Date(Date.now());
+	let result;
+	if (
+		weekdays[now.getDay()] === 1 &&
+		(now.getHours() < hour ||
+			(now.getHours() === hour && now.getMinutes() <= minute))
+	) {
+		result = new Date(Date.now());
+	} else {
+		const miliSecondsOnADay = 24 * 60 * 60 * 1000;
+		for (let i = 1; i <= 7; i++) {
+			const day = (now.getDay() + i) % 7;
+			if (weekdays[day] === 1) {
+				result = new Date(Date.now() + miliSecondsOnADay * i);
+				break;
+			}
+		}
+	}
+	if (result) {
+		result.setHours(hour);
+		result.setMinutes(minute);
+		result.setSeconds(0);
+	}
+	return result;
+}
+
+export async function scheduleNotification() {
+	const [hour, minute, weekdaysArray] = await Promise.all([
+		getIntVariableSync('hour'),
+		getIntVariableSync('minute'),
+		Promise.all([...weekdays.map((day) => getIntVariableSync(day))]),
+	]);
+
+	const trigger = getNextNotificationDate(hour, minute, weekdaysArray);
+
+	if (trigger === undefined) return undefined;
+
 	getMainGoal((mainGoal) => {
-		getIntVariable('hour', (hour) => {
-			getIntVariable('minute', (minute) => {
-				const miliSecondsOnADay = 1 * 60 * 60 * 1000;
-				const trigger = new Date(Date.now() + miliSecondsOnADay);
-				trigger.setHours(hour);
-				trigger.setMinutes(minute);
-				trigger.setSeconds(0);
-				console.error(JSON.stringify(trigger));
-				(async () =>
-					await Notifications.scheduleNotificationAsync({
-						content: {
-							title: 'Hello! Continue focusing on' + mainGoal?.text,
-							body: 'Will you continue on it?',
-							// sticky: true,
-							autoDismiss: false,
-							badge: false,
-							categoryIdentifier: 'identificador',
-						},
-						trigger,
-					}))();
-			});
-		});
+		(async () =>
+			await Notifications.scheduleNotificationAsync({
+				content: {
+					title: 'Hello! Continue focusing on' + mainGoal?.text,
+					body: 'Will you continue on it?',
+					// sticky: true,
+					autoDismiss: false,
+					badge: false,
+					categoryIdentifier: 'identificador',
+				},
+				trigger,
+			}))();
 	});
 }
 

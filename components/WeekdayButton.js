@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { getIntVariable, setIntVariable } from '../database/database';
+import { prepareNotifications } from '../Notification';
 
 export function WeekdayButton({ day }) {
 	const [active, setActive] = useState(0);
@@ -13,6 +14,7 @@ export function WeekdayButton({ day }) {
 
 	const togleActive = () => {
 		setIntVariable(day, active ? 0 : 1, setActive);
+		prepareNotifications();
 	};
 
 	return (
