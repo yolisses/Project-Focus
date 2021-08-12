@@ -5,6 +5,8 @@ import { closeNotificationsAndScheduleNext } from '../Notification';
 import { db, getIntVariable } from '../database/database';
 import { useProjects } from './ProjectsContext';
 import { useVariable } from '../database/useVariable';
+import { getMainGoal } from '../database/getMainGoal';
+
 const MainGoalContext = createContext();
 
 export function MainGoalContextProvider(props) {
@@ -35,20 +37,6 @@ export function MainGoalContextProvider(props) {
 					);
 				});
 			}
-		});
-	};
-
-	const getMainGoal = (foundCallback) => {
-		getIntVariable('mainGoalId', (mainGoalId) => {
-			db.transaction((tx) => {
-				tx.executeSql(
-					`select * from projects where id = ?;`,
-					[mainGoalId],
-					(_, { rows: { _array } }) => {
-						foundCallback(_array[0]);
-					}
-				);
-			});
 		});
 	};
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { useProjects } from '../contexts/ProjectsContext';
 
 import { useNavigation } from '@react-navigation/native';
-import { closeNotificationsAndScheduleNext } from '../Notification';
+import { closeAndPrepareNotifications } from '../Notification';
 import { useMainGoal } from '../contexts/MainGoalContext';
 
 export function ChangeScreen(props) {
@@ -29,7 +29,7 @@ export function ChangeScreen(props) {
 	useEffect(() => {
 		if (!mainGoal) {
 			navigation.navigate('Home');
-			closeNotificationsAndScheduleNext();
+			closeAndPrepareNotifications();
 		}
 	}, []);
 

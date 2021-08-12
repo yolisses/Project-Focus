@@ -1,23 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, Text, Image, BackHandler } from 'react-native';
-import { ProjectAddEntry } from '../components/ProjectAddEntry';
-import { ProjectListItem } from '../components/ProjectListItem';
-
-import { useCallback } from 'react';
-import DraggableFlatList from 'react-native-draggable-flatlist';
-
-import {
-	scheduleNotification,
-	thereIsSomeActiveNotification,
-} from '../Notification';
-import { useProjects } from '../contexts/ProjectsContext';
-import { DetailModalScreen } from './DetailModalScreen';
-import { closeNotificationsAndScheduleNext } from '../Notification';
-
-import * as Notifications from 'expo-notifications';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { View, Text, Image, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { getIntVariable } from '../database/database';
+
+import { DetailModalScreen } from './DetailModalScreen';
+import { useProjects } from '../contexts/ProjectsContext';
+import { ProjectAddEntry } from '../components/ProjectAddEntry';
+import { ProjectListItem } from '../components/ProjectListItem';
+
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import { useNotificationNavigation } from '../Notification';
 
 export function HomeScreen() {
 	const { projects, reorderProjects } = useProjects();
@@ -26,14 +19,14 @@ export function HomeScreen() {
 
 	const navigation = useNavigation();
 
+	useNotificationNavigation();
+
 	const modalizeRef = useRef();
 	const open = () => {
 		modalizeRef.current?.open();
 	};
 
 	const renderItem = useCallback((props) => {
-		closeNotificationsAndScheduleNext();
-
 		return (
 			<ProjectListItem
 				{...props}
@@ -51,36 +44,7 @@ export function HomeScreen() {
 				navigation.navigate('Welcome');
 			}
 		});
-
-		(async () => {
-			if (!(await thereIsSomeActiveNotification())) {
-				scheduleNotification();
-			}
-		})();
 	}, []);
-
-	useEffect(() => {
-		(async () => {
-			if (!(await thereIsSomeActiveNotification())) {
-				scheduleNotification();
-			}
-		})();
-	}, []);
-
-	const lastNotificationResponse = Notifications.useLastNotificationResponse();
-	const appPreviouslyOpen = useState(!!lastNotificationResponse);
-
-	useEffect(() => {
-		if (lastNotificationResponse) {
-			if (lastNotificationResponse.actionIdentifier === 'yes') {
-				closeNotificationsAndScheduleNext();
-				if (!appPreviouslyOpen) BackHandler.exitApp();
-			}
-			if (lastNotificationResponse.actionIdentifier === 'no') {
-				navigation.navigate('Change');
-			}
-		}
-	}, [lastNotificationResponse]);
 
 	return (
 		<>
@@ -109,12 +73,9 @@ export function HomeScreen() {
 					style={{ marginTop: 4 }}
 				/>
 
-				<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-					<Button
-						title='send notification'
-						onPress={() => scheduleNotification()}
-					/>
-				</View>
+				<View
+					style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+				></View>
 			</View>
 			<DetailModalScreen
 				modalizeRef={modalizeRef}

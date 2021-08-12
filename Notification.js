@@ -1,9 +1,12 @@
-import Constants from 'expo-constants';
+import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
-import { getMainGoal } from './contexts/ProjectsContext';
 
 import { getIntVariable } from './database/database';
+import { getMainGoal } from './database/getMainGoal';
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -51,37 +54,6 @@ export async function registerForPushNotificationsAsync() {
 	}
 }
 
-export function scheduleNotification() {
-	// getMainGoal((mainGoal) => {
-	// 	console.error('1');
-	// 	getIntVariable('hour', (hour) => {
-	// 		console.error('2');
-	// 		getIntVariable('minute', (hour) => {
-	// 			console.error('3');
-	// 			const miliSecondsOnADay = 24 * 60 * 60 * 1000;
-	// 			const trigger = new Date(Date.now() + miliSecondsOnADay);
-	// 			trigger.setHours(hour);
-	// 			trigger.setMinutes(minute);
-	// 			trigger.setSeconds(0);
-	// 			console.error(JSON.stringify(trigger));
-	// 			console.error('notificação schedulada, main goal ' + mainGoal);
-	// 			(async () =>
-	// 				await Notifications.scheduleNotificationAsync({
-	// 					content: {
-	// 						title: 'Hello! Continue focusing on' + mainGoal?.text,
-	// 						body: 'Will you continue on it?',
-	// 						// sticky: true,
-	// 						autoDismiss: false,
-	// 						badge: false,
-	// 						categoryIdentifier: 'identificador',
-	// 					},
-	// 					trigger: { seconds: 2 },
-	// 				}))();
-	// 		});
-	// 	});
-	// });
-}
-
 export async function thereIsSomeActiveNotification() {
 	const notifications = await Notifications.getPresentedNotificationsAsync();
 	return !!notifications && notifications.length > 0;
@@ -92,9 +64,66 @@ export async function thereIsSomeNotificationScheduled() {
 	return !!notifications && notifications.length > 0;
 }
 
-export async function closeNotificationsAndScheduleNext() {
-	Notifications.dismissAllNotificationsAsync();
-	if (!(await thereIsSomeNotificationScheduled())) {
-		scheduleNotification();
-	}
+export function prepareNotifications() {
+	(async () => {
+		if (!(await thereIsSomeActiveNotification())) {
+			scheduleNotification();
+		}
+	})();
 }
+
+export async function closeAndPrepareNotifications() {
+	(async () => {
+		await Notifications.dismissAllNotificationsAsync();
+		prepareNotifications();
+	})();
+}
+
+export function scheduleNotification() {
+	getMainGoal((mainGoal) => {
+		getIntVariable('hour', (hour) => {
+			getIntVariable('minute', (minute) => {
+				const miliSecondsOnADay = 24 * 60 * 60 * 1000;
+				const trigger = new Date(Date.now() + miliSecondsOnADay);
+				trigger.setHours(hour);
+				trigger.setMinutes(minute);
+				trigger.setSeconds(0);
+				(async () =>
+					await Notifications.scheduleNotificationAsync({
+						content: {
+							title: 'Hello! Continue focusing on' + mainGoal?.text,
+							body: 'Will you continue on it?',
+							// sticky: true,
+							autoDismiss: false,
+							badge: false,
+							categoryIdentifier: 'identificador',
+						},
+						trigger: { seconds: 2 },
+					}))();
+			});
+		});
+	});
+}
+
+export const useNotificationNavigation = () => {
+	const lastNotificationResponse = Notifications.useLastNotificationResponse();
+	const appPreviouslyOpen = useState(!!lastNotificationResponse);
+
+	const navigation = useNavigation();
+
+	useEffect(() => {
+		if (lastNotificationResponse) {
+			if (lastNotificationResponse.actionIdentifier === 'yes') {
+				closeAndPrepareNotifications();
+				if (!appPreviouslyOpen) BackHandler.exitApp();
+			}
+			if (lastNotificationResponse.actionIdentifier === 'no') {
+				navigation.navigate('Change');
+			}
+		}
+	}, [lastNotificationResponse]);
+
+	useEffect(() => {
+		prepareNotifications();
+	}, []);
+};
