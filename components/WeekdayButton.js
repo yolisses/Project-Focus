@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-import { getIntVariable, setIntVariable } from '../database/database';
+import { getIntVariable, setIntVariable } from '../database/intVariable';
 import { prepareNotifications } from '../Notification';
 
 export function WeekdayButton({ day }) {

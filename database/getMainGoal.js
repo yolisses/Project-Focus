@@ -1,4 +1,5 @@
-import { db, getIntVariable } from './database';
+import { db } from './database';
+import { getIntVariable } from './intVariable';
 
 export function getMainGoal(foundCallback) {
 	getIntVariable('mainGoalId', (mainGoalId) => {

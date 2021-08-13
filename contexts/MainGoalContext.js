@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { db, getIntVariable } from '../database/database';
+import { db } from '../database/database';
 import { useProjects } from './ProjectsContext';
 import { useVariable } from '../database/useVariable';
 import { getMainGoal } from '../database/getMainGoal';
+import { getIntVariable } from '../database/intVariable';
 
 const MainGoalContext = createContext();
 

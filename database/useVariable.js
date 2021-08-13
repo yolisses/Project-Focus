@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-import { getIntVariable, removeIntVariable, setIntVariable } from './database';
+import {
+	getIntVariable,
+	removeIntVariable,
+	setIntVariable,
+} from './intVariable';
 
 export const useVariable = (name, initialValue) => {
 	const [variable, setVariable] = useState(initialValue || null);

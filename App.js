@@ -16,10 +16,8 @@ import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 
 import { Logo } from './components/Logo';
 import { OptionsButton } from './components/OptionsButton';
-import {
-	createTablesIfNotExists,
-	initializeDefaultValue,
-} from './database/database';
+import { createTablesIfNotExists } from './database/database';
+import { initializeDefaultValue } from './database/intVariable';
 
 const Stack = createStackNavigator();
 

@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { View, Text, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import { getIntVariable } from '../database/database';
 
 import { DetailModalScreen } from './DetailModalScreen';
 import { useProjects } from '../contexts/ProjectsContext';
@@ -13,14 +10,14 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useNotificationNavigation } from '../Notification';
 import { DevLog } from '../components/DevLog';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
 
 export function HomeScreen() {
 	const { projects, reorderProjects } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
 
-	const navigation = useNavigation();
-
+	useWelcomeNavigation();
 	useNotificationNavigation();
 
 	const modalizeRef = useRef();
@@ -39,14 +36,6 @@ export function HomeScreen() {
 	}, []);
 
 	const keyExtractor = useCallback((item) => item.id.toString(), []);
-
-	useEffect(() => {
-		getIntVariable('welcome', (missing) => {
-			if (missing === 1) {
-				navigation.navigate('Welcome');
-			}
-		});
-	}, []);
 
 	return (
 		<>

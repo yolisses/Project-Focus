@@ -5,7 +5,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
-import { getIntVariableSync } from './database/database';
+import { getIntVariableSync } from './database/intVariable';
 import { getMainGoal } from './database/getMainGoal';
 import { weekdays } from './misc/weekdays';
 
