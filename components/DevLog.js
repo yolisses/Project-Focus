@@ -19,10 +19,26 @@ export function DevLog() {
 			<Text>Next notifications length: {nextNotifications.length}</Text>
 			{/* <Text>Next notifications: {JSON.stringify(nextNotifications)}</Text> */}
 			<Text>
-				Next notifications:{' '}
+				Next notifications:
 				{JSON.stringify(
 					nextNotifications.map(
 						(item) => 'dia ' + new Date(item.trigger.value).getDate()
+					)
+				)}
+			</Text>
+			<Text>
+				Next notifications:
+				{JSON.stringify(
+					nextNotifications.map(
+						(item) => 'hora ' + new Date(item.trigger.value).getHours()
+					)
+				)}
+			</Text>
+			<Text>
+				Next notifications:
+				{JSON.stringify(
+					nextNotifications.map(
+						(item) => 'minuto ' + new Date(item.trigger.value).getMinutes()
 					)
 				)}
 			</Text>

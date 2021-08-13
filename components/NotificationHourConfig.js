@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useVariable } from '../database/useVariable';
+import { prepareNotifications } from '../Notification';
 
 export function NotificationHourConfig() {
 	const [isAm, setIsAm] = useState(null);
@@ -15,12 +16,16 @@ export function NotificationHourConfig() {
 		const newValue = parseInt(e.nativeEvent.text);
 		if (0 <= newValue && newValue < 12) setHour(newValue + (isAm ? 0 : 12));
 		else setEditHour(hour % 12);
+
+		prepareNotifications();
 	};
 
 	const endEditingMinute = (e) => {
 		const newValue = parseInt(e.nativeEvent.text);
 		if (0 <= newValue && newValue < 60) setMinute(newValue);
 		else setEditMinute(minute);
+
+		prepareNotifications();
 	};
 
 	useEffect(() => {
@@ -40,13 +45,16 @@ export function NotificationHourConfig() {
 		setEditHour(hour % 12);
 	}, [hour]);
 
+	const canRender =
+		typeof editMinute === 'string' || typeof editMinute === 'number';
+
 	return (
 		<View style={styles.container}>
 			<TextInput
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={typeof editMinute === 'number' ? '' + editHour : ''}
+				value={canRender ? '' + editHour : ''}
 				onChangeText={setEditHour}
 				onEndEditing={endEditingHour}
 			/>
@@ -55,7 +63,7 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={typeof editMinute === 'number' ? '' + editMinute : ''}
+				value={canRender ? '' + editMinute : ''}
 				onChangeText={setEditMinute}
 				onEndEditing={endEditingMinute}
 			/>
