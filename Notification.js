@@ -76,7 +76,6 @@ export function prepareNotifications() {
 
 export async function closeAndPrepareNotifications() {
 	(async () => {
-		await Notifications.dismissAllNotificationsAsync();
 		prepareNotifications();
 	})();
 }
@@ -120,7 +119,8 @@ export async function scheduleNotification() {
 	if (trigger === undefined) return undefined;
 
 	getMainGoal((mainGoal) => {
-		(async () =>
+		(async () => {
+			await Notifications.dismissAllNotificationsAsync();
 			await Notifications.scheduleNotificationAsync({
 				content: {
 					title: 'Hello! Continue focusing on' + mainGoal?.text,
@@ -131,7 +131,8 @@ export async function scheduleNotification() {
 					categoryIdentifier: 'identificador',
 				},
 				trigger,
-			}))();
+			});
+		})();
 	});
 }
 

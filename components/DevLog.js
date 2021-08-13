@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { scheduledNotifications } from '../Notification';
 
 export function DevLog() {
 	const [nextNotifications, setNextNotifications] = useState([]);
 
-	useState(async () => {
+	useState(refreshData, []);
+
+	const refreshData = async () => {
 		const nextNotifications = await scheduledNotifications();
 		setNextNotifications(nextNotifications);
-	}, []);
+	};
 
 	return (
 		<View>
-			<Text>Next notifications length {nextNotifications.length}</Text>
-			<Text>Next notifications {JSON.stringify(nextNotifications)}</Text>
+			<Button title='refresh' onPress={refreshData} />
+			<Text>random: {Math.random()}</Text>
+			<Text>Next notifications length: {nextNotifications.length}</Text>
+			{/* <Text>Next notifications: {JSON.stringify(nextNotifications)}</Text> */}
+			<Text>
+				Next notifications:{' '}
+				{JSON.stringify(
+					nextNotifications.map(
+						(item) => 'dia ' + new Date(item.trigger.value).getDate()
+					)
+				)}
+			</Text>
 		</View>
 	);
 }

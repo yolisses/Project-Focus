@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,10 +16,21 @@ import { NotificationConfigScreen } from './pages/NotificationConfigScreen';
 
 import { Logo } from './components/Logo';
 import { OptionsButton } from './components/OptionsButton';
+import {
+	createTablesIfNotExists,
+	initializeDefaultValue,
+} from './database/database';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+	useEffect(() => {
+		createTablesIfNotExists();
+		initializeDefaultValue('minute', 20);
+		initializeDefaultValue('hour', 6);
+		initializeDefaultValue('welcome', 1);
+	}, []);
+
 	return (
 		<ProjectsContextProvider>
 			<MainGoalContextProvider>

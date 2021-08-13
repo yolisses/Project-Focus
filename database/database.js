@@ -7,6 +7,70 @@ function openDatabase() {
 
 export const db = openDatabase();
 
+export const createTablesIfNotExists = () => {
+	db.transaction((tx) => {
+		tx.executeSql(
+			`
+			create table if not exists projects (
+				id integer primary key not null,
+				text text not null,
+				position integer,
+				created_at timestamp default current_timestamp);
+			`
+		);
+		tx.executeSql(
+			`
+			create table if not exists reasons (
+				id integer primary key not null,
+				projectId integer not null, 
+				text text,
+				created_at timestamp default current_timestamp,
+				 foreign key(projectId) references projects(id));
+			`
+		);
+		tx.executeSql(
+			`
+			create table if not exists intVariables (
+				name text primary key not null,
+				value int);
+			`
+		);
+	});
+};
+
+export const dropTablesIfExists = () => {
+	db.transaction((tx) => {
+		tx.executeSql(`drop table if exists projects;`);
+		tx.executeSql(`drop table if exists reasons;`);
+		tx.executeSql(`drop table if exists intVariables;`);
+	});
+};
+
+export const initializeDefaultValue = (name, value, callbackSet) => {
+	db.transaction((tx) => {
+		tx.executeSql(
+			`select * from intVariables where name = ?;`,
+			[name],
+			(_, { rows: { _array } }) => {
+				const res = _array[0]?.value;
+				if (res === undefined) {
+					db.transaction((tx) => {
+						tx.executeSql(
+							'insert into intVariables (name, value) values (?, ?);',
+							[name, value],
+							() => {
+								if (callbackSet) callbackSet(value);
+							}
+						);
+					});
+				} else {
+					if (callbackSet) callbackSet(res);
+				}
+			}
+		);
+	});
+};
+
 export function getIntVariable(name, foundCallback) {
 	db.transaction((tx) => {
 		tx.executeSql(
