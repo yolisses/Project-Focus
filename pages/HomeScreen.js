@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 
 import { DetailModalScreen } from './DetailModalScreen';
@@ -7,7 +7,10 @@ import { ProjectAddEntry } from '../components/ProjectAddEntry';
 import { ProjectListItem } from '../components/ProjectListItem';
 
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { useNotificationNavigation } from '../Notification';
+import {
+	prepareNotifications,
+	useNotificationNavigation,
+} from '../Notification';
 import { DevLog } from '../components/DevLog';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
@@ -36,6 +39,8 @@ export function HomeScreen() {
 	}, []);
 
 	const keyExtractor = useCallback((item) => item.id.toString(), []);
+
+	prepareNotifications();
 
 	return (
 		<>

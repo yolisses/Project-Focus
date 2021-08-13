@@ -2,21 +2,20 @@ import React from 'react';
 
 import { Pressable, StyleSheet, Text } from 'react-native';
 
+import { useVariable } from '../database/useVariable';
 import { prepareNotifications } from '../Notification';
 
-import { useVariable } from '../database/useVariable';
-
 export function WeekdayButton({ day }) {
-	const [active, setActive] = useVariable(day, 0);
+	const [active, setActive] = useVariable(day);
 
 	const togleActive = () => {
 		setActive(active ? 0 : 1);
-		// prepareNotifications();
+		prepareNotifications();
 	};
 
 	return (
 		<Pressable key={day} onPress={togleActive}>
-			<Text style={active ? styles.blue : styles.text}>{day}</Text>
+			<Text style={active === 0 ? styles.blue : styles.text}>{day}</Text>
 		</Pressable>
 	);
 }

@@ -68,7 +68,6 @@ export async function thereIsSomeNotificationScheduled() {
 export function prepareNotifications() {
 	(async () => {
 		if (!(await thereIsSomeActiveNotification())) {
-			await Notifications.cancelAllScheduledNotificationsAsync();
 			scheduleNotification();
 		}
 	})();
@@ -76,6 +75,7 @@ export function prepareNotifications() {
 
 export async function closeAndPrepareNotifications() {
 	(async () => {
+		Notifications.dismissAllNotificationsAsync();
 		prepareNotifications();
 	})();
 }
@@ -108,19 +108,19 @@ function getNextNotificationDate(hour, minute, weekdays) {
 }
 
 export async function scheduleNotification() {
-	const [hour, minute, weekdaysArray] = await Promise.all([
-		getIntVariableSync('hour'),
-		getIntVariableSync('minute'),
-		Promise.all([...weekdays.map((day) => getIntVariableSync(day))]),
-	]);
-
-	const trigger = getNextNotificationDate(hour, minute, weekdaysArray);
-
-	if (trigger === undefined) return undefined;
-
 	getMainGoal((mainGoal) => {
 		(async () => {
-			await Notifications.dismissAllNotificationsAsync();
+			const [hour, minute, weekdaysArray] = await Promise.all([
+				getIntVariableSync('hour'),
+				getIntVariableSync('minute'),
+				Promise.all([...weekdays.map((day) => getIntVariableSync(day))]),
+			]);
+
+			const trigger = getNextNotificationDate(hour, minute, weekdaysArray);
+
+			if (trigger === undefined) return undefined;
+
+			await Notifications.cancelAllScheduledNotificationsAsync();
 			await Notifications.scheduleNotificationAsync({
 				content: {
 					title: 'Hello! Continue focusing on' + mainGoal?.text,

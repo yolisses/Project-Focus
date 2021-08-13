@@ -18,7 +18,7 @@ import { Button } from '../components/Button';
 import { SkipButton } from '../components/SkipButton';
 
 import { useNavigation } from '@react-navigation/core';
-import { setIntVariable } from '../database/database';
+import { setIntVariable } from '../database/intVariable';
 
 export function WelcomeScreen() {
 	const _renderItem = ({ item, index }) => {

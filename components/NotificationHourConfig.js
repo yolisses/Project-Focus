@@ -46,7 +46,7 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={editMinute !== null ? '' + editHour : ''}
+				value={typeof editMinute === 'number' ? '' + editHour : ''}
 				onChangeText={setEditHour}
 				onEndEditing={endEditingHour}
 			/>
@@ -55,7 +55,7 @@ export function NotificationHourConfig() {
 				maxLength={2}
 				style={styles.input}
 				keyboardType='number-pad'
-				value={editMinute !== null ? '' + editMinute : ''}
+				value={typeof editMinute === 'number' ? '' + editMinute : ''}
 				onChangeText={setEditMinute}
 				onEndEditing={endEditingMinute}
 			/>
