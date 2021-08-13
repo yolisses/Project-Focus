@@ -1,16 +1,20 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text } from 'react-native';
 import { DevLog } from '../components/DevLog';
 import { NotificationHourConfig } from '../components/NotificationHourConfig';
 import { NotificationWeekdayConfig } from '../components/NotificationWeekdayConfig';
+import { registerForPushNotificationsAsync } from '../Notification';
 
 export function NotificationConfigScreen() {
+	registerForPushNotificationsAsync();
+
 	return (
 		<ScrollView style={styles.page}>
 			<Text style={styles.text}>When notifications should apear?</Text>
 			<NotificationHourConfig />
 			<NotificationWeekdayConfig />
 			<DevLog />
+			<Button onPress={registerForPushNotificationsAsync} title='metodo la' />
 		</ScrollView>
 	);
 }

@@ -69,11 +69,11 @@ export function HomeScreen() {
 					}}
 					style={{ marginTop: 4 }}
 				/>
+				<DetailModalScreen
+					modalizeRef={modalizeRef}
+					selectedProject={selectedProject}
+				/>
 			</ScrollView>
-			<DetailModalScreen
-				modalizeRef={modalizeRef}
-				selectedProject={selectedProject}
-			/>
 		</>
 	);
 }
