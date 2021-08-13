@@ -68,6 +68,7 @@ export async function thereIsSomeNotificationScheduled() {
 export function prepareNotifications() {
 	(async () => {
 		if (!(await thereIsSomeActiveNotification())) {
+			await Notifications.cancelAllScheduledNotificationsAsync();
 			scheduleNotification();
 		}
 	})();
@@ -155,4 +156,8 @@ export const useNotificationNavigation = () => {
 	useEffect(() => {
 		prepareNotifications();
 	}, []);
+};
+
+export const scheduledNotifications = async () => {
+	return await Notifications.getAllScheduledNotificationsAsync();
 };

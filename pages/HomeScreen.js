@@ -11,6 +11,8 @@ import { ProjectListItem } from '../components/ProjectListItem';
 
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useNotificationNavigation } from '../Notification';
+import { DevLog } from '../components/DevLog';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export function HomeScreen() {
 	const { projects, reorderProjects } = useProjects();
@@ -48,10 +50,11 @@ export function HomeScreen() {
 
 	return (
 		<>
-			<View
+			<ScrollView
 				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
 			>
 				<ProjectAddEntry />
+				<DevLog />
 				{(!projects || !projects.length) && (
 					<View style={{ flexDirection: 'row' }}>
 						<Image
@@ -72,7 +75,7 @@ export function HomeScreen() {
 					}}
 					style={{ marginTop: 4 }}
 				/>
-			</View>
+			</ScrollView>
 			<DetailModalScreen
 				modalizeRef={modalizeRef}
 				selectedProject={selectedProject}
