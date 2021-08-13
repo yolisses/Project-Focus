@@ -7,7 +7,9 @@ import {
 } from './intVariable';
 
 export const useVariable = (name, initialValue) => {
-	const [variable, setVariable] = useState(initialValue || null);
+	const [variable, setVariable] = useState(
+		initialValue !== null ? initialValue : null
+	);
 
 	useState(() => {
 		getIntVariable(name, setVariable);

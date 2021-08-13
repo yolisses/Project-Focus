@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 		fontSize: 70,
 		textAlign: 'center',
 		borderStyle: 'solid',
-		borderWidth: 3,
+		borderWidth: 2,
 		borderColor: '#ccc',
 		borderRadius: 15,
 	},
