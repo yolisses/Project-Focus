@@ -5,6 +5,7 @@ import { useProjects } from './ProjectsContext';
 import { useVariable } from '../database/useVariable';
 import { getMainGoal } from '../database/getMainGoal';
 import { getIntVariable } from '../database/intVariable';
+import { prepareNotifications } from '../Notification';
 
 const MainGoalContext = createContext();
 
@@ -44,6 +45,8 @@ export function MainGoalContextProvider(props) {
 
 	useEffect(() => {
 		getMainGoal(setMainGoal);
+
+		prepareNotifications();
 	}, [mainGoalId]);
 
 	return (

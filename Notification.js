@@ -121,17 +121,18 @@ export async function scheduleNotification() {
 			if (trigger === undefined) return undefined;
 
 			await Notifications.cancelAllScheduledNotificationsAsync();
-			await Notifications.scheduleNotificationAsync({
-				content: {
-					title: 'Hello! Continue focusing on' + mainGoal?.text,
-					body: 'Will you continue on it?',
-					sticky: true,
-					autoDismiss: false,
-					badge: false,
-					categoryIdentifier: 'identificador',
-				},
-				trigger,
-			});
+			if (mainGoal)
+				await Notifications.scheduleNotificationAsync({
+					content: {
+						title: 'Hello! Continue focusing on ' + mainGoal?.text,
+						body: 'Will you continue on it?',
+						sticky: true,
+						autoDismiss: false,
+						badge: false,
+						categoryIdentifier: 'identificador',
+					},
+					trigger,
+				});
 		})();
 	});
 }

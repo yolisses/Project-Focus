@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import { DevLog } from '../components/DevLog';
 import { NotificationHourConfig } from '../components/NotificationHourConfig';
 import { NotificationWeekdayConfig } from '../components/NotificationWeekdayConfig';

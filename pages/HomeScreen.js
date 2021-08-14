@@ -12,7 +12,6 @@ import {
 	useNotificationNavigation,
 } from '../Notification';
 import { DevLog } from '../components/DevLog';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
 import { useMainGoal } from '../contexts/MainGoalContext';
 
@@ -48,7 +47,7 @@ export function HomeScreen() {
 	return (
 		<View style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}>
 			<ProjectAddEntry />
-			{/* <DevLog /> */}
+			<DevLog />
 			{(!projects || !projects.length) && (
 				<View style={{ flexDirection: 'row' }}>
 					<Image
