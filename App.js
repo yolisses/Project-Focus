@@ -22,11 +22,11 @@ import { initializeDefaultValue } from './database/intVariable';
 const Stack = createStackNavigator();
 
 export default function App() {
+	createTablesIfNotExists();
+
 	useEffect(() => {
-		createTablesIfNotExists();
 		initializeDefaultValue('minute', 20);
 		initializeDefaultValue('hour', 6);
-		initializeDefaultValue('welcome', 1);
 	}, []);
 
 	return (

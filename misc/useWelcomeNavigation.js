@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
-import { getIntVariableSync } from '../database/intVariable';
+import { getIntVariable } from '../database/intVariable';
 
 export function useWelcomeNavigation() {
 	const navigation = useNavigation();
 
 	useEffect(() => {
-		getIntVariableSync('welcome', (missing) => {
-			if (missing === 1) {
+		getIntVariable('welcome', (missing) => {
+			if (missing === undefined) {
 				navigation.navigate('Welcome');
 			}
 		});
