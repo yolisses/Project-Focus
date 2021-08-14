@@ -68,14 +68,14 @@ export async function thereIsSomeNotificationScheduled() {
 export function prepareNotifications() {
 	(async () => {
 		if (!(await thereIsSomeActiveNotification())) {
-			scheduleNotification();
+			await scheduleNotification();
 		}
 	})();
 }
 
 export async function closeAndPrepareNotifications() {
 	(async () => {
-		Notifications.dismissAllNotificationsAsync();
+		await Notifications.dismissAllNotificationsAsync();
 		prepareNotifications();
 	})();
 }
@@ -125,7 +125,7 @@ export async function scheduleNotification() {
 				content: {
 					title: 'Hello! Continue focusing on' + mainGoal?.text,
 					body: 'Will you continue on it?',
-					// sticky: true,
+					sticky: true,
 					autoDismiss: false,
 					badge: false,
 					categoryIdentifier: 'identificador',
