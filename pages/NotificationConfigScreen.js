@@ -14,7 +14,6 @@ export function NotificationConfigScreen() {
 			<NotificationHourConfig />
 			<NotificationWeekdayConfig />
 			<DevLog />
-			<Button onPress={registerForPushNotificationsAsync} title='metodo la' />
 		</ScrollView>
 	);
 }
