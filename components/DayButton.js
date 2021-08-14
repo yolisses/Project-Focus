@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 import { useVariable } from '../database/useVariable';
 import { prepareNotifications } from '../Notification';
 
-export function WeekdayButton({ day }) {
+export function DayButton({ day }) {
 	const [active, setActive] = useVariable(day);
 
 	const togleActive = () => {

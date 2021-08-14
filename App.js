@@ -25,7 +25,7 @@ export default function App() {
 	createTablesIfNotExists();
 
 	useEffect(() => {
-		initializeDefaultValue('minute', 20);
+		initializeDefaultValue('minute', 0);
 		initializeDefaultValue('hour', 6);
 	}, []);
 

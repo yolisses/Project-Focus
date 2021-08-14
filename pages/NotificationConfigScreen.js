@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { NotificationHourConfig } from '../components/NotificationHourConfig';
-import { NotificationWeekdayConfig } from '../components/NotificationWeekdayConfig';
+import { NotificationDaysConfig } from '../components/NotificationDaysConfig';
 import { registerForPushNotificationsAsync } from '../Notification';
 
 export function NotificationConfigScreen() {
@@ -11,7 +11,7 @@ export function NotificationConfigScreen() {
 		<ScrollView style={styles.page}>
 			<Text style={styles.text}>When notifications should apear?</Text>
 			<NotificationHourConfig />
-			<NotificationWeekdayConfig />
+			<NotificationDaysConfig />
 		</ScrollView>
 	);
 }

@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 
 import { getIntVariableSync } from './database/intVariable';
 import { getMainGoal } from './database/getMainGoal';
-import { weekdays } from './misc/weekdays';
+import { days } from './misc/days';
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -80,11 +80,11 @@ export async function closeAndPrepareNotifications() {
 	})();
 }
 
-function getNextNotificationDate(hour, minute, weekdays) {
+function getNextNotificationDate(hour, minute, days) {
 	const now = new Date(Date.now());
 	let result;
 	if (
-		weekdays[now.getDay()] === 1 &&
+		days[now.getDay()] === 1 &&
 		(now.getHours() < hour ||
 			(now.getHours() === hour && now.getMinutes() <= minute))
 	) {
@@ -93,7 +93,7 @@ function getNextNotificationDate(hour, minute, weekdays) {
 		const miliSecondsOnADay = 24 * 60 * 60 * 1000;
 		for (let i = 1; i <= 7; i++) {
 			const day = (now.getDay() + i) % 7;
-			if (weekdays[day] === 1) {
+			if (days[day] === 1) {
 				result = new Date(Date.now() + miliSecondsOnADay * i);
 				break;
 			}
@@ -110,13 +110,13 @@ function getNextNotificationDate(hour, minute, weekdays) {
 export async function scheduleNotification() {
 	getMainGoal((mainGoal) => {
 		(async () => {
-			const [hour, minute, weekdaysArray] = await Promise.all([
+			const [hour, minute, daysArray] = await Promise.all([
 				getIntVariableSync('hour'),
 				getIntVariableSync('minute'),
-				Promise.all([...weekdays.map((day) => getIntVariableSync(day))]),
+				Promise.all([...days.map((day) => getIntVariableSync(day))]),
 			]);
 
-			const trigger = getNextNotificationDate(hour, minute, weekdaysArray);
+			const trigger = getNextNotificationDate(hour, minute, daysArray);
 
 			if (trigger === undefined) return undefined;
 
