@@ -11,7 +11,6 @@ import {
 	prepareNotifications,
 	useNotificationNavigation,
 } from '../Notification';
-import { DevLog } from '../components/DevLog';
 import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
 import { useMainGoal } from '../contexts/MainGoalContext';
 
@@ -47,7 +46,6 @@ export function HomeScreen() {
 	return (
 		<View style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}>
 			<ProjectAddEntry />
-			<DevLog />
 			{(!projects || !projects.length) && (
 				<View style={{ flexDirection: 'row' }}>
 					<Image
