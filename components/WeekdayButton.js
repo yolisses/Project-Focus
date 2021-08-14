@@ -15,7 +15,7 @@ export function WeekdayButton({ day }) {
 
 	return (
 		<Pressable key={day} onPress={togleActive}>
-			<Text style={active === 0 ? styles.blue : styles.text}>{day}</Text>
+			<Text style={active ? styles.blue : styles.text}>{day}</Text>
 		</Pressable>
 	);
 }
@@ -40,12 +40,12 @@ const common = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-	text: {
+	blue: {
 		...common.common,
 		borderColor: '#0044ff',
 		color: '#0044ff',
 	},
-	blue: {
+	text: {
 		...common.common,
 		borderColor: '#aaa',
 		color: '#aaa',
