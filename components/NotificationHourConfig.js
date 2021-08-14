@@ -34,6 +34,8 @@ export function NotificationHourConfig() {
 		} else if (isAm !== null && !isAm && hour < 12) {
 			setHour(hour + 12);
 		}
+
+		prepareNotifications();
 	}, [isAm]);
 
 	useEffect(() => {
