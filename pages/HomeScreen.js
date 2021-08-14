@@ -14,11 +14,14 @@ import {
 import { DevLog } from '../components/DevLog';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
+import { useMainGoal } from '../contexts/MainGoalContext';
 
 export function HomeScreen() {
 	const { projects, reorderProjects } = useProjects();
 
 	const [selectedProject, setSelectedProject] = useState(null);
+
+	const { mainGoalId } = useMainGoal();
 
 	useWelcomeNavigation();
 	useNotificationNavigation();
@@ -43,37 +46,56 @@ export function HomeScreen() {
 	prepareNotifications();
 
 	return (
-		<>
-			<ScrollView
-				style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}
-			>
-				<ProjectAddEntry />
-				<DevLog />
-				{(!projects || !projects.length) && (
-					<View style={{ flexDirection: 'row' }}>
-						<Image
-							style={{ height: 25, width: 30, marginLeft: 50 }}
-							source={require('../assets/arrow.png')}
-						/>
-						<Text style={{ marginTop: 11, color: 'gray', fontSize: 18 }}>
-							You can add projects here
-						</Text>
-					</View>
-				)}
-				<DraggableFlatList
-					data={projects}
-					renderItem={renderItem}
-					keyExtractor={keyExtractor}
-					onDragEnd={({ data }) => {
-						reorderProjects(data);
-					}}
-					style={{ marginTop: 4 }}
-				/>
-				<DetailModalScreen
-					modalizeRef={modalizeRef}
-					selectedProject={selectedProject}
-				/>
-			</ScrollView>
-		</>
+		<View style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}>
+			<ProjectAddEntry />
+			{/* <DevLog /> */}
+			{(!projects || !projects.length) && (
+				<View style={{ flexDirection: 'row' }}>
+					<Image
+						style={{ height: 25, width: 30, marginLeft: 50 }}
+						source={require('../assets/arrow.png')}
+					/>
+					<Text style={{ marginTop: 11, color: 'gray', fontSize: 18 }}>
+						You can add projects here
+					</Text>
+				</View>
+			)}
+			{projects && !mainGoalId && (
+				<View style={{ flexDirection: 'row' }}>
+					<Image
+						style={{
+							width: 30,
+							height: 25,
+							marginLeft: 30,
+							alignSelf: 'flex-end',
+							marginBottom: 5,
+						}}
+						source={require('../assets/arrow_down.png')}
+					/>
+					<Text
+						style={{
+							marginBottom: 17,
+							marginLeft: 4,
+							color: 'gray',
+							fontSize: 18,
+						}}
+					>
+						Click on a project to see details and select a main goal
+					</Text>
+				</View>
+			)}
+			<DraggableFlatList
+				data={projects}
+				renderItem={renderItem}
+				keyExtractor={keyExtractor}
+				onDragEnd={({ data }) => {
+					reorderProjects(data);
+				}}
+			/>
+			<DetailModalScreen
+				modalizeRef={modalizeRef}
+				selectedProject={selectedProject}
+			/>
+		</View>
 	);
 }
