@@ -13,6 +13,7 @@ import {
 } from '../Notification';
 import { useWelcomeNavigation } from '../misc/useWelcomeNavigation';
 import { useMainGoal } from '../contexts/MainGoalContext';
+import { LoadingLines } from '../components/LoadingLines';
 
 export function HomeScreen() {
 	const { projects, reorderProjects } = useProjects();
@@ -46,7 +47,7 @@ export function HomeScreen() {
 	return (
 		<View style={{ backgroundColor: '#efefef', width: '100%', height: '100%' }}>
 			<ProjectAddEntry />
-			{(!projects || !projects.length) && (
+			{projects && projects.length === 0 && (
 				<View style={{ flexDirection: 'row' }}>
 					<Image
 						style={{ height: 25, width: 30, marginLeft: 50 }}
@@ -57,7 +58,7 @@ export function HomeScreen() {
 					</Text>
 				</View>
 			)}
-			{projects && !mainGoalId && (
+			{projects && projects.length > 0 && !mainGoalId && (
 				<View style={{ flexDirection: 'row' }}>
 					<Image
 						style={{
@@ -81,14 +82,17 @@ export function HomeScreen() {
 					</Text>
 				</View>
 			)}
-			<DraggableFlatList
-				data={projects}
-				renderItem={renderItem}
-				keyExtractor={keyExtractor}
-				onDragEnd={({ data }) => {
-					reorderProjects(data);
-				}}
-			/>
+			{projects && (
+				<DraggableFlatList
+					data={projects}
+					renderItem={renderItem}
+					keyExtractor={keyExtractor}
+					onDragEnd={({ data }) => {
+						reorderProjects(data);
+					}}
+				/>
+			)}
+			{!projects && <LoadingLines />}
 			<DetailModalScreen
 				modalizeRef={modalizeRef}
 				selectedProject={selectedProject}

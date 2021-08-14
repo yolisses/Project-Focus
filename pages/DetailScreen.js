@@ -11,6 +11,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import { CurrentMainGoalWarning } from '../components/CurrentMainGoalWarning';
 import { LeaveMainGoalLink } from '../components/LeaveMainGoalLink';
+import { LoadingLines } from '../components/LoadingLines';
 import { ReasonListItem } from '../components/ReasonListItem';
 import { SetAsMainGoalButton } from '../components/SetAsMainGoalButton';
 import { useMainGoal } from '../contexts/MainGoalContext';
@@ -98,13 +99,7 @@ export function DetailScreen(props) {
 					)}
 				</View>
 
-				{reasons === null && (
-					<View>
-						<View style={styles.loading} />
-						<View style={styles.loading} />
-						<View style={styles.loading} />
-					</View>
-				)}
+				{reasons === null && <LoadingLines />}
 				{reasons && reasons.length ? (
 					<View>
 						{reasons && reasons.length ? (

@@ -3,7 +3,7 @@ import { db } from '../database/database';
 const ProjectsContext = createContext();
 
 export function ProjectsContextProvider(props) {
-	const [projects, setProjects] = useState([]);
+	const [projects, setProjects] = useState();
 
 	const refreshProjects = () => {
 		db.transaction((tx) => {
